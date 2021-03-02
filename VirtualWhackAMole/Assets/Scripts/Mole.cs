@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// Resources used:
+// Mole design and intial code based off of Jamie Gant's Whack A Mole Tutorial videos
+// youtube channel : JamieGantTechClass
+
 
 public class Mole : MonoBehaviour
 {
