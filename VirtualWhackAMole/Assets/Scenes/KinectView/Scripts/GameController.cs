@@ -45,6 +45,11 @@ public class GameController : MonoBehaviour
                 showingMole = false;
             }
         }
+        else 
+        {
+            targetMole.HideMole();
+            targetMole.StopShowSound();
+        }
     }
 
 }

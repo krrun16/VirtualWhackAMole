@@ -11,6 +11,10 @@ public class Mole : MonoBehaviour
     private float speed; 
     private Vector3 endPosition; 
     private Vector3 inPosition;
+    private AudioSource hitMoleSound;
+    private AudioSource showMoleSound;
+    private AudioSource[] moleSounds;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +24,11 @@ public class Mole : MonoBehaviour
         inPosition = transform.localPosition;
         endPosition = inPosition;
         speed = 1.5f;
+
+        // Get sounds
+        moleSounds = GetComponents<AudioSource>();
+        hitMoleSound = moleSounds[0];
+        showMoleSound = moleSounds[1];
     }
 
     // Update is called once per frame
@@ -38,14 +47,33 @@ public class Mole : MonoBehaviour
     // Start mole movement towards new endPosition of showing
     public void ShowMole()
     {
+        //Show mole
         endPosition.x += 1.5f;
+
+        //Play Sound
+        showMoleSound.PlayDelayed(.25f);
     }
 
     // On mouse click stop movement and return to start position
     private void OnMouseDown()
     {
-        endPosition = inPosition;
-        transform.localPosition = endPosition;
+        //TODO:: Find exact position where mole is behind the plane
+        if (transform.localPosition.x >= -0.4f)
+        {
+            //Retract Mole
+            endPosition = inPosition;
+            transform.localPosition = endPosition;
+
+            //Play hit sound, stop mole sound
+            hitMoleSound.Play();
+            StopShowSound();
+        }
+        
+    }
+
+    public void StopShowSound()
+    {
+        showMoleSound.Stop();
     }
 
 }
