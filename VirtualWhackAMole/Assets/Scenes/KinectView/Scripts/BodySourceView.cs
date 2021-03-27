@@ -4,14 +4,25 @@ using System.Collections.Generic;
 
 using Windows.Kinect;
 using Joint = Windows.Kinect.Joint;
+using System;
 
 public class BodySourceView : MonoBehaviour 
 {
     public BodySourceManager mBodySourceManager;
-    public GameObject mHandObject;
+    public GameObject leftHandObject;
+    public GameObject rightHandObject;
 
-    //public static Kinect.CameraSpacePoint leftHandPosition;
-    //public static Kinect.CameraSpacePoint rightHandPosition;
+    //private Rigidbody rb;
+
+    public static CameraSpacePoint leftHandPosition;
+    public static CameraSpacePoint rightHandPosition;
+    public static CameraSpacePoint leftWristPosition;
+    public static CameraSpacePoint rightWristPosition;
+
+    public static CameraSpacePoint baseKinectPosition;
+    public static CameraSpacePoint headPosition;
+    public static CameraSpacePoint closestZPoint;
+    public static float MaxZDistance;
 
     private Dictionary<ulong, GameObject> mBodies = new Dictionary<ulong, GameObject>();
     private List<JointType> _joints = new List<JointType>
@@ -19,7 +30,12 @@ public class BodySourceView : MonoBehaviour
         JointType.HandLeft,
         JointType.HandRight,
     };
-
+    
+    private void Start()
+    {
+      //  rb = GetComponent<Rigidbody>();
+    }
+    
     void Update()
     {
         #region Get Kinect data
@@ -78,15 +94,27 @@ public class BodySourceView : MonoBehaviour
         foreach (JointType joint in _joints)
         {
             //Create object
-            GameObject newJoint = Instantiate(mHandObject);
-            newJoint.name = joint.ToString();
-            newJoint.transform.parent = body.transform;
+            if (joint.ToString() == "HandLeft")
+            {
+                GameObject newJoint = leftHandObject;
+                newJoint.name = joint.ToString();
+                newJoint.transform.parent = body.transform;
+            } else {
+                GameObject newJoint = rightHandObject;
+                newJoint.name = joint.ToString();
+                newJoint.transform.parent = body.transform;
+            }
         }
         return body;
     }
 
     private void UpdateBodyObject(Body body, GameObject bodyObject)
     {
+        leftHandPosition = body.Joints[JointType.HandTipLeft].Position;
+        leftWristPosition = body.Joints[JointType.HandLeft].Position;
+        rightHandPosition = body.Joints[JointType.HandTipRight].Position;
+        rightWristPosition = body.Joints[JointType.HandRight].Position;
+
         foreach (JointType _joint in _joints)
         {
             // Get new target position
@@ -101,11 +129,53 @@ public class BodySourceView : MonoBehaviour
            // leftHandPosition = body.Joints[Kinect.JointType.HandTipLeft].Position;
             //rightHandPosition = body.Joints[Kinect.JointType.HandTipRight].Position;
         }
+        /*
+        headPosition = body.Joints[JointType.Head].Position;
+
+        MaxZDistance =
+            Math.Max(-body.Joints[JointType.Head].Position.Z,
+            Math.Max(-body.Joints[JointType.Head].Position.Z,
+            Math.Max(-body.Joints[JointType.Neck].Position.Z,
+            Math.Max(-body.Joints[JointType.SpineMid].Position.Z,
+            Math.Max(-body.Joints[JointType.SpineShoulder].Position.Z,
+            Math.Max(-body.Joints[JointType.HipLeft].Position.Z,
+                -body.Joints[JointType.HipRight].Position.Z))))));
+
+        //float minZBodyDist =
+        //   Math.Min(body.Joints[JointType.Head].Position.Z,
+        //   Math.Min(body.Joints[JointType.Head].Position.Z,
+        //   Math.Min(body.Joints[JointType.Neck].Position.Z,
+        //   Math.Min(body.Joints[JointType.SpineMid].Position.Z,
+        //   Math.Min(body.Joints[JointType.SpineShoulder].Position.Z,
+        //   Math.Min(body.Joints[JointType.HipLeft].Position.Z,
+        //       body.Joints[JointType.HipRight].Position.Z))))));
+
+        float minZDistance =
+            Math.Min(-body.Joints[JointType.Head].Position.Z,
+            Math.Min(-body.Joints[JointType.Head].Position.Z,
+            Math.Min(-body.Joints[JointType.Neck].Position.Z,
+                -body.Joints[JointType.SpineShoulder].Position.Z)));
+
+        baseKinectPosition = new CameraSpacePoint()
+        {
+            X = body.Joints[JointType.SpineShoulder].Position.X,
+            Y = body.Joints[JointType.Head].Position.Y,
+            Z = MaxZDistance
+        };
+
+        closestZPoint = new CameraSpacePoint()
+        {
+            X = body.Joints[JointType.SpineMid].Position.X,
+            Y = body.Joints[JointType.SpineMid].Position.Y,
+            Z = minZDistance
+        };
+        */
     }
 
 
     private static Vector3 GetVector3FromJoint(Joint joint)
     {
-        return new Vector3(joint.Position.X * 10, joint.Position.Y * 10, joint.Position.Z * 10);
+        return new Vector3(joint.Position.X * 10, joint.Position.Y * 10, -joint.Position.Z * 10);
     }
+
 }
