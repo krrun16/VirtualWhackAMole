@@ -45,6 +45,7 @@ public class Mole : MonoBehaviour
     }
 
     // Start mole movement towards new endPosition of showing
+    //BUG: Mole can not show in game but plays sound
     public void ShowMole()
     {
         //Show mole

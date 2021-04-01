@@ -1,16 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Windows.Kinect;
+using Microsoft.Kinect.Face;
+using System.Collections.Generic;
 
 public class BodySourceManager : MonoBehaviour 
 {
     private KinectSensor _Sensor;
     private BodyFrameReader _Reader;
     private Body[] _Data = null;
+    private FaceFrameResult[] _FaceData;
+    private FaceFrameSource[] faceFrameSources = null;
+    private FaceFrameReader[] faceFrameReaders = null;
     
     public Body[] GetData()
     {
         return _Data;
+    }
+
+    public FaceFrameResult[] GetFaceData()
+    {
+        return _FaceData;
     }
     
 
@@ -26,7 +36,24 @@ public class BodySourceManager : MonoBehaviour
             {
                 _Sensor.Open();
             }
-        }   
+        } 
+
+        this.faceFrameSources = new FaceFrameSource[_Sensor.BodyFrameSource.BodyCount];
+        this.faceFrameReaders = new FaceFrameReader[_Sensor.BodyFrameSource.BodyCount];
+        // specify the required face frame results
+        FaceFrameFeatures faceFrameFeatures =
+                FaceFrameFeatures.RotationOrientation
+                | FaceFrameFeatures.FaceEngagement
+                | FaceFrameFeatures.LookingAway;
+
+        for (int i = 0; i < _Sensor.BodyFrameSource.BodyCount; i++)
+        {
+            // create the face frame source with the required face frame features and an initial tracking Id of 0
+            faceFrameSources[i] = FaceFrameSource.Create(_Sensor, 0, faceFrameFeatures);
+
+            // open the corresponding reader
+            faceFrameReaders[i] = faceFrameSources[i].OpenReader();
+        }  
     }
     
     void Update () 
@@ -39,10 +66,46 @@ public class BodySourceManager : MonoBehaviour
                 if (_Data == null)
                 {
                     _Data = new Body[_Sensor.BodyFrameSource.BodyCount];
+                    _FaceData = new FaceFrameResult[_Sensor.BodyFrameSource.BodyCount];
                 }
                 
                 frame.GetAndRefreshBodyData(_Data);
-                
+                List<FaceFrameResult> res = new List<FaceFrameResult>();
+                // iterate through each body and update face source
+                for (int i = 0; i < _Sensor.BodyFrameSource.BodyCount; i++)
+                {
+                    // check if a valid face is tracked in this face source				
+                    if (faceFrameSources[i].IsTrackingIdValid)
+                    {
+                        using (FaceFrame faceFrame = faceFrameReaders[i].AcquireLatestFrame())
+                        {
+                            if (faceFrame != null)
+                            {
+                                if (faceFrame.TrackingId == 0)
+                                {
+                                    continue;
+                                }
+
+                                // do something with result
+                                var result = faceFrame.FaceFrameResult;
+                                res.Add(result);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // check if the corresponding body is tracked 
+                        if (_Data[i].IsTracked)
+                        {
+                            // update the face frame source to track this body
+                            faceFrameSources[i].TrackingId = _Data[i].TrackingId;
+                        }
+                    }
+                }
+                if (res.Count > 0)
+                {
+                    _FaceData = res.ToArray();
+                }
                 frame.Dispose();
                 frame = null;
             }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-
+using Microsoft.Kinect.Face;
 using Windows.Kinect;
 using Joint = Windows.Kinect.Joint;
 using System;
@@ -9,6 +9,9 @@ using System;
 public class BodySourceView : MonoBehaviour 
 {
     public BodySourceManager mBodySourceManager;
+    public GameObject mHandObject;
+    public static CameraSpacePoint headPosition;
+    public static Quaternion faceRotation;
     public GameObject leftHandObject;
     public GameObject rightHandObject;
 
@@ -20,7 +23,6 @@ public class BodySourceView : MonoBehaviour
     public static CameraSpacePoint rightWristPosition;
 
     public static CameraSpacePoint baseKinectPosition;
-    public static CameraSpacePoint headPosition;
     public static CameraSpacePoint closestZPoint;
     public static float MaxZDistance;
 
@@ -84,6 +86,14 @@ public class BodySourceView : MonoBehaviour
             }
         }
         #endregion
+
+        FaceFrameResult[] faceData = mBodySourceManager.GetFaceData();
+
+        if (faceData[0] != null)
+        {
+            faceRotation = new Quaternion(faceData[0].FaceRotationQuaternion.X, faceData[0].FaceRotationQuaternion.Y, faceData[0].FaceRotationQuaternion.Z, faceData[0].FaceRotationQuaternion.W);
+        }
+        
     }
 
 
@@ -129,6 +139,11 @@ public class BodySourceView : MonoBehaviour
            // leftHandPosition = body.Joints[Kinect.JointType.HandTipLeft].Position;
             //rightHandPosition = body.Joints[Kinect.JointType.HandTipRight].Position;
         }
+
+        headPosition = body.Joints[JointType.Head].Position;
+        
+
+
         /*
         headPosition = body.Joints[JointType.Head].Position;
 
