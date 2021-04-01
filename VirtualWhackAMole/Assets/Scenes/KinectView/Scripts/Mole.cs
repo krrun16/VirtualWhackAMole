@@ -45,7 +45,7 @@ public class Mole : MonoBehaviour
     }
 
     // Start mole movement towards new endPosition of showing
-    //BUG: Mole can not show in game but plays sound
+    //BUG: Mole can not show in game but plays sound. Yet to recreeate consistently.
     public void ShowMole()
     {
         //Show mole
@@ -58,18 +58,26 @@ public class Mole : MonoBehaviour
     // On mouse click stop movement and return to start position
     private void OnMouseDown()
     {
-        //TODO:: Find exact position where mole is behind the plane
-        if (transform.localPosition.x >= -0.4f)
-        {
-            //Retract Mole
-            endPosition = inPosition;
-            transform.localPosition = endPosition;
+        HitMole(); 
+    }
 
-            //Play hit sound, stop mole sound
-            hitMoleSound.Play();
-            StopShowSound();
+    // Instantly retract mole and play hit mole sound
+    public void HitMole()
+    {
+        if (transform.localPosition.x < -0.4f)
+        {
+            return;
         }
-        
+        //Retract Mole
+        endPosition = inPosition;
+        transform.localPosition = endPosition;
+
+        //Play hit sound, stop mole sound
+        hitMoleSound.Play();
+        StopShowSound();
+
+        // Increment score 
+        GameController.incrementScore();
     }
 
     public void StopShowSound()

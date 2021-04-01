@@ -67,7 +67,7 @@ public class HammerController : MonoBehaviour
             foreach (Mole mole in moles) {
                 if (mole.name == col.gameObject.name)
                 {
-                    mole.HideMole();
+                    mole.HitMole();
                 } 
             }
             

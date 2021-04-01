@@ -14,42 +14,55 @@ public class GameController : MonoBehaviour
     private Mole[] moles;
     private Mole targetMole;
     private bool showingMole = false;
+    private static int score = 0;
+    private bool inGame;
 
     // Start is called before the first frame update
     void Start()
     {
         // adding Moles into list 
         moles = GameObject.FindObjectsOfType<Mole>();
+        inGame = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        gameTimer -= Time.deltaTime; 
-        if (gameTimer > 0f)
+        if(inGame)
         {
-            showMoleTimer -= Time.deltaTime;
-            hideMoleTimer -= Time.deltaTime;
-        
-            if (showMoleTimer < 0f && showingMole == false)
+            gameTimer -= Time.deltaTime; 
+            if (gameTimer > 0f)
             {
-                targetMole = moles[Random.Range(0, moles.Length)];
-                targetMole.ShowMole();
-                showingMole = true;
-                hideMoleTimer = 2f;
+                showMoleTimer -= Time.deltaTime;
+                hideMoleTimer -= Time.deltaTime;
+        
+                if (showMoleTimer < 0f && showingMole == false)
+                {
+                    targetMole = moles[Random.Range(0, moles.Length)];
+                    targetMole.ShowMole();
+                    showingMole = true;
+                    hideMoleTimer = 2f;
+                }
+                if (hideMoleTimer < 0f && showingMole == true)
+                {
+                    targetMole.HideMole();
+                    showMoleTimer = .8f;
+                    showingMole = false;
+                }
             }
-            if (hideMoleTimer < 0f && showingMole == true)
+            else 
             {
                 targetMole.HideMole();
-                showMoleTimer = .8f;
-                showingMole = false;
+                targetMole.StopShowSound();
+                Debug.Log("Score (moles hit) : " + score);
+                inGame = false;
             }
         }
-        else 
-        {
-            targetMole.HideMole();
-            targetMole.StopShowSound();
-        }
+    }
+
+    public static void incrementScore()
+    {
+        score += 1;
     }
 
 }
