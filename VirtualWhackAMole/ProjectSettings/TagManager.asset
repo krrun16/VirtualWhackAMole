@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Mole
+  - hipPlane
+  - rightHammer
+  - leftHammer
   layers:
   - Default
   - TransparentFX
