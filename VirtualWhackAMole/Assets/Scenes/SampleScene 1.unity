@@ -1219,6 +1219,8 @@ Transform:
   - {fileID: 1857258460}
   - {fileID: 445604344}
   - {fileID: 1296845804}
+  - {fileID: 1734366102}
+  - {fileID: 67362235}
   m_Father: {fileID: 1300486827}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
