@@ -49,6 +49,8 @@ public class BodySourceView : MonoBehaviour
         JointType.FootRight,
     };
 
+    private static float hipToHeadHeight;
+
     private void Start()
     {
       //  rb = GetComponent<Rigidbody>();
@@ -146,6 +148,8 @@ public class BodySourceView : MonoBehaviour
         rightHipPosition = body.Joints[JointType.HipRight].Position;
         leftFootPosition = body.Joints[JointType.FootLeft].Position;
         rightFootPosition = body.Joints[JointType.FootRight].Position;
+
+        hipToHeadHeight = body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HipLeft].Position.Y;
 
         /* print("This is the left hip x position " + leftHipPosition.X.ToString());
          print("This is the left hip y position " + leftHipPosition.Y.ToString());
@@ -245,7 +249,12 @@ public class BodySourceView : MonoBehaviour
 
     private static Vector3 GetVector3FromJoint(Joint joint)
     {
-        return new Vector3(-joint.Position.X * 10, joint.Position.Y * 10, joint.Position.Z * 10);
+        return new Vector3(-joint.Position.X, joint.Position.Y, joint.Position.Z);
+    }
+
+    public static float getHipToHeadHeight()
+    {
+        return hipToHeadHeight;
     }
 /*
     private void UpdatePlane(Vector3 a, Vector3 b)

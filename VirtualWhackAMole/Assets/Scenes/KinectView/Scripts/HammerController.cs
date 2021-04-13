@@ -15,6 +15,9 @@ public class HammerController : MonoBehaviour
     float GridEdge = 0;
     float CenterX = 0;
 
+    private Vector3 newLeftHammerPosition;
+    private Vector3 newRightHammerPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,14 +34,26 @@ public class HammerController : MonoBehaviour
         CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
         CameraSpacePoint rightWristPosition = BodySourceView.rightWristPosition;
         CameraSpacePoint midSpinePosition = BodySourceView.baseKinectPosition;
-        //CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
 
+        newLeftHammerPosition = new Vector3(-BodySourceView.leftHandPosition.X, BodySourceView.leftHandPosition.Y, BodySourceView.leftHandPosition.Z);
+        newRightHammerPosition = new Vector3(-BodySourceView.rightHandPosition.X, BodySourceView.rightHandPosition.Y, BodySourceView.rightHandPosition.Z);
+    
+        if(rb.CompareTag("leftHammer")) {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, newLeftHammerPosition, Time.fixedDeltaTime * 13);
+        }
+        else if (rb.CompareTag("rightHammer")) {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, newRightHammerPosition, Time.fixedDeltaTime * 13);
+        }
+        
+
+        //CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
+        /*
         float centerXPoint = CheckCalibratedX(midSpinePosition.X);
         float maxZPoint = CheckCalibratedZ(midSpinePosition.Z);
 
         //Calculate the position of the paddle based on the distance from the mid spine join
         if (rb.CompareTag("leftHammer")) {
-            print("entered left hammer " + rb.tag);
+            //print("entered left hammer " + rb.tag);
             float xPos = (centerXPoint-leftHandPosition.X) *11,
                   zPos = (leftHandPosition.Z-1) *10,
                   yPos = leftHandPosition.Y*11;
@@ -46,13 +61,14 @@ public class HammerController : MonoBehaviour
             rb.MovePosition(Vector3.Lerp(rb.position, newPosition, Time.fixedDeltaTime * 13));
         } else if (rb.CompareTag("rightHammer"))
         {
-            print("entered right hammer " + rb.tag);
+            //print("entered right hammer " + rb.tag);
             float xPos = (centerXPoint - rightHandPosition.X) * 11,
                   zPos = (rightHandPosition.Z - 1) * 10,
                   yPos = rightHandPosition.Y * 11;
             Vector3 newPosition = new Vector3(xPos, yPos, zPos);
             rb.MovePosition(Vector3.Lerp(rb.position, newPosition, Time.fixedDeltaTime * 13));
         }
+        */
     }
     private float CheckCalibratedX(float xPos)
     {

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    private bool scaleSet = false;
+    private float newScale;
     // Start is called before the first frame update
     void Start()
     {
+
         
     }
 
@@ -14,5 +17,10 @@ public class GridManager : MonoBehaviour
     void Update()
     {
         
+        if (BodySourceView.getHipToHeadHeight() > 0 & scaleSet == false) {
+            newScale = BodySourceView.getHipToHeadHeight() / 4f;
+            transform.localScale = new Vector3(transform.localScale.x, newScale, newScale);
+            scaleSet = true;
+        }
     }
 }
