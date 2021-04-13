@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Windows.Kinect;
 using Joint = Windows.Kinect.Joint;
+using System;
 
 public class HammerController : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class HammerController : MonoBehaviour
 
     float GridEdge = 0;
     float CenterX = 0;
+
+    private Vector3 newRotation2;
+    public static Quaternion newRotation;
 
     // Start is called before the first frame update
     void Start()
@@ -27,9 +31,8 @@ public class HammerController : MonoBehaviour
     void Update()
     {
         CameraSpacePoint leftHandPosition = BodySourceView.leftHandPosition;
-        CameraSpacePoint leftWristPosition = BodySourceView.leftWristPosition;
         CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
-        CameraSpacePoint rightWristPosition = BodySourceView.rightWristPosition;
+
         CameraSpacePoint midSpinePosition = BodySourceView.baseKinectPosition;
         //CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
 
@@ -37,14 +40,18 @@ public class HammerController : MonoBehaviour
         float maxZPoint = CheckCalibratedZ(midSpinePosition.Z);
 
         //Calculate the position of the paddle based on the distance from the mid spine join
-        if (rb.CompareTag("leftHammer")) {
+        if (rb.CompareTag("leftHammer"))
+        {
             print("entered left hammer " + rb.tag);
-            float xPos = (centerXPoint-leftHandPosition.X) *11,
-                  zPos = (leftHandPosition.Z-1) *10,
-                  yPos = leftHandPosition.Y*11;
+            float xPos = (centerXPoint - leftHandPosition.X) * 11,
+                  zPos = (leftHandPosition.Z - 1) * 10,
+                  yPos = leftHandPosition.Y * 11;
             Vector3 newPosition = new Vector3(xPos, yPos, zPos);
             rb.MovePosition(Vector3.Lerp(rb.position, newPosition, Time.fixedDeltaTime * 13));
-        } else if (rb.CompareTag("rightHammer"))
+            //RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftElbowPosition, BodySourceView.leftShoulderPosition);
+            RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftWristPosition, BodySourceView.leftElbowPosition);
+        }
+        else if (rb.CompareTag("rightHammer"))
         {
             print("entered right hammer " + rb.tag);
             float xPos = (centerXPoint - rightHandPosition.X) * 11,
@@ -52,7 +59,10 @@ public class HammerController : MonoBehaviour
                   yPos = rightHandPosition.Y * 11;
             Vector3 newPosition = new Vector3(xPos, yPos, zPos);
             rb.MovePosition(Vector3.Lerp(rb.position, newPosition, Time.fixedDeltaTime * 13));
+            //RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightElbowPosition, BodySourceView.rightShoulderPosition);
+            RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightWristPosition, BodySourceView.rightElbowPosition);
         }
+
     }
     private float CheckCalibratedX(float xPos)
     {
@@ -67,13 +77,14 @@ public class HammerController : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Mole"))
         {
-            foreach (Mole mole in moles) {
+            foreach (Mole mole in moles)
+            {
                 if (mole.name == col.gameObject.name)
                 {
                     mole.HitMole();
-                } 
+                }
             }
-            
+
         }
     }
     /// <summary>
@@ -81,38 +92,34 @@ public class HammerController : MonoBehaviour
     /// </summary>
     /// <param name="handBasePos">Distance of the base of the hand from the Kinect</param>
     /// <param name="handTipPos">Distance of the tip of the hand from the Kinect</param>
-    private void RotateHammer(CameraSpacePoint handBasePos, CameraSpacePoint handTipPos)
+    private void RotateHammer(CameraSpacePoint hand, CameraSpacePoint elbow, CameraSpacePoint shoulder)
     {
-        float o = handBasePos.Z - handTipPos.Z,
-              a = handBasePos.X - handTipPos.X,
-              angle = Mathf.Rad2Deg * Mathf.Atan2(o, a);
+        Vector3 vector1;
+        vector1.x = elbow.X - shoulder.X;
+        vector1.y = elbow.Y - shoulder.Y;
+        vector1.z = elbow.Z - shoulder.Z;
 
-        Quaternion newRotation = Quaternion.AngleAxis(0, Vector3.up);
+        Vector3 vector2;
+        vector2.x = hand.X - elbow.X;
+        vector2.y = hand.Y - elbow.Y;
+        vector2.z = hand.Z - elbow.Z;
+        float length1 = (float)Math.Sqrt((vector1.x * vector1.x) + (vector1.y * vector1.y) + (vector1.z * vector1.z));
+        float length2 = (float)Math.Sqrt((vector2.x * vector2.x) + (vector2.y * vector2.y) + (vector2.z * vector2.z));
 
-        if (-35 <= angle && angle < 35)
-        {
-            newRotation = Quaternion.AngleAxis(0, Vector3.up);
-        }
-        else if (angle >= 35 && angle < 90)
-        {
-            newRotation = Quaternion.AngleAxis(45, Vector3.up);
-        }
-        else if (angle >= 90 && angle < 135)
-        {
-            newRotation = Quaternion.AngleAxis(135, Vector3.up);
-        }
-        else if (angle >= 135)
-        {
-            newRotation = Quaternion.AngleAxis(180, Vector3.up);
-        }
-        else if (angle < -35)
-        {
-            newRotation = Quaternion.AngleAxis(-45, Vector3.up);
-        }
-        //rb.rotation = Quaternion.Slerp(transform.rotation, newRotation, .05f);
+        float dot = (vector1.x * vector2.x) + (vector1.y * vector2.y) + (vector1.z * vector2.z);
+        float angle = (float)Math.Acos(dot / (length1 * length2)); // Radians
+        angle *= 180.0f / (float)Math.PI; // Degrees
 
-        //No snapping or smoothing
-        //rb.MoveRotation(Quaternion.Euler(0, angle, 0));
+        print("this is the angle:" + angle);
+        Quaternion newRotation = Quaternion.AngleAxis(0, Vector3.back);
+
+        newRotation2.y = transform.rotation.eulerAngles.y;
+        newRotation2.z = transform.rotation.eulerAngles.z;
+        newRotation2.x = -angle;
+
+        newRotation = Quaternion.Euler(newRotation2);
+        rb.rotation = Quaternion.Slerp(transform.rotation, newRotation, speed * Time.deltaTime);
+        //rb.MoveRotation(Quaternion.Euler(-angle, 0, 0));
     }
 
 }
