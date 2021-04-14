@@ -11,6 +11,8 @@ public class BodySourceView : MonoBehaviour
     public BodySourceManager mBodySourceManager;
    // public GameObject mHandObject;
     public static CameraSpacePoint headPosition;
+    public static CameraSpacePoint leftElbowPosition;
+    public static CameraSpacePoint rightElbowPosition;
     public static Quaternion faceRotation;
     public GameObject leftHandObject;
     public GameObject rightHandObject;
@@ -22,6 +24,9 @@ public class BodySourceView : MonoBehaviour
     public static CameraSpacePoint rightHandPosition;
     public static CameraSpacePoint leftWristPosition;
     public static CameraSpacePoint rightWristPosition;
+    public static CameraSpacePoint leftShoulderPosition;
+    public static CameraSpacePoint rightShoulderPosition;
+
 
     public static CameraSpacePoint leftHipPosition;
     public static CameraSpacePoint rightHipPosition;
@@ -118,22 +123,6 @@ public class BodySourceView : MonoBehaviour
     private GameObject CreateBodyObject(ulong id)
     {
         GameObject body = new GameObject("Body:" + id);
-
-        /*
-        foreach (JointType joint in _joints)
-        {
-            //Create object
-            if (joint.ToString() == "HandLeft")
-            {
-                GameObject newJoint = leftHandObject;
-                newJoint.name = joint.ToString();
-                newJoint.transform.parent = body.transform;
-            } else {
-                GameObject newJoint = rightHandObject;
-                newJoint.name = joint.ToString();
-                newJoint.transform.parent = body.transform;
-            }
-        }*/
         return body;
     }
 
@@ -183,28 +172,11 @@ public class BodySourceView : MonoBehaviour
         }
         */
         headPosition = body.Joints[JointType.Head].Position;
-        /*
-        foreach (JointType _joint in _planejoints)
-        {
-            if (_joint.ToString() == "HipLeft")
-            {
-                Joint currentJoint = body.Joints[_joint];
-                leftHipPosition = GetVector3FromJoint(currentJoint);
-                Transform jointObject2 = bodyObject.transform.Find(_joint.ToString());
-                jointObject2.position = leftHipPosition;
-            }
-            else if (_joint.ToString() == "HipRight")
-            {
-                Joint currentJoint = body.Joints[_joint];
-                rightHipPosition = GetVector3FromJoint(currentJoint);
-                Transform jointObject2 = bodyObject.transform.Find(_joint.ToString());
-                jointObject2.position = rightHipPosition;
-            }
-        }*/
-        //CreatePlane(leftHipPosition.X, rightHipPosition);
+        leftElbowPosition = body.Joints[JointType.ElbowLeft].Position;
+        rightElbowPosition = body.Joints[JointType.ElbowRight].Position;
+        leftShoulderPosition = body.Joints[JointType.ShoulderLeft].Position;
+        rightShoulderPosition = body.Joints[JointType.ShoulderRight].Position;
 
-       
-        //headPosition = body.Joints[JointType.Head].Position;
 
         MaxZDistance =
             Math.Max(-body.Joints[JointType.Head].Position.Z,
@@ -256,14 +228,5 @@ public class BodySourceView : MonoBehaviour
     {
         return hipToHeadHeight;
     }
-/*
-    private void UpdatePlane(Vector3 a, Vector3 b)
-    {
-        //Plane plane = gameObject.GetComponent <"Plane"> as Plane;
-        //if (plane != null) {
-        var thePlane = GameObject.FindGameObjectWithTag("myPlane");
-        thePlane = new Plane(a, b);
-        // }
-    }*/
 
 }
