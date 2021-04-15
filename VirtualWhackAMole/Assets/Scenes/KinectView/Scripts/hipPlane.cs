@@ -17,7 +17,6 @@ public class hipPlane : MonoBehaviour
     private Vector3 endRotation2;
     private float speed;
     public static Quaternion endRotation;
-    private float counter = 0;
 
     void Start()
     {
@@ -62,10 +61,6 @@ public class hipPlane : MonoBehaviour
         endPosition.y = yPos +.5f;
         //endPosition.z = inPosition.z;
         endPosition.z = zPos;
-        counter += 1;
-        if (counter % 120 == 0) {
-            Debug.Log("Plane Position " + endPosition);
-        }
         
         //endPosition = endPosition * 10f;
         transform.localPosition = Vector3.Lerp(transform.localPosition, endPosition, Time.deltaTime * speed);

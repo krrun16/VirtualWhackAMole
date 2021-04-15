@@ -1064,7 +1064,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368535258}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.4572, z: 0}
+  m_LocalPosition: {x: 0, y: 0.762, z: 0}
   m_LocalScale: {x: 0.3048, y: 0.3048, z: 0.3048}
   m_Children:
   - {fileID: 1019633087}
@@ -1823,8 +1823,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 46
-  orthographic: 1
+  field of view: 48
+  orthographic: 0
   orthographic size: 1
   m_Depth: -1
   m_CullingMask:
@@ -1895,17 +1895,17 @@ PrefabInstance:
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}
@@ -4106,17 +4106,17 @@ PrefabInstance:
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 9033588839564740030, guid: 4becf87fcf8c7c64fa24247a9e94a051,
         type: 3}

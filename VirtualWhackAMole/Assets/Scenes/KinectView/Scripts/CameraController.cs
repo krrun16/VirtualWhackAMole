@@ -14,7 +14,6 @@ public class CameraController : MonoBehaviour
     float yRotation;
     public float smooth = 10F;
     public float speed = 5.0F;
-    public int counter = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +25,7 @@ public class CameraController : MonoBehaviour
     {
         //TODO: subtract the grid position from the headPosition so the grid is always the origin
         //newHeadPosition = new Vector3(-BodySourceView.headPosition.X - .62F, BodySourceView.headPosition.Y, BodySourceView.headPosition.Z - 1.48F);
-        newHeadPosition = new Vector3(-BodySourceView.headPosition.X, BodySourceView.headPosition.Y, BodySourceView.headPosition.Z);
+        newHeadPosition = new Vector3(-BodySourceView.headPosition.X, BodySourceView.headPosition.Y, BodySourceView.headPosition.Z + 0.4f);
         //newHeadPosition *= 10f;
         transform.position = Vector3.Lerp(transform.position, newHeadPosition, Time.deltaTime * 4f);
     }

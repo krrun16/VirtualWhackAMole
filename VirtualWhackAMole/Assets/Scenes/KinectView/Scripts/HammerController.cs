@@ -34,17 +34,19 @@ public class HammerController : MonoBehaviour
     {
         CameraSpacePoint leftHandPosition = BodySourceView.leftHandPosition;
         CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
-
         CameraSpacePoint midSpinePosition = BodySourceView.baseKinectPosition;
 
         newLeftHammerPosition = new Vector3(-BodySourceView.leftHandPosition.X, BodySourceView.leftHandPosition.Y, BodySourceView.leftHandPosition.Z);
         newRightHammerPosition = new Vector3(-BodySourceView.rightHandPosition.X, BodySourceView.rightHandPosition.Y, BodySourceView.rightHandPosition.Z);
     
+        //TODO: Fix hammer rotation
         if(rb.CompareTag("leftHammer")) {
             transform.localPosition = Vector3.Lerp(transform.localPosition, newLeftHammerPosition, Time.fixedDeltaTime * 13);
+            //RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftWristPosition, BodySourceView.leftElbowPosition);
         }
         else if (rb.CompareTag("rightHammer")) {
             transform.localPosition = Vector3.Lerp(transform.localPosition, newRightHammerPosition, Time.fixedDeltaTime * 13);
+            //RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightWristPosition, BodySourceView.rightElbowPosition);
         }
         
 
@@ -124,7 +126,6 @@ public class HammerController : MonoBehaviour
         float angle = (float)Math.Acos(dot / (length1 * length2)); // Radians
         angle *= 180.0f / (float)Math.PI; // Degrees
 
-        print("this is the angle:" + angle);
         Quaternion newRotation = Quaternion.AngleAxis(0, Vector3.back);
 
         newRotation2.y = transform.rotation.eulerAngles.y;
