@@ -42,43 +42,12 @@ public class HammerController : MonoBehaviour
         //TODO: Fix hammer rotation
         if(rb.CompareTag("leftHammer")) {
             transform.localPosition = Vector3.Lerp(transform.localPosition, newLeftHammerPosition, Time.fixedDeltaTime * 13);
-            //RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftWristPosition, BodySourceView.leftElbowPosition);
+            RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftWristPosition, BodySourceView.leftElbowPosition);
         }
         else if (rb.CompareTag("rightHammer")) {
             transform.localPosition = Vector3.Lerp(transform.localPosition, newRightHammerPosition, Time.fixedDeltaTime * 13);
-            //RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightWristPosition, BodySourceView.rightElbowPosition);
-        }
-        
-
-        //CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
-        /*
-        float centerXPoint = CheckCalibratedX(midSpinePosition.X);
-        float maxZPoint = CheckCalibratedZ(midSpinePosition.Z);
-
-        //Calculate the position of the paddle based on the distance from the mid spine join
-        if (rb.CompareTag("leftHammer"))
-        {
-            print("entered left hammer " + rb.tag);
-            float xPos = (centerXPoint - leftHandPosition.X) * 11,
-                  zPos = (leftHandPosition.Z - 1) * 10,
-                  yPos = leftHandPosition.Y * 11;
-            Vector3 newPosition = new Vector3(xPos, yPos, zPos);
-            rb.MovePosition(Vector3.Lerp(rb.position, newPosition, Time.fixedDeltaTime * 13));
-            //RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftElbowPosition, BodySourceView.leftShoulderPosition);
-            RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftWristPosition, BodySourceView.leftElbowPosition);
-        }
-        else if (rb.CompareTag("rightHammer"))
-        {
-            //print("entered right hammer " + rb.tag);
-            float xPos = (centerXPoint - rightHandPosition.X) * 11,
-                  zPos = (rightHandPosition.Z - 1) * 10,
-                  yPos = rightHandPosition.Y * 11;
-            Vector3 newPosition = new Vector3(xPos, yPos, zPos);
-            rb.MovePosition(Vector3.Lerp(rb.position, newPosition, Time.fixedDeltaTime * 13));
-            //RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightElbowPosition, BodySourceView.rightShoulderPosition);
             RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightWristPosition, BodySourceView.rightElbowPosition);
         }
-        */
     }
     private float CheckCalibratedX(float xPos)
     {
@@ -126,15 +95,11 @@ public class HammerController : MonoBehaviour
         float angle = (float)Math.Acos(dot / (length1 * length2)); // Radians
         angle *= 180.0f / (float)Math.PI; // Degrees
 
-        Quaternion newRotation = Quaternion.AngleAxis(0, Vector3.back);
-
-        newRotation2.y = transform.rotation.eulerAngles.y;
-        newRotation2.z = transform.rotation.eulerAngles.z;
-        newRotation2.x = -angle;
-
-        newRotation = Quaternion.Euler(newRotation2);
-        rb.rotation = Quaternion.Slerp(transform.rotation, newRotation, speed * Time.deltaTime);
-        //rb.MoveRotation(Quaternion.Euler(-angle, 0, 0));
+        Quaternion newRotation = new Quaternion(-angle, 0, 0,180);
+        if (angle > 1 || angle <-1)
+        {
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, newRotation, speed * Time.deltaTime);
+        }
     }
 
 }

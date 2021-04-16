@@ -1869,7 +1869,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smooth: 0.0001
   speed: 5
-  counter: 0
 --- !u!1001 &535482473
 PrefabInstance:
   m_ObjectHideFlags: 0
