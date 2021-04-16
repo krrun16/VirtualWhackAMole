@@ -13,12 +13,8 @@ public class HammerController : MonoBehaviour
 
     public float speed = 20f;
 
-    float GridEdge = 0;
-    float CenterX = 0;
-
     private Vector3 newLeftHammerPosition;
     private Vector3 newRightHammerPosition;
-    private Vector3 newRotation2;
     public static Quaternion newRotation;
 
     // Start is called before the first frame update
@@ -32,9 +28,8 @@ public class HammerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraSpacePoint leftHandPosition = BodySourceView.leftHandPosition;
-        CameraSpacePoint rightHandPosition = BodySourceView.rightHandPosition;
-        CameraSpacePoint midSpinePosition = BodySourceView.baseKinectPosition;
+        float height =  GameObject.Find("GridManager").transform.localScale.y;
+        transform.localScale = new Vector3(height, height, height);
 
         newLeftHammerPosition = new Vector3(-BodySourceView.leftHandPosition.X, BodySourceView.leftHandPosition.Y, BodySourceView.leftHandPosition.Z);
         newRightHammerPosition = new Vector3(-BodySourceView.rightHandPosition.X, BodySourceView.rightHandPosition.Y, BodySourceView.rightHandPosition.Z);
@@ -48,15 +43,6 @@ public class HammerController : MonoBehaviour
             transform.localPosition = Vector3.Lerp(transform.localPosition, newRightHammerPosition, Time.fixedDeltaTime * 13);
             RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightWristPosition, BodySourceView.rightElbowPosition);
         }
-    }
-    private float CheckCalibratedX(float xPos)
-    {
-        return CenterX != 0 ? CenterX : xPos;
-    }
-
-    private float CheckCalibratedZ(float zPos)
-    {
-        return GridEdge != 0 ? GridEdge : zPos;
     }
     private void OnTriggerEnter(Collider col)
     {
