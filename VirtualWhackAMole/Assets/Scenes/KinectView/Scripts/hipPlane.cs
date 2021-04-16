@@ -58,7 +58,7 @@ public class hipPlane : MonoBehaviour
         float yPos = (leftHip.Y + rightHip.Y + centerFeetY)/3;
         float zPos = (leftHip.Z + rightHip.Z + centerFeetZ)/3;
         endPosition.x = xPos;
-        endPosition.y = yPos +.5f;
+        endPosition.y = GameObject.Find("Main Camera").transform.position.y - GameObject.Find("GridManager").transform.localScale.y;
         //endPosition.z = inPosition.z;
         endPosition.z = zPos;
         
