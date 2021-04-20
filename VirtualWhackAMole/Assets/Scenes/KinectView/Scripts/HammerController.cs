@@ -15,7 +15,7 @@ public class HammerController : MonoBehaviour
 
     private Vector3 newLeftHammerPosition;
     private Vector3 newRightHammerPosition;
-    public static Quaternion newRotation;
+    public static Quaternion endRotation;
 
     // Start is called before the first frame update
     void Start()
@@ -80,12 +80,38 @@ public class HammerController : MonoBehaviour
         float dot = (vector1.x * vector2.x) + (vector1.y * vector2.y) + (vector1.z * vector2.z);
         float angle = (float)Math.Acos(dot / (length1 * length2)); // Radians
         angle *= 180.0f / (float)Math.PI; // Degrees
+        print("this is the angle:" + angle);
 
-        Quaternion newRotation = new Quaternion(-angle, 0, 0,180);
-        if (angle > 1 || angle <-1)
+        // one implementation 
+        /* if (angle > 1 || angle <-1)
+         {
+             endRotation = Quaternion.Euler(-angle, 0, 0);
+             transform.localRotation = Quaternion.Slerp(transform.rotation, endRotation, .05f);
+         }*/
+
+        //second implementation
+        if (-5 <= angle && angle < 20)
         {
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, newRotation, speed * Time.deltaTime);
+            endRotation = Quaternion.Euler(0, 0, 0);
         }
+        else if (angle >= 20 && angle < 25)
+        {
+            endRotation = Quaternion.Euler(-15, 0, 0);
+        }
+        else if (angle >= 25 && angle < 30)
+        {
+            endRotation = Quaternion.Euler(-30, 0, 0);
+        }
+        else if (angle >= 30)
+        {
+            endRotation = Quaternion.Euler(-45, 0, 0);
+        }
+        else if (angle < -5)
+        {
+            endRotation = Quaternion.Euler(0, 0, 0);
+        }
+        transform.localRotation = Quaternion.Slerp(transform.rotation, endRotation, .05f);
     }
+
 
 }

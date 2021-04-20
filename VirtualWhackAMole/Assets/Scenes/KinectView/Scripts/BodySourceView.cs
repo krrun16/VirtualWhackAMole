@@ -9,7 +9,7 @@ using System;
 public class BodySourceView : MonoBehaviour 
 {
     public BodySourceManager mBodySourceManager;
-   // public GameObject mHandObject;
+
     public static CameraSpacePoint headPosition;
     public static CameraSpacePoint leftElbowPosition;
     public static CameraSpacePoint rightElbowPosition;
@@ -18,7 +18,6 @@ public class BodySourceView : MonoBehaviour
     public GameObject rightHandObject;
     public GameObject myplane;
 
-    //private Rigidbody rb;
 
     public static CameraSpacePoint leftHandPosition;
     public static CameraSpacePoint rightHandPosition;
@@ -55,10 +54,10 @@ public class BodySourceView : MonoBehaviour
     };
 
     private static float hipToHeadHeight;
+    private static float footToHeadHeight;
 
     private void Start()
     {
-      //  rb = GetComponent<Rigidbody>();
     }
     
     void Update()
@@ -139,38 +138,8 @@ public class BodySourceView : MonoBehaviour
         rightFootPosition = body.Joints[JointType.FootRight].Position;
 
         hipToHeadHeight = body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HipLeft].Position.Y;
+        footToHeadHeight = body.Joints[JointType.Head].Position.Y - body.Joints[JointType.FootLeft].Position.Y;
 
-        /* print("This is the left hip x position " + leftHipPosition.X.ToString());
-         print("This is the left hip y position " + leftHipPosition.Y.ToString());
-         print("This is the left hip z position " + leftHipPosition.Z.ToString());
-
-         print("This is the rightt hip x position " + rightHipPosition.X.ToString());
-         print("This is the rightt hip y position " + rightHipPosition.Y.ToString());
-         print("This is the rightt hip z position " + rightHipPosition.Z.ToString());
-
-         Vector3 leftHipVector = new Vector3(leftHipPosition.X, leftHipPosition.Y, leftHipPosition.Z);
-         Vector3 rightHipVector = new Vector3(rightHipPosition.X, rightHipPosition.Y, rightHipPosition.Z);
-         Vector3 leftFootVector = new Vector3(rightHipPosition.X, rightHipPosition.Y - 10, rightHipPosition.Z);*/
-
-
-        //Plane myplane = new Plane(leftHipVector, rightHipVector, leftFootVector);
-
-        /*
-        foreach (JointType _joint in _joints)
-        {
-            // Get new target position
-            Joint sourceJoint = body.Joints[_joint];
-            Vector3 targetPosition = GetVector3FromJoint(sourceJoint);
-            //targetPosition.z = 0;
-
-            //Get joint, set new position
-            Transform jointObject = bodyObject.transform.Find(_joint.ToString());
-            jointObject.position = targetPosition;
-
-           // leftHandPosition = body.Joints[Kinect.JointType.HandTipLeft].Position;
-            //rightHandPosition = body.Joints[Kinect.JointType.HandTipRight].Position;
-        }
-        */
         headPosition = body.Joints[JointType.Head].Position;
         leftElbowPosition = body.Joints[JointType.ElbowLeft].Position;
         rightElbowPosition = body.Joints[JointType.ElbowRight].Position;
@@ -228,5 +197,10 @@ public class BodySourceView : MonoBehaviour
     {
         return hipToHeadHeight;
     }
+    public static float getHeadToFootHeight()
+    {
+        return footToHeadHeight;
+    }
+
 
 }
