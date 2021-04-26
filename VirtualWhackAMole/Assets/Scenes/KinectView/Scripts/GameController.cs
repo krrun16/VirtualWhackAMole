@@ -40,6 +40,7 @@ public class GameController : MonoBehaviour
                 {
                     targetMole = moles[Random.Range(0, moles.Length)];
                     targetMole.ShowMole();
+                    targetMole.GiveHint("Declarative");
                     showingMole = true;
                     hideMoleTimer = 2f;
                 }
