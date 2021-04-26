@@ -51,6 +51,7 @@ public class Mole : MonoBehaviour
         //Show mole
         endPosition.x += 1.5f;
 
+        bucketSoundHorizontal();
         //Play Sound
         showMoleSound.PlayDelayed(.25f);
     }
@@ -83,6 +84,30 @@ public class Mole : MonoBehaviour
     public void StopShowSound()
     {
         showMoleSound.Stop();
+    }
+
+    public void bucketSoundHorizontal() 
+    {
+        if (transform.parent.localPosition.z < -1.5)
+        {
+            showMoleSound.panStereo = -1;
+        }
+        else if (transform.parent.localPosition.z >= -1.5 && transform.parent.localPosition.z < -.5)
+        {
+            showMoleSound.panStereo = -0.5f;
+        }
+        else if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5)
+        {
+            showMoleSound.panStereo = 0;
+        }
+        else if (transform.parent.localPosition.z >= .5 && transform.parent.localPosition.z < 1.5)
+        {
+            showMoleSound.panStereo = 0.5f;
+        }
+        else if (transform.parent.localPosition.z >= 1.5)
+        {
+            showMoleSound.panStereo = 1;
+        }
     }
 
 }
