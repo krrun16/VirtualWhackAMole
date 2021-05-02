@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     private bool showingMole = false;
     private static int score = 0;
     private bool inGame;
+    private string hintType;
+    private string dominantHand;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,10 @@ public class GameController : MonoBehaviour
         // adding Moles into list 
         moles = GameObject.FindObjectsOfType<Mole>();
         inGame = true;
+        hintType = PlayerPrefs.GetString("HintType");
+        dominantHand = PlayerPrefs.GetString("DominantHand");
+        Debug.Log(hintType);
+        Debug.Log(dominantHand);
     }
 
     // Update is called once per frame
@@ -40,7 +46,7 @@ public class GameController : MonoBehaviour
                 {
                     targetMole = moles[Random.Range(0, moles.Length)];
                     targetMole.ShowMole();
-                    targetMole.GiveHint("Declarative");
+                    targetMole.GiveHint(hintType);
                     showingMole = true;
                     hideMoleTimer = 2f;
                 }
@@ -64,6 +70,11 @@ public class GameController : MonoBehaviour
     public static void incrementScore()
     {
         score += 1;
+    }
+
+    public void setHintType()
+    {
+        //
     }
 
 }
