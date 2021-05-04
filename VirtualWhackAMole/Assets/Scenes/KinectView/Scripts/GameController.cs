@@ -18,12 +18,16 @@ public class GameController : MonoBehaviour
     private bool inGame;
     private string hintType;
     private string dominantHand;
+    private GameObject[] leftHammer;
+    private GameObject[] rightHammer;
 
     // Start is called before the first frame update
     void Start()
     {
         // adding Moles into list 
         moles = GameObject.FindObjectsOfType<Mole>();
+        leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
+        rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
         inGame = true;
         hintType = PlayerPrefs.GetString("HintType");
         dominantHand = PlayerPrefs.GetString("DominantHand");
@@ -52,6 +56,19 @@ public class GameController : MonoBehaviour
                 }
                 if (hideMoleTimer < 0f && showingMole == true)
                 {
+                    // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
+                    Vector3 leftPos = leftHammer[0].transform.position;
+                    Vector3 rightPos = rightHammer[0].transform.position;
+                    float dist = Vector3.Distance(targetMole.transform.position, leftPos);
+                    float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
+                    //check if hammer was in neighboring square
+                    if ((dist <= dist2) & dist < .4572f)
+                    {
+                        incrementScore();
+                    } else if (dist2 <= .4572f)
+                    {
+                        incrementScore();
+                    }
                     targetMole.HideMole();
                     showMoleTimer = .8f;
                     showingMole = false;

@@ -58,6 +58,8 @@ public class HammerController : MonoBehaviour
 
         }
     }
+
+
     /// <summary>
     /// Calculates the rotation of the bat in the virtual world
     /// </summary>
@@ -80,7 +82,6 @@ public class HammerController : MonoBehaviour
         float dot = (vector1.x * vector2.x) + (vector1.y * vector2.y) + (vector1.z * vector2.z);
         float angle = (float)Math.Acos(dot / (length1 * length2)); // Radians
         angle *= 180.0f / (float)Math.PI; // Degrees
-        print("this is the angle:" + angle);
 
         // one implementation 
         /* if (angle > 1 || angle <-1)

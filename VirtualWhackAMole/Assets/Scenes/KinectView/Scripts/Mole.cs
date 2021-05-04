@@ -23,6 +23,7 @@ public class Mole : MonoBehaviour
     private AudioSource[] moleSounds;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,14 +92,15 @@ public class Mole : MonoBehaviour
 
 
     // On mouse click stop movement and return to start position
-    private void OnMouseDown()
-    {
-        HitMole(); 
-    }
+  //  private void OnMouseDown()
+   // {
+     //   HitMole(); 
+   // }
 
     // Instantly retract mole and play hit mole sound
     public void HitMole()
     {
+
         // TODO: determine exact position where mole is behind grid face
         if (transform.localPosition.x < -0.4f)
         {
@@ -112,7 +114,8 @@ public class Mole : MonoBehaviour
         hitMoleSound.Play();
         StopShowSound();
 
-        // Increment score 
+        // Increment score twice because mole was hit
+        GameController.incrementScore();
         GameController.incrementScore();
     }
 
@@ -168,5 +171,6 @@ public class Mole : MonoBehaviour
             return headHintSound;
         }
     }
+    
 
 }
