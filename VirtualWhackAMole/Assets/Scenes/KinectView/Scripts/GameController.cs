@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
     private string dominantHand;
     private GameObject[] leftHammer;
     private GameObject[] rightHammer;
+    private int molesLeft;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
+        molesLeft = 15;
         inGame = true;
         hintType = PlayerPrefs.GetString("HintType");
         dominantHand = PlayerPrefs.GetString("DominantHand");
@@ -41,7 +43,7 @@ public class GameController : MonoBehaviour
         if(inGame)
         {
             gameTimer -= Time.deltaTime; 
-            if (gameTimer > 0f)
+            if (molesLeft > 0)
             {
                 showMoleTimer -= Time.deltaTime;
                 hideMoleTimer -= Time.deltaTime;
@@ -50,6 +52,7 @@ public class GameController : MonoBehaviour
                 {
                     targetMole = moles[Random.Range(0, moles.Length)];
                     targetMole.ShowMole();
+                    molesLeft = molesLeft - 1;
                     targetMole.GiveHint(hintType);
                     showingMole = true;
                     hideMoleTimer = 2f;
@@ -88,10 +91,4 @@ public class GameController : MonoBehaviour
     {
         score += 1;
     }
-
-    public void setHintType()
-    {
-        //
-    }
-
 }
