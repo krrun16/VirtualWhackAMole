@@ -4,23 +4,18 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    /*Game lasts 30 seconds, first mole shows after 1 second.
-    * Mole is shown for 2 seconds, there is a .8 second break, and another
+    /*Game lasts 15 moles, first mole shows after 5 seconds.
+    * Mole is shown for 2 seconds, there is a 1 second break, and another
     * mole appears. 
     */
-    private float gameTimer = 30f;
-    private float showMoleTimer = 1f;
-    private float hideMoleTimer;
     private Mole[] moles;
     private Mole targetMole;
-    private bool showingMole = false;
     private static int score = 0;
-    private bool inGame;
     private string hintType;
-    private string dominantHand;
     private GameObject[] leftHammer;
     private GameObject[] rightHammer;
     private int molesLeft;
+    private float timer = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -30,61 +25,61 @@ public class GameController : MonoBehaviour
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
         molesLeft = 15;
-        inGame = true;
         hintType = PlayerPrefs.GetString("HintType");
-        dominantHand = PlayerPrefs.GetString("DominantHand");
-        Debug.Log(hintType);
-        Debug.Log(dominantHand);
+        StartCoroutine(GameLogic());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(inGame)
+        timer += Time.deltaTime;
+    }
+
+    private IEnumerator GameLogic()
+    {
+        yield return new WaitForSeconds(5.0f);
+        while (molesLeft > 0)
         {
-            gameTimer -= Time.deltaTime; 
-            if (molesLeft > 0)
+            targetMole = moles[Random.Range(0, moles.Length)];
+            yield return new WaitForSeconds(1.0f);
+            if (hintType == "Declarative")
             {
-                showMoleTimer -= Time.deltaTime;
-                hideMoleTimer -= Time.deltaTime;
-        
-                if (showMoleTimer < 0f && showingMole == false)
-                {
-                    targetMole = moles[Random.Range(0, moles.Length)];
-                    targetMole.ShowMole();
-                    molesLeft = molesLeft - 1;
-                    targetMole.GiveHint(hintType);
-                    showingMole = true;
-                    hideMoleTimer = 2f;
-                }
-                if (hideMoleTimer < 0f && showingMole == true)
-                {
-                    // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
-                    Vector3 leftPos = leftHammer[0].transform.position;
-                    Vector3 rightPos = rightHammer[0].transform.position;
-                    float dist = Vector3.Distance(targetMole.transform.position, leftPos);
-                    float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
-                    //check if hammer was in neighboring square
-                    if ((dist <= dist2) & dist < .4572f)
-                    {
-                        incrementScore();
-                    } else if (dist2 <= .4572f)
-                    {
-                        incrementScore();
-                    }
-                    targetMole.HideMole();
-                    showMoleTimer = .8f;
-                    showingMole = false;
-                }
+                targetMole.GiveDeclarativeHint();
+                targetMole.playingHint = true;
             }
-            else 
+            else if (hintType == "Imperative")
+            {
+                targetMole.GiveImperativeHint();
+                targetMole.playingHint = true;
+            }
+            
+            yield return new WaitUntil(() => targetMole.playingHint == false);
+            targetMole.ShowMole();
+            timer = 0f;
+            yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+            if (targetMole.isHit != true)
             {
                 targetMole.HideMole();
-                targetMole.StopShowSound();
-                Debug.Log("Score (moles hit) : " + score);
-                inGame = false;
+                // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
+                Vector3 leftPos = leftHammer[0].transform.position;
+                Vector3 rightPos = rightHammer[0].transform.position;
+                float dist = Vector3.Distance(targetMole.transform.position, leftPos);
+                float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
+                //check if hammer was in neighboring square
+                if ((dist <= dist2) & dist < .4572f)
+                {
+                    incrementScore();
+                } else if (dist2 <= .4572f)
+                {
+                    incrementScore();
+                }
             }
-        }
+            else
+            {
+                targetMole.isHit = false;
+            }
+            molesLeft -= 1;
+        }      
     }
 
     public static void incrementScore()

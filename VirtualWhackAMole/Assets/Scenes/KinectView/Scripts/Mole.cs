@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 // Resources used:
 // Mole design and intial code based off of Jamie Gant's Whack A Mole Tutorial videos
 // youtube channel : JamieGantTechClass
@@ -12,7 +13,6 @@ public class Mole : MonoBehaviour
     private Vector3 endPosition; 
     private Vector3 inPosition;
 
-    private AudioSource declarativeHint;
     private AudioSource hitMoleSound;
     private AudioSource showMoleSound;
     private AudioSource headHintSound;
@@ -21,8 +21,8 @@ public class Mole : MonoBehaviour
     private AudioSource stomachHintSound;
     private AudioSource hipsHintSound;
     private AudioSource[] moleSounds;
-
-
+    public bool isHit;
+    public bool playingHint;
 
     // Start is called before the first frame update
     void Start()
@@ -43,14 +43,15 @@ public class Mole : MonoBehaviour
         neckHintSound = moleSounds[4];
         stomachHintSound = moleSounds[5];
         hipsHintSound = moleSounds[6];
-
+        isHit = false;
+        playingHint = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.localPosition = Vector3.Lerp(transform.localPosition, endPosition,
-            Time.deltaTime * speed);
+            Time.deltaTime * speed);  
     }
 
     // Retract the mole back towards the start position
@@ -73,34 +74,43 @@ public class Mole : MonoBehaviour
         showMoleSound.PlayDelayed(.25f);
     }
 
-    public void GiveHint(string hintType)
+    public void GiveDeclarativeHint()
     {
-        AudioSource hintUsed;
-        if (hintType == "Declarative")
-        {
-            hintUsed = GetDeclarativeHint();
-        }
-        // use this for imperative hints
-        else
-        {
-            return;
-        }
-        BucketSoundHorizontal(hintUsed);
-        hintUsed.Play();
+        List<AudioSource> declarativeHint = new List<AudioSource>();
+        declarativeHint.Add(GetDeclarativeHint());
+        StartCoroutine(playAudioSequentially(declarativeHint));
     }
 
+    public void GiveImperativeHint()
+    {
+        List<AudioSource> imperativeHint = new List<AudioSource>();
+        imperativeHint = GetImperativeHint();
+        StartCoroutine(playAudioSequentially(imperativeHint));
+    }
 
+    // Plays audio sources in order and without overlap
+    IEnumerator playAudioSequentially(List<AudioSource> hints)
+    {
+        yield return null;
 
-    // On mouse click stop movement and return to start position
-  //  private void OnMouseDown()
-   // {
-     //   HitMole(); 
-   // }
+        //1.Loop through each AudioSource
+        foreach (AudioSource currentAudio in hints)
+        {
+            // Play Audio
+            BucketSoundHorizontal(currentAudio);
+            currentAudio.Play();
+            // Wait for it to finish playing
+            while (currentAudio.isPlaying)
+            {
+                yield return null;
+            }
+        }
+        playingHint = false;
+    }
 
     // Instantly retract mole and play hit mole sound
     public void HitMole()
     {
-
         // TODO: determine exact position where mole is behind grid face
         if (transform.localPosition.x < -0.4f)
         {
@@ -124,7 +134,9 @@ public class Mole : MonoBehaviour
         showMoleSound.Stop();
     }
 
-    public void BucketSoundHorizontal(AudioSource usedSound) 
+    // Pans audio from left to right ear depending on 
+    // horizontal mole position
+    private void BucketSoundHorizontal(AudioSource usedSound) 
     {
         if (transform.parent.localPosition.z < -1.5)
         {
@@ -148,7 +160,8 @@ public class Mole : MonoBehaviour
         }
     }
 
-    public AudioSource GetDeclarativeHint() 
+    // Returns the decaratice hint
+    private AudioSource GetDeclarativeHint() 
     {
         if (transform.parent.localPosition.y < -1.5)
         {
@@ -171,6 +184,150 @@ public class Mole : MonoBehaviour
             return headHintSound;
         }
     }
-    
 
+    // Returns a list of audio source instructions needed for imperative hint
+    private List<AudioSource> GetImperativeHint()
+    {
+        int[] squaresAway = SquareDistance();
+        int squaresAwayVertical = squaresAway[0];
+        int squaresAwayHorizontal = squaresAway[1];
+        List<AudioSource> imperativeHint = new List<AudioSource>();
+
+        //Determine the hand to give instructions for
+        if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5)
+        {
+            if (PlayerPrefs.GetString("DominantHand") == "Left")
+            {
+                imperativeHint.Add(moleSounds[18]);
+            }
+            else
+            {
+                imperativeHint.Add(moleSounds[17]);
+            }
+        }
+        else if (transform.parent.localPosition.z < -.5)
+        {
+            imperativeHint.Add(moleSounds[18]);
+        }
+        else
+        {
+            imperativeHint.Add(moleSounds[17]);
+        }
+
+        if (squaresAwayVertical == 0 && squaresAwayHorizontal == 0)
+        {
+            imperativeHint.Add(moleSounds[15]);
+            return imperativeHint;
+            // return You're in the right spot
+        }
+
+        if (Math.Abs(squaresAwayVertical) > 4 || Math.Abs(squaresAwayHorizontal) > 4)
+        {
+            imperativeHint.Add(moleSounds[16]);
+            return imperativeHint;
+            //return youre too far away
+        }
+
+        //VERTICAL
+        if (squaresAwayVertical < 0)
+        {
+            imperativeHint.Add(moleSounds[12]);
+            // Add Audio clip down
+        }
+        else if(squaresAwayVertical > 0 )
+        {
+            // Audio clip up
+            imperativeHint.Add(moleSounds[11]);
+        }
+
+        if (Math.Abs(squaresAwayVertical) == 4)
+        {
+            // 4 audio clip
+            imperativeHint.Add(moleSounds[10]);
+        }
+        else if (Math.Abs(squaresAwayVertical) == 3)
+        {
+            // 3 audio clip
+            imperativeHint.Add(moleSounds[9]);
+        }
+        else if (Math.Abs(squaresAwayVertical) == 2)
+        {
+            // 2 audio clip
+            imperativeHint.Add(moleSounds[8]);
+        }
+        else if (Math.Abs(squaresAwayVertical) == 1)
+        {
+            // 1 audio clip
+            imperativeHint.Add(moleSounds[7]);
+        }
+
+        //HORIZONTAL
+        if (squaresAwayHorizontal < 0)
+        {
+            // Add Audio clip right
+            imperativeHint.Add(moleSounds[14]);
+        }
+        else if(squaresAwayHorizontal > 0 )
+        {
+            // Add Audio clip left
+            imperativeHint.Add(moleSounds[13]);
+        }
+
+        if (Math.Abs(squaresAwayHorizontal) == 4)
+        {
+            // 4 audio clip
+            imperativeHint.Add(moleSounds[10]);
+        }
+        else if (Math.Abs(squaresAwayHorizontal) == 3)
+        {
+            // 3 audio clip
+            imperativeHint.Add(moleSounds[9]);
+        }
+        else if (Math.Abs(squaresAwayHorizontal) == 2)
+        {
+            // 2 audio clip
+            imperativeHint.Add(moleSounds[8]);
+        }
+        else if (Math.Abs(squaresAwayHorizontal) == 1)
+        {
+            // 1 audio clip
+            imperativeHint.Add(moleSounds[7]);
+        }
+
+        return imperativeHint;
+    }
+    
+    private int[] SquareDistance()
+    {
+        //What hammer to determine distance from
+        GameObject hammerUsed;
+        if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5)
+        {
+            if (PlayerPrefs.GetString("DominantHand") == "Left")
+            {
+                hammerUsed = GameObject.FindGameObjectsWithTag("leftHammer")[0];
+            }
+            else
+            {
+                hammerUsed = GameObject.FindGameObjectsWithTag("rightHammer")[0];
+            }
+        }
+        else if (transform.parent.localPosition.z < -.5)
+        {
+            hammerUsed = GameObject.FindGameObjectsWithTag("leftHammer")[0];
+        }
+        else
+        {
+            hammerUsed = GameObject.FindGameObjectsWithTag("rightHammer")[0];
+        }
+
+        float squareHeight = GameObject.Find("GridManager").transform.localScale.y;
+
+        // Determine horizontal and vertical distance between hammer and mole as number of squares
+        float verticalSquareDistance = (transform.parent.position.y - hammerUsed.transform.position.y) / squareHeight;
+        float horizontalSquareDistance = (transform.parent.position.x - hammerUsed.transform.position.x) / squareHeight;
+        int[] squareDistance = {(int)Math.Round(verticalSquareDistance), (int)Math.Round(horizontalSquareDistance)};
+
+        return squareDistance;
+    }
 }
