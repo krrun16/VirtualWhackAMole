@@ -9,6 +9,9 @@ using System;
 
 public class Mole : MonoBehaviour
 {
+    public int timeMoleShowed;
+    public int timeMoleHit;
+
     private float speed; 
     private Vector3 endPosition; 
     private Vector3 inPosition;
@@ -23,6 +26,7 @@ public class Mole : MonoBehaviour
     private AudioSource[] moleSounds;
     public bool isHit;
     public bool playingHint;
+    public double timeHit;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +49,7 @@ public class Mole : MonoBehaviour
         hipsHintSound = moleSounds[6];
         isHit = false;
         playingHint = false;
+        timeHit = 0;
     }
 
     // Update is called once per frame
@@ -64,6 +69,7 @@ public class Mole : MonoBehaviour
     //BUG: Mole can not show in game but plays sound. Yet to recreeate consistently.
     public void ShowMole()
     {
+
         //Show mole
         endPosition.x += 1.5f;
 
@@ -111,6 +117,7 @@ public class Mole : MonoBehaviour
     // Instantly retract mole and play hit mole sound
     public void HitMole()
     {
+        isHit = true;
         // TODO: determine exact position where mole is behind grid face
         if (transform.localPosition.x < -0.4f)
         {
@@ -120,8 +127,12 @@ public class Mole : MonoBehaviour
         endPosition = inPosition;
         transform.localPosition = endPosition;
 
+        DateTime dateTime = DateTime.Now;
+        timeHit = dateTime.TimeOfDay.TotalMilliseconds;
+
         //Play hit sound, stop mole sound
         hitMoleSound.Play();
+
         StopShowSound();
 
         // Increment score twice because mole was hit

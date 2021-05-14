@@ -8,6 +8,7 @@ using System;
 
 public class HammerController : MonoBehaviour
 {
+
     private Mole[] moles;
     private Rigidbody rb;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -16,6 +17,14 @@ public class GameController : MonoBehaviour
     private GameObject[] rightHammer;
     private int molesLeft;
     private float timer = 0f;
+
+    string moleName;
+    private static string moleHit;
+    private static double timeTaken;
+    private static int totalHit;
+    private double timeSent;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,48 +47,74 @@ public class GameController : MonoBehaviour
     private IEnumerator GameLogic()
     {
         yield return new WaitForSeconds(5.0f);
-        while (molesLeft > 0)
+        while (molesLeft > -1)
         {
-            targetMole = moles[Random.Range(0, moles.Length)];
-            yield return new WaitForSeconds(1.0f);
-            if (hintType == "Declarative")
+            // if no moles left, we can write our data to an excel file
+            if (molesLeft == 0)
             {
-                targetMole.GiveDeclarativeHint();
-                targetMole.playingHint = true;
+                CsvReadWrite.writeData();
             }
-            else if (hintType == "Imperative")
-            {
-                targetMole.GiveImperativeHint();
-                targetMole.playingHint = true;
-            }
-            
-            yield return new WaitUntil(() => targetMole.playingHint == false);
-            targetMole.ShowMole();
-            timer = 0f;
-            yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
-            if (targetMole.isHit != true)
-            {
-                targetMole.HideMole();
-                // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
-                Vector3 leftPos = leftHammer[0].transform.position;
-                Vector3 rightPos = rightHammer[0].transform.position;
-                float dist = Vector3.Distance(targetMole.transform.position, leftPos);
-                float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
-                //check if hammer was in neighboring square
-                if ((dist <= dist2) & dist < .4572f)
-                {
-                    incrementScore();
-                } else if (dist2 <= .4572f)
-                {
-                    incrementScore();
-                }
-            }
+            // otherwise, continue providing moles as usual
             else
             {
-                targetMole.isHit = false;
+                targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                moleName = targetMole.name;
+                yield return new WaitForSeconds(1.0f);
+                if (hintType == "Declarative")
+                {
+                    targetMole.GiveDeclarativeHint();
+                    targetMole.playingHint = true;
+                }
+                else if (hintType == "Imperative")
+                {
+                    targetMole.GiveImperativeHint();
+                    targetMole.playingHint = true;
+                }
+                yield return new WaitUntil(() => targetMole.playingHint == false);
+                targetMole.ShowMole();
+                //get time that the mole was shown
+                DateTime dateTime = DateTime.Now;
+                timeSent = dateTime.TimeOfDay.TotalMilliseconds;
+
+                timer = 0f;
+                yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+                if (targetMole.isHit != true)
+                {
+                    moleHit = "no";
+                    //if mole wasn't hit, set timeTaken to -1 
+                    timeTaken = -1;
+                    targetMole.HideMole();
+                    // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
+                    Vector3 leftPos = leftHammer[0].transform.position;
+                    Vector3 rightPos = rightHammer[0].transform.position;
+                    float dist = Vector3.Distance(targetMole.transform.position, leftPos);
+                    float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
+                    //check if hammer was in neighboring square
+                    if ((dist <= dist2) & dist < .4572f)
+                    {
+                        incrementScore();
+                    }
+                    else if (dist2 <= .4572f)
+                    {
+                        incrementScore();
+                    }
+                    // add data to row
+                    CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
+                } else
+                {
+                    moleHit = "yes";
+                    totalHit++;
+                    yield return new WaitUntil(() => (targetMole.timeHit != 0));
+                    timeTaken = (targetMole.timeHit - timeSent) *.001f;
+                    CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
+                    
+                    targetMole.isHit = false;
+
+                }
             }
+            targetMole.timeHit = 0;
             molesLeft -= 1;
-        }      
+        }
     }
 
     public static void incrementScore()
