@@ -1,0 +1,199 @@
+Using pre-set license
+Built from '2020.3/staging' branch; Version is '2020.3.10f1 (297d780c91bc) revision 2719096'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Pro; OS build 19042.985; Version 2009; 64bit' Language: 'en' Physical Memory: 32650 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2020.3.10f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/Johnny Dean/Documents/GitHub/virtual-whack-a-mole/learnUnity
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+51256
+Successfully changed project path to: C:/Users/Johnny Dean/Documents/GitHub/virtual-whack-a-mole/learnUnity
+C:/Users/Johnny Dean/Documents/GitHub/virtual-whack-a-mole/learnUnity
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 48.28 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.10f1 (297d780c91bc)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Johnny Dean/Documents/GitHub/virtual-whack-a-mole/learnUnity/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2484)
+    Vendor:   
+    VRAM:     8043 MB
+    Driver:   27.21.14.6647
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56568
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001336 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 42.74 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.780 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.004947 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 43.88 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.466 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 0.82 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2755 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 126.9 MB.
+System memory in use after: 124.3 MB.
+
+Unloading 172 unused Assets to reduce memory usage. Loaded Objects now: 3139.
+Total: 3.499600 ms (FindLiveObjects: 0.226800 ms CreateObjectMapping: 0.132300 ms MarkObjects: 1.809300 ms  DeleteObjects: 1.330300 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Karting/Art/Materials/Kart_Classic/KartWheels.mat
+  artifactKey: Guid(01ac3e64bdb3249e5acb38002cca9035) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Art/Materials/Kart_Classic/KartWheels.mat using Guid(01ac3e64bdb3249e5acb38002cca9035) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c992301af039b5f485750a61b8f49423') in 0.216054 seconds
+  Import took 0.219105 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000131 seconds.
+  path: Assets/Karting/Art/Materials/Kart_Classic/ML_KartBody.mat
+  artifactKey: Guid(92461c21480194ccfa4491e9bb4421c3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Art/Materials/Kart_Classic/ML_KartBody.mat using Guid(92461c21480194ccfa4491e9bb4421c3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8a385525954a626c62a1341e7f63de4f') in 0.008139 seconds
+  Import took 0.011122 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000113 seconds.
+  path: Assets/Karting/Art/Materials/Kart_Classic/KartBody.mat
+  artifactKey: Guid(09621e790441a46dd96384071c5c8a73) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Art/Materials/Kart_Classic/KartBody.mat using Guid(09621e790441a46dd96384071c5c8a73) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '31a6258ba2381589333c9c5fa7d4bb23') in 0.007913 seconds
+  Import took 0.010789 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 96.086040 seconds.
+  path: Assets/Karting/Prefabs/Props/Checkpoint.prefab
+  artifactKey: Guid(6d9796d84c9e5a54fb4e014484945a46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Prefabs/Props/Checkpoint.prefab using Guid(6d9796d84c9e5a54fb4e014484945a46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '35f0fd3a775028d1c52eededce3b682a') in 0.094272 seconds
+  Import took 0.097848 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000113 seconds.
+  path: Assets/Karting/Prefabs/Props/JumpRamp.prefab
+  artifactKey: Guid(db0af21853ba047fda7b6e30b74ffedf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Prefabs/Props/JumpRamp.prefab using Guid(db0af21853ba047fda7b6e30b74ffedf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd8ef0d55e3246de9909c61e642137a12') in 0.009456 seconds
+  Import took 0.012597 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000142 seconds.
+  path: Assets/Karting/Prefabs/Props/LapCheckpoint.prefab
+  artifactKey: Guid(63c348de78fb78f44befbc3f5bccddc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Prefabs/Props/LapCheckpoint.prefab using Guid(63c348de78fb78f44befbc3f5bccddc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5f6a659ece93bf43a6b2de9f82342961') in 0.008219 seconds
+  Import took 0.011371 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000124 seconds.
+  path: Assets/Karting/Prefabs/Props/StartFinishLine.prefab
+  artifactKey: Guid(5cdf1b2b8a98d6e40a85d1cde3907099) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Prefabs/Props/StartFinishLine.prefab using Guid(5cdf1b2b8a98d6e40a85d1cde3907099) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a41fd09135ea0433e2f2abcdf3746b9f') in 0.009037 seconds
+  Import took 0.012209 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000122 seconds.
+  path: Assets/Karting/Prefabs/Props/CrashObject.prefab
+  artifactKey: Guid(29be64d49c04eed4781cd23c6865ca7c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Prefabs/Props/CrashObject.prefab using Guid(29be64d49c04eed4781cd23c6865ca7c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6e6daf9a1bfca3943fe5feda46ff69e7') in 0.074476 seconds
+  Import took 0.077778 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000112 seconds.
+  path: Assets/Karting/Prefabs/Props/PhysicsBall_Default.prefab
+  artifactKey: Guid(1d806fa299adb8a4eab57244b3d27969) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Karting/Prefabs/Props/PhysicsBall_Default.prefab using Guid(1d806fa299adb8a4eab57244b3d27969) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9a8158f1f0c81e74ecd7d9e0457ac12e') in 0.007642 seconds
+  Import took 0.010781 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004767 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.55 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Warning: Annotation not found!
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.ProBuilder.EditorUtility:SetGizmoIconEnabled (System.Type,bool) (at Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/EditorUtility.cs:593)
+UnityEditor.ProBuilder.HierarchyListener:.cctor () (at Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/HierarchyListener.cs:21)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+[Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/EditorUtility.cs line 593]
+
+Mono: successfully reloaded assembly
+- Completed reload, in  0.944 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.51 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2716 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 126.9 MB.
+System memory in use after: 124.3 MB.
+
+Unloading 66 unused Assets to reduce memory usage. Loaded Objects now: 3184.
+Total: 3.495500 ms (FindLiveObjects: 0.205400 ms CreateObjectMapping: 0.124800 ms MarkObjects: 1.883700 ms  DeleteObjects: 1.280400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004671 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.50 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Warning: Annotation not found!
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.ProBuilder.EditorUtility:SetGizmoIconEnabled (System.Type,bool) (at Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/EditorUtility.cs:593)
+UnityEditor.ProBuilder.HierarchyListener:.cctor () (at Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/HierarchyListener.cs:21)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+[Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/EditorUtility.cs line 593]
+
+Mono: successfully reloaded assembly
+- Completed reload, in  0.882 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.57 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2716 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 126.9 MB.
+System memory in use after: 124.4 MB.
+
+Unloading 66 unused Assets to reduce memory usage. Loaded Objects now: 3188.
+Total: 3.761300 ms (FindLiveObjects: 0.216000 ms CreateObjectMapping: 0.107900 ms MarkObjects: 2.081600 ms  DeleteObjects: 1.355300 ms)
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

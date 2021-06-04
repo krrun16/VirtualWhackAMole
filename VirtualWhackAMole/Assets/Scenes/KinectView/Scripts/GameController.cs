@@ -90,6 +90,7 @@ public class GameController : MonoBehaviour
                     float dist = Vector3.Distance(targetMole.transform.position, leftPos);
                     float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
                     //check if hammer was in neighboring square
+                    // Is score given even if mole was not hit?
                     if ((dist <= dist2) & dist < .4572f)
                     {
                         incrementScore();
@@ -120,5 +121,11 @@ public class GameController : MonoBehaviour
     public static void incrementScore()
     {
         score += 1;
+    }
+
+    public static void playScore()
+    {
+        string scoreSoundPre = "scoreSound";
+        string sound = 
     }
 }
