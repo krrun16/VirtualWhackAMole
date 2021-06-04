@@ -7,8 +7,8 @@ using System;
 
 //https://sushanta1991.blogspot.com/2015/02/how-to-write-data-to-csv-file-in-unity.html - used this website to create this script
 
-public class CsvReadWrite : MonoBehaviour 
-{ 
+public class CsvReadWrite : MonoBehaviour
+{
 
 
     public static List<string[]> rowData = new List<string[]>();
@@ -38,7 +38,10 @@ public class CsvReadWrite : MonoBehaviour
 
     public static void addRow(string location, string wasHit, double time, int total, int Score)
     {
-        if (currentRow == 0) {
+        // 1 second = 1000 milliseconds
+        double ms = time / 1000.00; //Converts time in seconds to milliseconds
+        if (currentRow == 0)
+        {
             headerFields();
         }
         string[] rowDataTemp = new string[5];
@@ -50,22 +53,22 @@ public class CsvReadWrite : MonoBehaviour
         }
         else
         {
-            rowDataTemp[2] = time.ToString() + " seconds";
+            rowDataTemp[2] = ms.ToString(); // replaced time.ToString() with ms.ToString().
         }
         rowDataTemp[3] = total.ToString();
         rowDataTemp[4] = Score.ToString();
         rowData.Add(rowDataTemp);
         currentRow++;
     }
- 
-    public static void writeData()
-    {
-        string[][] output = new string[rowData.Count][];
 
-        for (int i = 0; i < output.Length; i++)
-        {
+    public static void writeData() 
+    {
+        string[][] output = new string[rowData.Count][]; 
+
+        for (int i = 0; i < output.Length; i++) 
+            {
             output[i] = rowData[i];
-        }
+            }
 
         int length = output.GetLength(0);
         string delimiter = ",";
@@ -94,7 +97,7 @@ public class CsvReadWrite : MonoBehaviour
 #elif UNITY_IPHONE
         return Application.persistentDataPath+"/"+"Saved_data.csv";
 #else
-        return Application.dataPath +"/"+"Saved_data.csv";
+        return Application.dataPath + "/" + "Saved_data.csv";
 #endif
     }
 

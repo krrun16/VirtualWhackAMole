@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
             // otherwise, continue providing moles as usual
             else
             {
-                targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                targetMole = moles[UnityEngine.Random.Range(0, moles.Length)]; 
                 moleName = targetMole.name;
                 yield return new WaitForSeconds(1.0f);
                 if (hintType == "Declarative")
@@ -94,12 +94,12 @@ public class GameController : MonoBehaviour
                     {
                         incrementScore();
                     }
-                    else if (dist2 <= .4572f)
+                    else if (dist2 <= .4572f) 
                     {
                         incrementScore();
                     }
                     // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
+                    CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);  //look at
                 } else
                 {
                     moleHit = "yes";
