@@ -2691,7 +2691,7 @@ PrefabInstance:
     - target: {fileID: 3914207500370757845, guid: 3eb8789606c48410d9e20bee44f03f39,
         type: 3}
       propertyPath: m_Name
-      value: Mole
+      value: Mole (0)
       objectReference: {fileID: 0}
     - target: {fileID: 3914207500370757845, guid: 3eb8789606c48410d9e20bee44f03f39,
         type: 3}
