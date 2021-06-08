@@ -38,8 +38,8 @@ public class CsvReadWrite : MonoBehaviour
 
     public static void addRow(string location, string wasHit, double time, int total, int Score)
     {
-        // 1 second = 1000 milliseconds
-        double ms = time * 1000; //Converts time in seconds to milliseconds
+        
+       
         if (currentRow == 0)
         {
             headerFields();
@@ -53,7 +53,7 @@ public class CsvReadWrite : MonoBehaviour
         }
         else
         {
-            rowDataTemp[2] = ms.ToString(); // replaced time.ToString() with ms.ToString().
+            rowDataTemp[2] = time.ToString(); 
         }
         rowDataTemp[3] = total.ToString();
         rowDataTemp[4] = Score.ToString();
