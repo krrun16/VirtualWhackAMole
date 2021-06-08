@@ -39,7 +39,7 @@ public class CsvReadWrite : MonoBehaviour
     public static void addRow(string location, string wasHit, double time, int total, int Score)
     {
         // 1 second = 1000 milliseconds
-        double ms = time / 1000.00; //Converts time in seconds to milliseconds
+        double ms = time * 1000; //Converts time in seconds to milliseconds
         if (currentRow == 0)
         {
             headerFields();
