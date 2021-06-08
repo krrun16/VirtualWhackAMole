@@ -24,12 +24,10 @@ public class GameController : MonoBehaviour
     private static int totalHit;
     private double timeSent;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
-        // adding Moles into list 
+        // adding Moles into list
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
@@ -50,9 +48,10 @@ public class GameController : MonoBehaviour
         while (molesLeft > -1)
         {
             // if no moles left, we can write our data to an excel file
-            if (molesLeft == 0)
+            if (molesLeft == 0) 
             {
                 CsvReadWrite.writeData();
+                ScoreAudio.playScore(score);
             }
             // otherwise, continue providing moles as usual
             else
@@ -90,7 +89,6 @@ public class GameController : MonoBehaviour
                     float dist = Vector3.Distance(targetMole.transform.position, leftPos);
                     float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
                     //check if hammer was in neighboring square
-                    // Is score given even if mole was not hit?
                     if ((dist <= dist2) & dist < .4572f)
                     {
                         incrementScore();
@@ -122,10 +120,5 @@ public class GameController : MonoBehaviour
     {
         score += 1;
     }
-
-    public static void playScore()
-    {
-        string scoreSoundPre = "scoreSound";
-        string sound = 
-    }
+      
 }

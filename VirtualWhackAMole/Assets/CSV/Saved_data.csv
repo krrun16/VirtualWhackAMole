@@ -1,17 +1,17 @@
 Location Of Mole,Mole Hit?,Time Taken (emerge - hit),Total Moles Hit,Score
-Mole (6),yes,1.55733447397505 seconds,1,2
-Mole (8),yes,2.2357204061949 seconds,2,4
-Mole (2),yes,1.32707586302689 seconds,3,6
-Mole (7),yes,1.60682017632185 seconds,4,8
-Mole (2),yes,1.54611567344134 seconds,5,10
-Mole (10),yes,1.72526458194525 seconds,6,12
-Mole (8),yes,1.35840066452178 seconds,7,14
-Mole (3),yes,1.61578267674606 seconds,8,16
-Mole (21),yes,1.00836224789403 seconds,9,18
-Mole (21),yes,1.08607145158727 seconds,10,20
-Mole (14),yes,0.996589147338685 seconds,11,22
-Mole (2),yes,1.30632126204519 seconds,12,24
-Mole (3),yes,1.06659855065916 seconds,13,26
-Mole (16),yes,1.20764395735957 seconds,14,28
-Mole (16),yes,0.956299445423549 seconds,15,30
+Mole (24),yes,1.53067307269603 seconds,1,2
+Mole (6),yes,2.04453949710681 seconds,2,4
+Mole (15),yes,1.5550245738572 seconds,3,6
+Mole (24),yes,1.3402314636631 seconds,4,8
+Mole (1),no,X,4,8
+Mole (5),yes,1.91214419082492 seconds,5,10
+Mole (12),yes,1.40921856693006 seconds,6,12
+Mole (8),yes,1.85809158825378 seconds,7,14
+Mole (3),yes,1.5798918750421 seconds,8,16
+Mole (21),yes,1.11066825275503 seconds,9,18
+Mole (7),yes,3.92114088624173 seconds,10,20
+Mole (20),yes,1.85936978831501 seconds,11,22
+Mole (7),no,X,11,22
+Mole (21),yes,1.07222155092964 seconds,12,24
+Mole (16),yes,1.5785510749762 seconds,13,26
 
