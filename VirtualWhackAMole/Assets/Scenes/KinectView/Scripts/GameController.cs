@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
     private static int totalHit;
     private double timeSent;
 
+    public GameObject textToSpeech;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +53,8 @@ public class GameController : MonoBehaviour
             if (molesLeft == 0) 
             {
                 CsvReadWrite.writeData();
-                ScoreAudio.playScore(score);
+                yield return new WaitForSeconds(1.0f);
+                textToSpeech.SetActive(true);
             }
             // otherwise, continue providing moles as usual
             else
@@ -121,4 +124,8 @@ public class GameController : MonoBehaviour
         score += 1;
     }
       
+    public static int getScore()
+    {
+        return score;
+    }
 }
