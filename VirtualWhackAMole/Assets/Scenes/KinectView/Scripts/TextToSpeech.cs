@@ -13,6 +13,11 @@ public class TextToSpeech : MonoBehaviour
         StartCoroutine(DownloadTheAudio());
     }
 
+    private void OnDisable()
+    {
+        
+    }
+
     IEnumerator DownloadTheAudio()
     {
         int score = GameController.getScore();

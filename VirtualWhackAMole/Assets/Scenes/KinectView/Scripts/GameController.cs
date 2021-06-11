@@ -102,6 +102,7 @@ public class GameController : MonoBehaviour
                     }
                     // add data to row
                     CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);  //look at
+
                 } else
                 {
                     moleHit = "yes";
@@ -114,6 +115,16 @@ public class GameController : MonoBehaviour
 
                 }
             }
+
+            int scorePlay = UnityEngine.Random.Range(1, 3);
+            if (scorePlay == 1)
+            {
+                yield return new WaitForSeconds(1.0f);
+                textToSpeech.SetActive(true);
+                yield return new WaitForSeconds(3.0f);
+                textToSpeech.SetActive(false);
+            }
+
             targetMole.timeHit = 0;
             molesLeft -= 1;
         }
