@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour
 
                 }
             }
-            if (UnityEngine.Random.Range(1, 4) == 1)
+            if (UnityEngine.Random.Range(1, 4) == 1 && molesLeft > 1)
             {
                 yield return new WaitForSeconds(1.0f);
                 textToSpeech.SetActive(true);
