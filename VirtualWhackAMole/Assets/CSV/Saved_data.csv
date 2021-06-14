@@ -1,17 +1,17 @@
 Location Of Mole,Mole Hit?,Time Taken (emerge - hit),Total Moles Hit,Score
-Mole (5),no,X,0,0
-Mole (11),no,X,0,0
-Mole (24),no,X,0,0
-Mole (16),no,X,0,0
-Mole (14),no,X,0,0
-Mole (17),no,X,0,0
-Mole (10),no,X,0,0
-Mole (6),no,X,0,0
-Mole (15),no,X,0,0
-Mole (7),no,X,0,0
-Mole (20),no,X,0,0
-Mole (10),no,X,0,0
-Mole (15),no,X,0,0
-Mole (1),no,X,0,0
-Mole (1),no,X,0,0
+Mole (22),yes,1.34550726391083,1,2
+Mole (18),yes,0.731523034747385,2,4
+Mole (4),yes,1.41986066743442,3,6
+Mole (22),yes,0.659642431335302,4,8
+Mole (14),no,X,4,8
+Mole (13),no,X,4,8
+Mole (16),yes,1.33684066349535,5,10
+Mole (19),yes,2.28825020868029,6,12
+Mole (16),no,X,6,12
+Mole (20),no,X,6,12
+Mole (1),no,X,6,12
+Mole (13),no,X,6,12
+Mole (13),no,X,6,12
+Mole (5),no,X,6,12
+Mole (8),no,X,6,12
 

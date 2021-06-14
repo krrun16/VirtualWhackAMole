@@ -26,7 +26,7 @@ public class Mole : MonoBehaviour
     private AudioSource chestHintSound;
     private AudioSource stomachHintSound;
     private AudioSource hipsHintSound;
-    private AudioSource missMoleSound; //CHANGE 12JUN21
+    private AudioSource missMoleSound; //CHANGE 12JUN21: ADDED THIS LINE
     private AudioSource[] moleSounds;
     public bool isHit;
     public bool playingHint;
@@ -55,7 +55,7 @@ public class Mole : MonoBehaviour
         neckHintSound = moleSounds[4];
         stomachHintSound = moleSounds[5];
         hipsHintSound = moleSounds[6];
-        missMoleSound = moleSounds[19];         //CHANGE 12JUN21
+        missMoleSound = moleSounds[19];         //CHANGE 12JUN21: ADDED THIS LINE
         isHit = false;
         playingHint = false;
         timeHit = 0;
@@ -149,7 +149,7 @@ public class Mole : MonoBehaviour
         GameController.incrementScore();
     }
 
-    public void MissMole()      //CHANGE 12JUN21
+    public void MissMole()      //CHANGE 12JUN21: ADDED MissMole() METHOD
     {
         missMoleSound.Play();
        
@@ -289,7 +289,7 @@ public class Mole : MonoBehaviour
             imperativeHint.Add(moleSounds[7]);
         }
 
-        //CHANGE: COMMENT REMOVES LEFT-RIGHT IMPERATIVE DIRECTIONS
+        //CHANGE 13JUN21: COMMENT REMOVES LEFT-RIGHT IMPERATIVE DIRECTIONS
        
         return imperativeHint;
     }
