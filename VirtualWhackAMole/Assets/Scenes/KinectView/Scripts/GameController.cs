@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
             if (molesLeft == 0) 
             {
                 CsvReadWrite.writeData();
-                ScoreAudio.playScore(score);
+                ScoreAudio.playScore(score);                       //WILL WANT TO ADD MUSIC HERE MAYBE
             }
             // otherwise, continue providing moles as usual
             else
@@ -82,6 +82,7 @@ public class GameController : MonoBehaviour
                     moleHit = "no";
                     //if mole wasn't hit, set timeTaken to -1 
                     timeTaken = -1;
+                    targetMole.MissMole();          //CHANGE 12JUN21
                     targetMole.HideMole();
                     // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
                     Vector3 leftPos = leftHammer[0].transform.position;
