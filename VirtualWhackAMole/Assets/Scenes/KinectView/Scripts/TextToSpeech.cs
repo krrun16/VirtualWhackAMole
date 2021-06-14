@@ -6,16 +6,10 @@ public class TextToSpeech : MonoBehaviour
 {
     public AudioSource _audio;
 
-    // Start is called before the first frame update
     void OnEnable()
     {
         _audio = gameObject.GetComponent<AudioSource>();
         StartCoroutine(DownloadTheAudio());
-    }
-
-    private void OnDisable()
-    {
-        
     }
 
     IEnumerator DownloadTheAudio()
