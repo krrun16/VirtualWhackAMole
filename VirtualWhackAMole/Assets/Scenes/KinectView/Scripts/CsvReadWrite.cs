@@ -13,7 +13,7 @@ public class CsvReadWrite : MonoBehaviour
 
     public static List<string[]> rowData = new List<string[]>();
     public static int currentRow = 0;
-
+    public static string partNumber = stringReciever.getPartNumber();
 
     // Use this for initialization
     void Start()
@@ -22,7 +22,7 @@ public class CsvReadWrite : MonoBehaviour
 
     public static void headerFields()
     {
-        string[] rowDataTemp = new string[5];
+        string[] rowDataTemp = new string[6];
         //Logging to excel document: 
         //1) where the mole emerges, 
         //2) whether the mole is hit 
@@ -33,6 +33,7 @@ public class CsvReadWrite : MonoBehaviour
         rowDataTemp[2] = "Time Taken (emerge - hit)";
         rowDataTemp[3] = "Total Moles Hit";
         rowDataTemp[4] = "Score";
+        rowDataTemp[5] = "Participant #";
         rowData.Add(rowDataTemp);
     }
 
@@ -44,7 +45,7 @@ public class CsvReadWrite : MonoBehaviour
         {
             headerFields();
         }
-        string[] rowDataTemp = new string[5];
+        string[] rowDataTemp = new string[6];
         rowDataTemp[0] = location;
         rowDataTemp[1] = wasHit;
         if (wasHit == "no")
@@ -57,6 +58,7 @@ public class CsvReadWrite : MonoBehaviour
         }
         rowDataTemp[3] = total.ToString();
         rowDataTemp[4] = Score.ToString();
+        rowDataTemp[5] = partNumber;
         rowData.Add(rowDataTemp);
         currentRow++;
     }
@@ -84,6 +86,11 @@ public class CsvReadWrite : MonoBehaviour
         StreamWriter outStream = System.IO.File.CreateText(filePath);
         outStream.WriteLine(sb);
         outStream.Close();
+    }
+
+    public void readStringInput(string s)
+    {
+
     }
 
     // Following method is used to retrive the relative path as device platform
