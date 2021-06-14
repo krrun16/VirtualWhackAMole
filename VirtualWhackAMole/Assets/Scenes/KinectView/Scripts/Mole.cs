@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+//using System.Speech.Synthesis;
 // Resources used:
 // Mole design and intial code based off of Jamie Gant's Whack A Mole Tutorial videos
 // youtube channel : JamieGantTechClass
-
+//public sealed class SpeechSynthesizer : IDisposable
+//{ }
 
 public class Mole : MonoBehaviour
 {
+    
     public int timeMoleShowed;
     public int timeMoleHit;
 
@@ -23,10 +26,15 @@ public class Mole : MonoBehaviour
     private AudioSource chestHintSound;
     private AudioSource stomachHintSound;
     private AudioSource hipsHintSound;
+    private AudioSource missMoleSound; //CHANGE 12JUN21: ADDED THIS LINE
     private AudioSource[] moleSounds;
     public bool isHit;
     public bool playingHint;
     public double timeHit;
+
+  
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +55,7 @@ public class Mole : MonoBehaviour
         neckHintSound = moleSounds[4];
         stomachHintSound = moleSounds[5];
         hipsHintSound = moleSounds[6];
+        missMoleSound = moleSounds[19];         //CHANGE 12JUN21: ADDED THIS LINE
         isHit = false;
         playingHint = false;
         timeHit = 0;
@@ -115,7 +124,7 @@ public class Mole : MonoBehaviour
     }
 
     // Instantly retract mole and play hit mole sound
-    public void HitMole()
+    public void HitMole()                                               
     {
         isHit = true;
         // TODO: determine exact position where mole is behind grid face
@@ -138,6 +147,12 @@ public class Mole : MonoBehaviour
         // Increment score twice because mole was hit
         GameController.incrementScore();
         GameController.incrementScore();
+    }
+
+    public void MissMole()      //CHANGE 12JUN21: ADDED MissMole() METHOD
+    {
+        missMoleSound.Play();
+       
     }
 
     public void StopShowSound()
@@ -209,11 +224,13 @@ public class Mole : MonoBehaviour
         {
             if (PlayerPrefs.GetString("DominantHand") == "Left")
             {
-                imperativeHint.Add(moleSounds[18]);
+                imperativeHint.Add(moleSounds[18]);                              
+                
             }
             else
             {
-                imperativeHint.Add(moleSounds[17]);
+               imperativeHint.Add(moleSounds[17]);
+                                                           
             }
         }
         else if (transform.parent.localPosition.z < -.5)
@@ -272,39 +289,8 @@ public class Mole : MonoBehaviour
             imperativeHint.Add(moleSounds[7]);
         }
 
-        //HORIZONTAL
-        if (squaresAwayHorizontal < 0)
-        {
-            // Add Audio clip right
-            imperativeHint.Add(moleSounds[14]);
-        }
-        else if(squaresAwayHorizontal > 0 )
-        {
-            // Add Audio clip left
-            imperativeHint.Add(moleSounds[13]);
-        }
-
-        if (Math.Abs(squaresAwayHorizontal) == 4)
-        {
-            // 4 audio clip
-            imperativeHint.Add(moleSounds[10]);
-        }
-        else if (Math.Abs(squaresAwayHorizontal) == 3)
-        {
-            // 3 audio clip
-            imperativeHint.Add(moleSounds[9]);
-        }
-        else if (Math.Abs(squaresAwayHorizontal) == 2)
-        {
-            // 2 audio clip
-            imperativeHint.Add(moleSounds[8]);
-        }
-        else if (Math.Abs(squaresAwayHorizontal) == 1)
-        {
-            // 1 audio clip
-            imperativeHint.Add(moleSounds[7]);
-        }
-
+        //CHANGE 13JUN21: COMMENT REMOVES LEFT-RIGHT IMPERATIVE DIRECTIONS
+       
         return imperativeHint;
     }
     
