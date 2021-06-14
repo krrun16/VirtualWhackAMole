@@ -66,7 +66,6 @@ public class CsvReadWrite : MonoBehaviour
     public static void writeData() 
     {
         string[][] output = new string[rowData.Count][]; 
-
         for (int i = 0; i < output.Length; i++)             
             {
             output[i] = rowData[i];
@@ -86,11 +85,6 @@ public class CsvReadWrite : MonoBehaviour
         StreamWriter outStream = System.IO.File.CreateText(filePath);
         outStream.WriteLine(sb);
         outStream.Close();
-    }
-
-    public void readStringInput(string s)
-    {
-
     }
 
     // Following method is used to retrive the relative path as device platform
