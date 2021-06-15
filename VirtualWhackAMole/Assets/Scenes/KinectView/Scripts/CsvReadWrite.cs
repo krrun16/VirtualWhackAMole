@@ -13,7 +13,12 @@ public class CsvReadWrite : MonoBehaviour
 
     public static List<string[]> rowData = new List<string[]>();
     public static int currentRow = 0;
+
+
+    // Used for file name creation
     public static string partNumber = stringReciever.getPartNumber();
+    public static string hintType = PlayerPrefs.GetString("HintType");
+    public static string domHand = PlayerPrefs.GetString("DominantHand");
 
     // Use this for initialization
     void Start()
@@ -22,7 +27,7 @@ public class CsvReadWrite : MonoBehaviour
 
     public static void headerFields()
     {
-        string[] rowDataTemp = new string[6];
+        string[] rowDataTemp = new string[5];
         //Logging to excel document: 
         //1) where the mole emerges, 
         //2) whether the mole is hit 
@@ -33,7 +38,6 @@ public class CsvReadWrite : MonoBehaviour
         rowDataTemp[2] = "Time Taken (emerge - hit)";
         rowDataTemp[3] = "Total Moles Hit";
         rowDataTemp[4] = "Score";
-        rowDataTemp[5] = "Participant #";
         rowData.Add(rowDataTemp);
     }
 
@@ -45,7 +49,7 @@ public class CsvReadWrite : MonoBehaviour
         {
             headerFields();
         }
-        string[] rowDataTemp = new string[6];
+        string[] rowDataTemp = new string[5];
         rowDataTemp[0] = location;
         rowDataTemp[1] = wasHit;
         if (wasHit == "no")
@@ -58,7 +62,6 @@ public class CsvReadWrite : MonoBehaviour
         }
         rowDataTemp[3] = total.ToString();
         rowDataTemp[4] = Score.ToString();
-        rowDataTemp[5] = partNumber;
         rowData.Add(rowDataTemp);
         currentRow++;
     }
@@ -91,8 +94,8 @@ public class CsvReadWrite : MonoBehaviour
     public static string getPath()
     {
 #if UNITY_EDITOR
-        print(Application.dataPath + "/CSV/" + "Saved_data.csv");
-        return Application.dataPath + "/CSV/" + "Saved_data.csv";
+        print(Application.dataPath + "/CSV/" + partNumber + hintType + domHand + ".csv");
+        return Application.dataPath + "/CSV/" + partNumber + "_" + hintType + "_" + domHand + ".csv";
 #elif UNITY_ANDROID
         return Application.persistentDataPath+"Saved_data.csv";
 #elif UNITY_IPHONE
