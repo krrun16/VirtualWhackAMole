@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     private double timeSent;
 
     public GameObject textToSpeech;
+    public AudioSource endMusic;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +54,8 @@ public class GameController : MonoBehaviour
             if (molesLeft == 0) 
             {
                 CsvReadWrite.writeData();
-                yield return new WaitForSeconds(1.0f);
+                endMusic.Play();
+                yield return new WaitForSeconds(3.0f);
                 textToSpeech.SetActive(true);
             }
             // otherwise, continue providing moles as usual
