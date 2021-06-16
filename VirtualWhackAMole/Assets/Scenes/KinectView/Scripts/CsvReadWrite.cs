@@ -19,6 +19,7 @@ public class CsvReadWrite : MonoBehaviour
     public static string partNumber = stringReciever.getPartNumber();
     public static string hintType = PlayerPrefs.GetString("HintType");
     public static string domHand = PlayerPrefs.GetString("DominantHand");
+    public static string time = System.DateTime.UtcNow.ToLocalTime().ToString("MM_dd hh_mm");
 
     // Use this for initialization
     void Start()
@@ -94,8 +95,8 @@ public class CsvReadWrite : MonoBehaviour
     public static string getPath()
     {
 #if UNITY_EDITOR
-        print(Application.dataPath + "/CSV/" + partNumber + hintType + domHand + ".csv");
-        return Application.dataPath + "/CSV/" + partNumber + "_" + hintType + "_" + domHand + ".csv";
+        print(Application.dataPath + "/CSV/" + partNumber + hintType + domHand + " " + time + ".csv");
+        return Application.dataPath + "/CSV/" + partNumber + hintType + domHand + " " + time + ".csv";
 #elif UNITY_ANDROID
         return Application.persistentDataPath+"Saved_data.csv";
 #elif UNITY_IPHONE
