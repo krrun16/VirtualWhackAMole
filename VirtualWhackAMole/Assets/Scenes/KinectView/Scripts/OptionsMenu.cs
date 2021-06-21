@@ -18,6 +18,7 @@ public class OptionsMenu : MonoBehaviour
     public AudioSource Imperative;
     public AudioSource Right;
     public AudioSource Left;
+    int counter = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,46 +32,33 @@ public class OptionsMenu : MonoBehaviour
     }
     private void Update()
     {
-       // if down arrow key pressed, switch from declarative button to imperative button.
-       if (Input.GetKeyDown("down") && PlayerPrefs.GetString("HintType") == "Declarative")
+        Toggle[] optionsButtons = { declarativeButton, imperativeButton, rightButton, leftButton };
+        AudioSource[] optionsAudio = { Declarative, Imperative, Right, Left };
+
+        //If counter goes out of array bounds, return to 1st element of arrays.
+        if (counter > 4)
         {
-            PlayerPrefs.SetString("HintType", "Imperative");
-            declarativeButton.isOn = false;
-            imperativeButton.isOn = true;
-            Debug.Log(PlayerPrefs.GetString("HintType"));
-            Imperative.Play();
+            optionsButtons.ElementAt(0).Select();
+            optionsAudio.ElementAt(0).Play();
         }
 
-       // if up arrow key pressed, switch from imperative button to declarative button.
-        if (Input.GetKeyDown("up") && PlayerPrefs.GetString("HintType") == "Imperative")
+        if (Input.GetKeyUp("tab"))
         {
-            PlayerPrefs.SetString("HintType", "Declarative");
-            declarativeButton.isOn = true;
-            imperativeButton.isOn = false;
-            Debug.Log(PlayerPrefs.GetString("HintType"));
-            Declarative.Play();
+            optionsButtons.ElementAt(counter).Select();
+            optionsAudio.ElementAt(counter).Play();
+            counter++;
         }
 
-        //if left arrow key pressed, right hand selected
-        if(Input.GetKeyDown("left") && PlayerPrefs.GetString("DominantHand") == "Right" )
+        if (Input.GetKey("tab"))
         {
-            PlayerPrefs.SetString("DominantHand", "Left");
-            rightButton.isOn = false;
-            leftButton.isOn = true;
-            Debug.Log(PlayerPrefs.GetString("DominantHand"));
-            Left.Play();
-        }
+           if (Input.GetKeyDown("left shift"))
+           {
 
-        //if right arrow key pressed, left hand selected
-        if (Input.GetKeyDown("right") && PlayerPrefs.GetString("DominantHand") == "Left")
-        {
-            PlayerPrefs.SetString("DominantHand", "Right");
-            rightButton.isOn = true;
-            leftButton.isOn = false;
-            Debug.Log(PlayerPrefs.GetString("DominantHand"));
-            Right.Play();
+                counter = counter - 2;
+                optionsButtons.ElementAt(counter).Select();
+                optionsAudio.ElementAt(counter).Play();
+            }
         }
-
     }
 
     public void HintChange()
@@ -81,9 +69,7 @@ public class OptionsMenu : MonoBehaviour
     public void HandChange()
     {
         PlayerPrefs.SetString("DominantHand", handGroup.ActiveToggles().First().name);
-        //DO NOT DELETE THE 2 LINES BELOW!!! WE MAY STILL NEED THEM. LEFT/RIGHT OPTIONS MENU BUTTONS WORK WHEN THEY'RE COMMENTED OUT.
-       //rightButton.isOn = false;
-       //leftButton.isOn = true;
+      
     }
     
     

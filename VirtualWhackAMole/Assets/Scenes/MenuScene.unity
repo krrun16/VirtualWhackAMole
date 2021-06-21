@@ -837,7 +837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_SelectOnUp: {fileID: 881231568}
     m_SelectOnDown: {fileID: 1237294097}
     m_SelectOnLeft: {fileID: 0}
@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 881231566}
+  m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &359476418
@@ -2262,7 +2262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_SelectOnUp: {fileID: 1822014629}
     m_SelectOnDown: {fileID: 186315332}
     m_SelectOnLeft: {fileID: 0}
@@ -2829,7 +2829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_SelectOnUp: {fileID: 186315332}
     m_SelectOnDown: {fileID: 1822014629}
     m_SelectOnLeft: {fileID: 0}
@@ -3301,6 +3301,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97588289215aa9d4998dd5dc8eaa7b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  play: {fileID: 881231568}
+  options: {fileID: 186315332}
+  exit: {fileID: 1237294097}
+  Play: {fileID: 970036214}
+  Options: {fileID: 363514261}
+  Exit: {fileID: 159618522}
+  ButtonGameObject: {fileID: 0}
 --- !u!1 &1498279527
 GameObject:
   m_ObjectHideFlags: 0
