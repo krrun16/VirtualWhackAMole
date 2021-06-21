@@ -7,9 +7,11 @@ using System.Linq;
 
 public class MainMenu : MonoBehaviour
 {
+    AudioSource intro;
     
     void Start()
     {
+        intro.Play();
         // Default Player Preferences
         PlayerPrefs.SetString("HintType", "Declarative");
         PlayerPrefs.SetString("DominantHand", "Right");
