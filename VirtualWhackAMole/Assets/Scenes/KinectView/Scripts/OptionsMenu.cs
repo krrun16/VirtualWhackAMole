@@ -16,6 +16,12 @@ public class OptionsMenu : MonoBehaviour
         handGroup = GameObject.Find("ToggleHandGroup").GetComponent<ToggleGroup>();
     }
 
+    private void Update()
+    {
+        Debug.Log(PlayerPrefs.GetString("HintType"));
+        Debug.Log(PlayerPrefs.GetString("DominantHand"));
+    }
+
     public void HintChange()
     {
         PlayerPrefs.SetString("HintType", hintGroup.ActiveToggles().First().name); 
