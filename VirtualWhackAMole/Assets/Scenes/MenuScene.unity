@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -293,7 +293,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a0ef6232427c81d4c861dcfa54b6b2fc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1923,6 +1923,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97588289215aa9d4998dd5dc8eaa7b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  play: {fileID: 0}
+  options: {fileID: 0}
+  exit: {fileID: 0}
+  Play: {fileID: 0}
+  Options: {fileID: 0}
+  Exit: {fileID: 0}
+  intro: {fileID: 0}
   pleaseEnter: {fileID: 1443320289}
 --- !u!82 &1443320289
 AudioSource:
@@ -2958,6 +2965,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6d41aab9b2be14d8b376443779ff51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  declarativeButton: {fileID: 0}
+  imperativeButton: {fileID: 0}
+  rightButton: {fileID: 0}
+  leftButton: {fileID: 0}
+  Declarative: {fileID: 0}
+  Imperative: {fileID: 0}
+  Right: {fileID: 0}
+  Left: {fileID: 0}
 --- !u!1 &1950818734
 GameObject:
   m_ObjectHideFlags: 0
