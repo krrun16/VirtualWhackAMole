@@ -26,6 +26,7 @@ public class OptionsMenu : MonoBehaviour
         handGroup = GameObject.Find("ToggleHandGroup").GetComponent<ToggleGroup>();
     }
 
+
     private void Awake()
     {
         Declarative.Play();
@@ -59,6 +60,7 @@ public class OptionsMenu : MonoBehaviour
                 optionsAudio.ElementAt(counter).Play();
             }
         }
+
     }
 
     public void HintChange()

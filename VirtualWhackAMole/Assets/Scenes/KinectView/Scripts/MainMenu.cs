@@ -10,6 +10,7 @@ using System.Linq;
 
 public class MainMenu : MonoBehaviour
 {
+
     public Button play;
     public Button options;
     public Button exit;
@@ -17,16 +18,34 @@ public class MainMenu : MonoBehaviour
     public AudioSource Options;
     public AudioSource Exit;
     int counter = 0;
+    public AudioSource intro;
+    public AudioSource pleaseEnter;
+    public static string inputFieldText;
+
+
+
     void Start()
     {
+        intro.Play();
         // Default Player Preferences
         PlayerPrefs.SetString("HintType", "Declarative");
         PlayerPrefs.SetString("DominantHand", "Right");
     }
 
-    public void PlayGame()
+
+ 
+
+
+    public void PlayGame() 
     {
-        SceneManager.LoadScene("GameScene");
+        inputFieldText = stringReciever.getPartNumber();
+        if (inputFieldText == null) {
+            pleaseEnter.Play();
+        }
+        else
+        {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 
     public void QuitGame()

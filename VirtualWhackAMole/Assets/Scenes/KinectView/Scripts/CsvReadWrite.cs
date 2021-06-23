@@ -94,9 +94,10 @@ public class CsvReadWrite : MonoBehaviour
     // Following method is used to retrive the relative path as device platform
     public static string getPath()
     {
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 #if UNITY_EDITOR
-        print(Application.dataPath + "/CSV/" + partNumber + hintType + domHand + " " + time + ".csv");
-        return Application.dataPath + "/CSV/" + partNumber + hintType + domHand + " " + time + ".csv";
+        print(desktopPath + "\\" + partNumber + hintType + domHand + " " + time + ".csv");
+        return desktopPath + "\\" + partNumber + hintType + domHand + " " + time + ".csv";
 #elif UNITY_ANDROID
         return Application.persistentDataPath+"Saved_data.csv";
 #elif UNITY_IPHONE
