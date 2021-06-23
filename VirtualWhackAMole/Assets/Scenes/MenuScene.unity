@@ -1560,7 +1560,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 372fc7a73037a1744b873a5e27287867, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1657,6 +1657,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ca0a7d9b766484ab72665d62d5716b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  participantInput: {fileID: 1822014629}
+  declarativeBox: {fileID: 1633541492}
+  imperativeBox: {fileID: 1950818736}
+  leftHandBox: {fileID: 215387950}
+  rightHandBox: {fileID: 1622165646}
+  playButton: {fileID: 881231568}
+  exitButton: {fileID: 1237294097}
+  counter: 0
 --- !u!1 &634180070
 GameObject:
   m_ObjectHideFlags: 0
@@ -3117,7 +3125,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 1, g: 0.0990566, b: 0.0990566, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.7372708, g: 1, b: 0.6273585, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
