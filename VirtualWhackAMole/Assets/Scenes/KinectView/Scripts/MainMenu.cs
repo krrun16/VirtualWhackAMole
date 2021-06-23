@@ -7,8 +7,13 @@ using System.Linq;
 
 public class MainMenu : MonoBehaviour
 {
-    AudioSource intro;
-    
+
+    public AudioSource intro;
+
+    public AudioSource pleaseEnter;
+    public static string inputFieldText;
+
+
     void Start()
     {
         intro.Play();
@@ -17,9 +22,17 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetString("DominantHand", "Right");
     }
 
+
     public void PlayGame() 
     {
-        SceneManager.LoadScene("GameScene");
+        inputFieldText = stringReciever.getPartNumber();
+        if (inputFieldText == null) {
+            pleaseEnter.Play();
+        }
+        else
+        {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 
     public void QuitGame()

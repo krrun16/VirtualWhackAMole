@@ -9,7 +9,6 @@ public class stringReciever : MonoBehaviour
     public void readString (string s)
     {
         partNumber = s;
-
     }
 
     public static string getPartNumber()
