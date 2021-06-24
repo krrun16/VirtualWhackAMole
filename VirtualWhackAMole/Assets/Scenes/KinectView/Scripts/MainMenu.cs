@@ -27,7 +27,11 @@ public class MainMenu : MonoBehaviour
         inputFieldText = stringReciever.getPartNumber();
         Debug.Log(inputFieldText);
     }
+<<<<<<< Updated upstream
 
+=======
+         
+>>>>>>> Stashed changes
     public void PlayGame() 
     {
         inputFieldText = stringReciever.getPartNumber();
@@ -44,5 +48,8 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 }
