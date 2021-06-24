@@ -32,6 +32,11 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetString("DominantHand", "Right");
     }
 
+    private void Update()
+    {
+        inputFieldText = stringReciever.getPartNumber();
+        Debug.Log(inputFieldText);
+    }
 
  
 
@@ -39,7 +44,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame() 
     {
         inputFieldText = stringReciever.getPartNumber();
-        if (inputFieldText == null) {
+        if (inputFieldText == null || inputFieldText == "") {
             pleaseEnter.Play();
         }
         else
