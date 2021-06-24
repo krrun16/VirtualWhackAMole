@@ -42,7 +42,7 @@ public class ScreenReader : MonoBehaviour
         exitButtonAudio = srMenu[6];
 
         participantInput.Select();
-        participantInputAudio.Play();
+        participantInputAudio.PlayDelayed(6);
     }
 
     // Update is called once per frame
