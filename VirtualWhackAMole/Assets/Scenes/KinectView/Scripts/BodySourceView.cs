@@ -43,6 +43,8 @@ public class BodySourceView : MonoBehaviour
     {
         JointType.HandLeft,
         JointType.HandRight,
+        JointType.Head,
+        JointType.SpineBase,
     };
 
     private List<JointType> _planejoints = new List<JointType>

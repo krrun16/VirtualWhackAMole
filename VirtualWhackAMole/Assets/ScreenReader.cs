@@ -51,7 +51,6 @@ public class ScreenReader : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Tab))
         {
-
             if (counter == 0)
             {
                 counter = 6;
@@ -67,8 +66,17 @@ public class ScreenReader : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab) && !Input.GetKey(KeyCode.LeftShift))
         { 
-            counter++;
-            SelectMenu(counter);
+            if (counter == 6)
+            {
+                counter = 0;
+                SelectMenu(counter);
+            }
+            else
+            {
+                counter++;
+                SelectMenu(counter);
+            }
+            
         }
         
     }
