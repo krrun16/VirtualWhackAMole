@@ -49,7 +49,7 @@ public class ScreenReader : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.Tab) && Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Tab))
         {
             counter--;
             SelectMenu(counter);
