@@ -26,7 +26,7 @@ public class Mole : MonoBehaviour
     private AudioSource chestHintSound;
     private AudioSource stomachHintSound;
     private AudioSource hipsHintSound;
-    private AudioSource missMoleSound; //CHANGE 12JUN21: ADDED THIS LINE
+    private AudioSource missMoleSound; 
     private AudioSource[] moleSounds;
     public bool isHit;
     public bool playingHint;
@@ -289,7 +289,7 @@ public class Mole : MonoBehaviour
             imperativeHint.Add(moleSounds[7]);
         }
 
-        //CHANGE 13JUN21: COMMENT REMOVES LEFT-RIGHT IMPERATIVE DIRECTIONS
+       
        
         return imperativeHint;
     }
