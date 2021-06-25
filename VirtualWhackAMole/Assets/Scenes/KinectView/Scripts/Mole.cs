@@ -55,7 +55,7 @@ public class Mole : MonoBehaviour
         neckHintSound = moleSounds[4];
         stomachHintSound = moleSounds[5];
         hipsHintSound = moleSounds[6];
-        missMoleSound = moleSounds[19];         //CHANGE 12JUN21: ADDED THIS LINE
+        missMoleSound = moleSounds[19];        
         isHit = false;
         playingHint = false;
         timeHit = 0;
@@ -149,7 +149,7 @@ public class Mole : MonoBehaviour
         GameController.incrementScore();
     }
 
-    public void MissMole()      //CHANGE 12JUN21: ADDED MissMole() METHOD
+    public void MissMole()      
     {
         missMoleSound.Play();
        
@@ -186,7 +186,7 @@ public class Mole : MonoBehaviour
         }
     }
 
-    // Returns the decaratice hint
+    // Returns the declarative hint
     private AudioSource GetDeclarativeHint() 
     {
         if (transform.parent.localPosition.y < -1.5)
@@ -220,7 +220,7 @@ public class Mole : MonoBehaviour
         List<AudioSource> imperativeHint = new List<AudioSource>();
 
         //Determine the hand to give instructions for
-        if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5)
+        if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) //while equal to or greater than -.5 and less than .5 (-.5<=z<5)
         {
             if (PlayerPrefs.GetString("DominantHand") == "Left")
             {
@@ -248,6 +248,19 @@ public class Mole : MonoBehaviour
             return imperativeHint;
             // return You're in the right spot
         }
+        
+        //Add something here to account for correct elevation, 
+
+        if(squaresAwayVertical ==0)         //25JUN21: CHANGE ADDED.
+        {
+            imperativeHint.Add(moleSounds[20]);
+            return imperativeHint;
+        }
+
+
+
+
+
 
         if (Math.Abs(squaresAwayVertical) > 4 || Math.Abs(squaresAwayHorizontal) > 4)
         {

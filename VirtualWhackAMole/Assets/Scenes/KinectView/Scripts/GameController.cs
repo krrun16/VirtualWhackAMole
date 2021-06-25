@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour
                     targetMole.GiveImperativeHint();
                     targetMole.playingHint = true;
                 }
-                yield return new WaitUntil(() => targetMole.playingHint == false);
+                yield return new WaitUntil(() => targetMole.playingHint == false);  
                 targetMole.ShowMole();
                 //get time that the mole was shown
                 DateTime dateTime = DateTime.Now;
