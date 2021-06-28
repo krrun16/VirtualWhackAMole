@@ -61,20 +61,24 @@ public class GameController : MonoBehaviour
             // otherwise, continue providing moles as usual
             else
             {
-                targetMole = moles[UnityEngine.Random.Range(0, moles.Length)]; 
-                moleName = targetMole.name;
-                yield return new WaitForSeconds(1.0f);
-                if (hintType == "Declarative")
+              //  targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];    CHANGE 28JUN21: 2 lines commented out, moved inside declarative/imperative if statements.
+               // moleName = targetMole.name;
+                yield return new WaitForSeconds(1.0f);  
+                if (hintType == "Declarative")      //if player wants declarative hints, declarative hint played.
                 {
-                    targetMole.GiveDeclarativeHint();
+                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      //CHANGE 28JUN21: Added these 2 lines. May delete later.
+                    moleName = targetMole.name;
+                    targetMole.GiveDeclarativeHint();   
                     targetMole.playingHint = true;
                 }
-                else if (hintType == "Imperative")
+                else if (hintType == "Imperative")  //if player wants imperative hints, imperative hint played.
                 {
+                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      //CHANGE 28JUN21: Added these 2 lines. May delete later.
+                    moleName = targetMole.name;
                     targetMole.GiveImperativeHint();
                     targetMole.playingHint = true;
                 }
-                yield return new WaitUntil(() => targetMole.playingHint == false);  
+                yield return new WaitUntil(() => targetMole.playingHint == false);  //when hint done playing, show mole.
                 targetMole.ShowMole();
                 //get time that the mole was shown
                 DateTime dateTime = DateTime.Now;
