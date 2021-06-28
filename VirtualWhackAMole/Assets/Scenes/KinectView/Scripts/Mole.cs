@@ -19,6 +19,8 @@ public class Mole : MonoBehaviour
     private Vector3 endPosition; 
     private Vector3 inPosition;
 
+
+
     private AudioSource hitMoleSound;
     private AudioSource showMoleSound;
     private AudioSource headHintSound;
@@ -28,10 +30,16 @@ public class Mole : MonoBehaviour
     private AudioSource hipsHintSound;
     private AudioSource missMoleSound; 
     private AudioSource[] moleSounds;
+    
     public bool isHit;
     public bool playingHint;
     public double timeHit;
 
+    public AudioSource awesome;
+    public AudioSource congrats;
+    public AudioSource fantastic;
+    public AudioSource great;
+    public AudioSource success;
   
 
 
@@ -139,8 +147,34 @@ public class Mole : MonoBehaviour
         DateTime dateTime = DateTime.Now;
         timeHit = dateTime.TimeOfDay.TotalMilliseconds;
 
+
         //Play hit sound, stop mole sound
         hitMoleSound.Play();
+
+        // Compliment sound has a 50% chance of playing
+
+        // 50% chance that we get a complimentary audio
+        if (true)
+        {
+            switch (UnityEngine.Random.Range(0, 4))
+            {
+                case 0:
+                    awesome.Play();
+                    break;
+                case 1:
+                    fantastic.Play();
+                    break;
+                case 2:
+                    congrats.Play();
+                    break;
+                case 3:
+                    great.Play();
+                    break;
+                case 4:
+                    success.Play();
+                    break;
+            }
+        }
 
         StopShowSound();
 
