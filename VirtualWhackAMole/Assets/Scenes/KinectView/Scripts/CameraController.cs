@@ -14,11 +14,6 @@ public class CameraController : MonoBehaviour
     float yRotation;
     public float smooth = 10F;
     public float speed = 5.0F;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void FixedUpdate()
