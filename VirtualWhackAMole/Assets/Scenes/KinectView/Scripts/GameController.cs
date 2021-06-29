@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
 
     public GameObject textToSpeech;
     public AudioSource endMusic;
+    public AudioSource nextLevel;
 
     
 
@@ -36,7 +37,7 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
-        molesLeft = 15;
+        molesLeft = 15;     
         hintType = PlayerPrefs.GetString("HintType");
         StartCoroutine(GameLogic());
     }
@@ -49,9 +50,16 @@ public class GameController : MonoBehaviour
 
     private IEnumerator GameLogic()
     {
+        int counter = 0;        //ADDED 29JUN21
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
+            if(counter>5)  //if over 50% of moles hit. This block of code added 29JUN21
+            {
+                nextLevel.Play();  //PlaceHolder for level up music.
+                counter = 0;    //counter reinitialized to 0.
+                molesLeft = 10; //reintializes amount of moles to 10;
+            }
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0) 
             {
@@ -115,6 +123,7 @@ public class GameController : MonoBehaviour
                 {
                     moleHit = "yes";
                     totalHit++;
+                    counter++;
                     yield return new WaitUntil(() => (targetMole.timeHit != 0));
                     timeTaken = (targetMole.timeHit - timeSent) *.001f;
                     CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
