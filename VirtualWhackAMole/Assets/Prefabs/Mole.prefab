@@ -546,7 +546,7 @@ MonoBehaviour:
   playingHint: 0
   timeHit: 0
   awesome: {fileID: -6709852673843811700}
-  congrats: {fileID: 5608604410702363309}
+  congrats: {fileID: 3179258547202596754}
   fantastic: {fileID: -3410026269579194246}
   great: {fileID: -8048346018360950042}
   success: {fileID: -8832201329635137439}

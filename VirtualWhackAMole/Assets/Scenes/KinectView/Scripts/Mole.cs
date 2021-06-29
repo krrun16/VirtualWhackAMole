@@ -147,14 +147,13 @@ public class Mole : MonoBehaviour
         DateTime dateTime = DateTime.Now;
         timeHit = dateTime.TimeOfDay.TotalMilliseconds;
 
-
+        
         //Play hit sound, stop mole sound
         hitMoleSound.Play();
+        StopShowSound();
 
-        // Compliment sound has a 50% chance of playing
-
-        // 50% chance that we get a complimentary audio
-        if (true)
+        // 50% chance that we get a complimentary audio after a hit
+        if (UnityEngine.Random.Range(1,4) > 2)
         {
             switch (UnityEngine.Random.Range(0, 4))
             {
@@ -176,7 +175,7 @@ public class Mole : MonoBehaviour
             }
         }
 
-        StopShowSound();
+        
 
         // Increment score twice because mole was hit
         GameController.incrementScore();
