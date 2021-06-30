@@ -51,14 +51,16 @@ public class GameController : MonoBehaviour
     private IEnumerator GameLogic()
     {
         int counter = 0;        //ADDED 29JUN21
+       // int levelCounter = 0; ADDED 29JUN21: INCREASE DIFFICULTY: Following commented var. used to keep track of levels.
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
-            if(counter>5)  //if over 50% of moles hit. This block of code added 29JUN21
+            if(counter>5)  //if over 50% of moles hit in 10-mole window. This block of code added 29JUN21
             {
-                nextLevel.Play();  //PlaceHolder for level up music.
+                nextLevel.Play();  //Lets player know next level has began.
                 counter = 0;    //counter reinitialized to 0.
-                molesLeft = 10; //reintializes amount of moles to 10;
+                //levelCounter++;
+                molesLeft = 15; //reintializes amount of moles to 15;
             }
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0) 
@@ -71,15 +73,19 @@ public class GameController : MonoBehaviour
             // otherwise, continue providing moles as usual
             else
             {
-              //  targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];    CHANGE 28JUN21: 2 lines commented out, moved inside declarative/imperative if statements.
-               // moleName = targetMole.name;
-                yield return new WaitForSeconds(1.0f);  
+                //  targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];    CHANGE 28JUN21: 2 lines commented out, moved inside declarative/imperative if statements.
+                // moleName = targetMole.name;
+                // if (levelCounter == 0) ADDED 29JUN21:INCREASE DIFFICULTY: Following commented if-statement leaves less wait time for mole pop up after level 1.
+                // {
+                yield return new WaitForSeconds(1.0f);
+               // }
                 if (hintType == "Declarative")      //if player wants declarative hints, declarative hint played.
                 {
                     targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      //CHANGE 28JUN21: Added these 2 lines. May delete later.
                     moleName = targetMole.name;
                     targetMole.GiveDeclarativeHint();   
                     targetMole.playingHint = true;
+                   
                 }
                 else if (hintType == "Imperative")  //if player wants imperative hints, imperative hint played.
                 {
@@ -95,7 +101,14 @@ public class GameController : MonoBehaviour
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
 
                 timer = 0f;
-                yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+             //   if (levelCounter == 0)      ADDED 29JUN21:INCREASE DIFFICULTY: Following commented if-else statement reduces mole time up after level 1.
+               // {
+                    yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+                //}
+              //  else
+               // {
+                   // yield return new WaitUntil(() => timer > 1 || targetMole.isHit == true);
+                //}
                 if (targetMole.isHit != true)
                 {
                     moleHit = "no";
