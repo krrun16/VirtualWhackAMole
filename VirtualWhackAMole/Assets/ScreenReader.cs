@@ -83,45 +83,93 @@ public class ScreenReader : MonoBehaviour
 
     void SelectMenu(int idx)
     {
-
+        // Allows us to cycle through the menu
         if (counter < 0 || counter > 6)
         {
             counter = 0;
         }
+
         switch (idx)
         {
             case 0:
+                if (exitButtonAudio.isPlaying)
+                {
+                    exitButtonAudio.Stop();
+                }
+                if (declarativeBoxAudio.isPlaying)
+                {
+                    declarativeBoxAudio.Stop();
+                }
+
                 participantInput.Select();
                 participantInputAudio.Play();
-                break;  
+                break;
             case 1:
+                if (participantInputAudio.isPlaying)
+                {
+                    participantInputAudio.Stop();
+                }
+                if (imperativeBoxAudio.isPlaying)
+                {
+                    imperativeBoxAudio.Stop();
+                }
+
                 declarativeBox.Select();
-                participantInputAudio.Stop();
                 declarativeBoxAudio.Play();
                 break;
             case 2:
+                if (declarativeBoxAudio.isPlaying)
+                {
+                    declarativeBoxAudio.Stop();
+                }
+                if (leftHandBoxAudio.isPlaying)
+                {
+                    leftHandBoxAudio.Stop();
+                }
+
                 imperativeBox.Select();
-                declarativeBoxAudio.Stop();
                 imperativeBoxAudio.Play();
                 break;
             case 3:
+                if (imperativeBoxAudio.isPlaying)
+                {
+                    imperativeBoxAudio.Stop();
+                }
+                if (rightHandBoxAudio.isPlaying)
+                {
+                    rightHandBoxAudio.Stop();
+                }
+
                 leftHandBox.Select();
-                imperativeBoxAudio.Stop();
                 leftHandBoxAudio.Play();
                 break;
             case 4:
+                if (leftHandBoxAudio.isPlaying)
+                {
+                    leftHandBoxAudio.Stop();
+                }
+                if (playButtonAudio.isPlaying)
+                {
+                    playButtonAudio.Stop();
+                }
+
                 rightHandBox.Select();
-                leftHandBoxAudio.Stop();
                 rightHandBoxAudio.Play();
                 break;
             case 5:
+                if (rightHandBoxAudio.isPlaying)
+                {
+                    rightHandBoxAudio.Stop();
+                }
+                if (exitButtonAudio.isPlaying)
+                {
+                    exitButtonAudio.Stop();
+                }
+
                 playButton.Select();
-                rightHandBoxAudio.Stop();
                 playButtonAudio.Play();
                 break;
             case 6:
-                exitButton.Select();
-
                 if (participantInputAudio.isPlaying)
                 {
                     participantInputAudio.Stop();
@@ -130,6 +178,8 @@ public class ScreenReader : MonoBehaviour
                 {
                     playButtonAudio.Stop();
                 }
+
+                exitButton.Select();
                 exitButtonAudio.Play();
                 break;
         }
