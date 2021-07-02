@@ -11,7 +11,14 @@ public class TextToSpeech : MonoBehaviour
     void OnEnable()
     {
         _audio = gameObject.GetComponent<AudioSource>();
-        StartCoroutine(DownloadTheAudio());
+        if (gameObject.scene.name == "GameScene")
+        {
+            StartCoroutine(DownloadTheAudio());
+        }
+        else
+        {
+            StartCoroutine(DownloadTheInputAudio());
+        }
     }
 
     IEnumerator DownloadTheAudio()
@@ -39,5 +46,17 @@ public class TextToSpeech : MonoBehaviour
             _audio.Play();
         }   
     }
-    
+    IEnumerator DownloadTheInputAudio()
+    {   
+        char inputFieldType = stringReciever.getCharNumber();
+        string url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldType;
+
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
+        {
+            yield return www.SendWebRequest();
+
+            _audio.clip = DownloadHandlerAudioClip.GetContent(www);
+            _audio.Play();
+        }
+    }
 }
