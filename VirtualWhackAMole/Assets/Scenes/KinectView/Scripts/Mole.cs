@@ -134,56 +134,60 @@ public class Mole : MonoBehaviour
     // Instantly retract mole and play hit mole sound
     public void HitMole()                                               
     {
-        isHit = true;
-        // TODO: determine exact position where mole is behind grid face
-        if (transform.localPosition.x < -0.4f)
+        if (endPosition != inPosition)
         {
-            return;
-        }
-        //Retract Mole
-        endPosition = inPosition;
-        transform.localPosition = endPosition;
-
-        DateTime dateTime = DateTime.Now;
-        timeHit = dateTime.TimeOfDay.TotalMilliseconds;
-
-        
-        //Play hit sound, stop mole sound
-        hitMoleSound.Play();
-        StopShowSound();
-
-        // 50% chance that we get a complimentary audio after a hit
-        if (UnityEngine.Random.Range(1,4) > 2)
-        {
-            switch (UnityEngine.Random.Range(0, 4))
+            isHit = true;
+            // TODO: determine exact position where mole is behind grid face
+            if (transform.localPosition.x < -0.4f)
             {
-                case 0:
-                    awesome.Play();
-                    break;
-                case 1:
-                    fantastic.Play();
-                    break;
-                case 2:
-                    congrats.Play();
-                    break;
-                case 3:
-                    great.Play();
-                    break;
-                case 4:
-                    success.Play();
-                    break;
+                return;
             }
+            //Retract Mole
+            endPosition = inPosition;
+            transform.localPosition = endPosition;
+
+            DateTime dateTime = DateTime.Now;
+            timeHit = dateTime.TimeOfDay.TotalMilliseconds;
+
+
+            //Play hit sound, stop mole sound
+            hitMoleSound.Play();
+            StopShowSound();
+
+            // 50% chance that we get a complimentary audio after a hit
+            if (UnityEngine.Random.Range(1, 4) > 2)
+            {
+                switch (UnityEngine.Random.Range(0, 4))
+                {
+                    case 0:
+                        awesome.Play();
+                        break;
+                    case 1:
+                        fantastic.Play();
+                        break;
+                    case 2:
+                        congrats.Play();
+                        break;
+                    case 3:
+                        great.Play();
+                        break;
+                    case 4:
+                        success.Play();
+                        break;
+                }
+            }
+
+
+
+            // Increment score twice because mole was hit
+            GameController.incrementScore();
+            GameController.incrementScore();
         }
-
-        
-
-        // Increment score twice because mole was hit
-        GameController.incrementScore();
-        GameController.incrementScore();
     }
 
     public void MissMole()      
     {
+        
         missMoleSound.Play();
        
     }

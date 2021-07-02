@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
-        molesLeft = 15;     
+        molesLeft = 10;     
         hintType = PlayerPrefs.GetString("HintType");
         StartCoroutine(GameLogic());
     }
@@ -51,16 +51,30 @@ public class GameController : MonoBehaviour
     private IEnumerator GameLogic()
     {
         int counter = 0;        //ADDED 29JUN21
-       // int levelCounter = 0; ADDED 29JUN21: INCREASE DIFFICULTY: Following commented var. used to keep track of levels.
+        double levelCounterD = 0; //ADDED 29JUN21: INCREASE DIFFICULTY: Following commented var. used to keep track of levels.
+        int levelCounterI = 0;
+        bool downSound = false;
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
-            if(counter>5)  //if over 50% of moles hit in 10-mole window. This block of code added 29JUN21
+            if(counter>5 && levelCounterI == 0)  //if over 50% of moles hit in 10-mole window. This block of code added 29JUN21
             {
                 nextLevel.Play();  //Lets player know next level has began.
                 counter = 0;    //counter reinitialized to 0.
-                //levelCounter++;
-                molesLeft = 15; //reintializes amount of moles to 15;
+                levelCounterD++;
+                levelCounterI++;
+                molesLeft = 9; //reintializes amount of moles to ;
+            }
+            else if(levelCounterI !=0 && counter>((10.0-levelCounterD)/2.0))
+            {
+
+                nextLevel.Play();  //Lets player know next level has began.
+                counter = 0;    //counter reinitialized to 0.
+                levelCounterD++;
+                levelCounterI++;
+                molesLeft = 10 - levelCounterI; //reintializes amount of moles to ;
+
+
             }
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0) 
@@ -73,8 +87,6 @@ public class GameController : MonoBehaviour
             // otherwise, continue providing moles as usual
             else
             {
-                //  targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];    CHANGE 28JUN21: 2 lines commented out, moved inside declarative/imperative if statements.
-                // moleName = targetMole.name;
                 // if (levelCounter == 0) ADDED 29JUN21:INCREASE DIFFICULTY: Following commented if-statement leaves less wait time for mole pop up after level 1.
                 // {
                 yield return new WaitForSeconds(1.0f);
@@ -101,20 +113,15 @@ public class GameController : MonoBehaviour
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
 
                 timer = 0f;
-             //   if (levelCounter == 0)      ADDED 29JUN21:INCREASE DIFFICULTY: Following commented if-else statement reduces mole time up after level 1.
-               // {
+             
                     yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
-                //}
-              //  else
-               // {
-                   // yield return new WaitUntil(() => timer > 1 || targetMole.isHit == true);
-                //}
+                
                 if (targetMole.isHit != true)
                 {
                     moleHit = "no";
                     //if mole wasn't hit, set timeTaken to -1 
                     timeTaken = -1;
-                    targetMole.MissMole();          
+                    targetMole.MissMole();
                     targetMole.HideMole();
                     // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
                     Vector3 leftPos = leftHammer[0].transform.position;
@@ -132,17 +139,18 @@ public class GameController : MonoBehaviour
                     }
                     // add data to row
                     CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);  
-                } else
+                } else 
                 {
-                    moleHit = "yes";
-                    totalHit++;
-                    counter++;
-                    yield return new WaitUntil(() => (targetMole.timeHit != 0));
-                    timeTaken = (targetMole.timeHit - timeSent) *.001f;
-                    CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
-                    
-                    targetMole.isHit = false;
+                  
+                        moleHit = "yes";
+                        totalHit++;
+                        counter++;
+                        yield return new WaitUntil(() => (targetMole.timeHit != 0));
+                        timeTaken = (targetMole.timeHit - timeSent) * .001f;
+                        CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
 
+                        targetMole.isHit = false;
+                    
                 }
             }
             if (UnityEngine.Random.Range(1, 4) == 1 && molesLeft > 1)
