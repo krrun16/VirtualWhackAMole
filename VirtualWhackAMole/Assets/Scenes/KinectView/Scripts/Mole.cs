@@ -295,11 +295,7 @@ public class Mole : MonoBehaviour
         }
 
 
-
-
-
-
-        if (Math.Abs(squaresAwayVertical) > 4 || Math.Abs(squaresAwayHorizontal) > 4)
+        if (Math.Abs(squaresAwayVertical) > 6)  //if hand farther than 3 feet away from mole, let user know. This is mainly for testing.
         {
             imperativeHint.Add(moleSounds[16]);
             return imperativeHint;
@@ -317,25 +313,35 @@ public class Mole : MonoBehaviour
             // Audio clip up
             imperativeHint.Add(moleSounds[11]);
         }
+        if (Math.Abs(squaresAwayVertical) == 6)        
+        {
+            // 3 feet audio clip
+            imperativeHint.Add(moleSounds[27]);
+        }
+        if (Math.Abs(squaresAwayVertical) == 5)        
+        {
+            // 2.5 feet audio clip
+            imperativeHint.Add(moleSounds[26]);
+        }
 
         if (Math.Abs(squaresAwayVertical) == 4)
         {
-            // 4 audio clip
+            // 2 feet audio clip
             imperativeHint.Add(moleSounds[10]);
         }
         else if (Math.Abs(squaresAwayVertical) == 3)
         {
-            // 3 audio clip
+            // 1.5 feet audio clip
             imperativeHint.Add(moleSounds[9]);
         }
         else if (Math.Abs(squaresAwayVertical) == 2)
         {
-            // 2 audio clip
+            // 1 foot audio clip
             imperativeHint.Add(moleSounds[8]);
         }
         else if (Math.Abs(squaresAwayVertical) == 1)
         {
-            // 1 audio clip
+            // 6inches audio clip
             imperativeHint.Add(moleSounds[7]);
         }
 

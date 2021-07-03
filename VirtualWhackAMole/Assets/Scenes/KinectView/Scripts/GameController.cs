@@ -50,32 +50,32 @@ public class GameController : MonoBehaviour
 
     private IEnumerator GameLogic()
     {
-        int counter = 0;        //ADDED 29JUN21
-        double levelCounterD = 0; //ADDED 29JUN21: INCREASE DIFFICULTY: Following commented var. used to keep track of levels.
+        double counter = 0;        //ADDED 29JUN21
+        double levelCounter = 0;
         int levelCounterI = 0;
-        bool downSound = false;
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
-            if(counter>5 && levelCounterI == 0)  //if over 50% of moles hit in 10-mole window. This block of code added 29JUN21
+            if(counter>5.0 && levelCounter == 0)  //if over 50% of moles hit in 10-mole window. This block of code added 29JUN21
             {
                 nextLevel.Play();  //Lets player know next level has began.
                 counter = 0;    //counter reinitialized to 0.
-                levelCounterD++;
+                levelCounter++;
                 levelCounterI++;
                 molesLeft = 9; //reintializes amount of moles to ;
             }
-            else if(levelCounterI !=0 && counter>((10.0-levelCounterD)/2.0))
+
+            else if(levelCounter !=0 && counter>((10.0-levelCounter)/2.0))
             {
-
-                nextLevel.Play();  //Lets player know next level has began.
-                counter = 0;    //counter reinitialized to 0.
-                levelCounterD++;
-                levelCounterI++;
-                molesLeft = 10 - levelCounterI; //reintializes amount of moles to ;
-
-
+                        nextLevel.Play();  //Lets player know next level has began.
+                        counter = 0;    //counter reinitialized to 0.
+                        levelCounter++;
+                        levelCounterI++;
+                        molesLeft = 10 - levelCounterI;
             }
+          
+        
+           
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0) 
             {
