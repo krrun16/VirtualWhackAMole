@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Random = System.Random;
+
+
 //using System.Speech.Synthesis;
 // Resources used:
 // Mole design and intial code based off of Jamie Gant's Whack A Mole Tutorial videos
@@ -40,9 +43,8 @@ public class Mole : MonoBehaviour
     public AudioSource fantastic;
     public AudioSource great;
     public AudioSource success;
-  
 
-
+   
 
     // Start is called before the first frame update
     void Start()
@@ -255,28 +257,41 @@ public class Mole : MonoBehaviour
         int squaresAwayVertical = squaresAway[0];
         int squaresAwayHorizontal = squaresAway[1];
         List<AudioSource> imperativeHint = new List<AudioSource>();
+       
 
         //Determine the hand to give instructions for
         if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) //while equal to or greater than -.5 and less than .5 (-.5<=z<5)
         {
-            if (PlayerPrefs.GetString("DominantHand") == "Left")
+            if (PlayerPrefs.GetString("DominantHand") == "Left") //if dominant hand is left:
             {
-                imperativeHint.Add(moleSounds[18]);                              
-                
+                if (UnityEngine.Random.Range(1, 4) > 2)     //if num in range greater than 2
+                {
+                    imperativeHint.Add(moleSounds[18]); // play "left hand"                             
+                }
+                else //if num in range less than 2: play "right hand"
+                {
+                    imperativeHint.Add(moleSounds[17]);
+                }
             }
             else
             {
-               imperativeHint.Add(moleSounds[17]);
-                                                           
+                if (UnityEngine.Random.Range(1, 4) > 2)
+                {
+                    imperativeHint.Add(moleSounds[17]); // play "right hand"
+                }
+                else
+                {
+                    imperativeHint.Add(moleSounds[18]); //play "left hand"
+                }
             }
         }
         else if (transform.parent.localPosition.z < -.5)
         {
-            imperativeHint.Add(moleSounds[18]);
+            imperativeHint.Add(moleSounds[18]); //"left hand"
         }
         else
         {
-            imperativeHint.Add(moleSounds[17]);
+            imperativeHint.Add(moleSounds[17]); //"right hand"
         }
 
         if (squaresAwayVertical == 0 && squaresAwayHorizontal == 0)

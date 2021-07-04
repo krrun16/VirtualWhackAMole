@@ -56,6 +56,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
+            //Below commented out for testing purposes//
             if(counter>5.0 && levelCounter == 0)  //if over 50% of moles hit in 10-mole window. This block of code added 29JUN21
             {
                 nextLevel.Play();  //Lets player know next level has began.
