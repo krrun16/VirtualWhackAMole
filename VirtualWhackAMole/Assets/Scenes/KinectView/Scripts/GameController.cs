@@ -63,20 +63,40 @@ public class GameController : MonoBehaviour
                 counter = 0;    //counter reinitialized to 0.
                 levelCounter++;
                 levelCounterI++;
-                molesLeft = 9; //reintializes amount of moles to ;
+                molesLeft = 8; //CHANGE 4JUL21: moles switched from 9 to 8.
+            }
+            //**Below Commented Block of code several levels because  below line of code
+          //  else if(levelCounter !=0 && counter>((10.0-levelCounter)/2.0))  
+          //  {
+               //         nextLevel.Play();  //Lets player know next level has began.
+                //        counter = 0;    //counter reinitialized to 0.
+                //        levelCounter++;
+                 //       levelCounterI++;
+                  //      molesLeft = 10 - levelCounterI;
+          //  }
+        if(counter ==5 && levelCounter == 1)
+            {
+                nextLevel.Play();  //Lets player know next level has began.
+                counter = 0;    //counter reinitialized to 0.
+                levelCounter++;
+                molesLeft = 6;
+            }
+            if (counter == 4 && levelCounter == 2)
+            {
+                nextLevel.Play();  //Lets player know next level has began.
+                counter = 0;    //counter reinitialized to 0.
+                levelCounter++;
+                molesLeft = 4;
+            }
+            if (counter == 3 && levelCounter == 3)
+            {
+                nextLevel.Play();  //Lets player know next level has began.
+                counter = 0;    //counter reinitialized to 0.
+                levelCounter++;
+                molesLeft = 2;
             }
 
-            else if(levelCounter !=0 && counter>((10.0-levelCounter)/2.0))
-            {
-                        nextLevel.Play();  //Lets player know next level has began.
-                        counter = 0;    //counter reinitialized to 0.
-                        levelCounter++;
-                        levelCounterI++;
-                        molesLeft = 10 - levelCounterI;
-            }
-          
-        
-           
+
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0) 
             {
