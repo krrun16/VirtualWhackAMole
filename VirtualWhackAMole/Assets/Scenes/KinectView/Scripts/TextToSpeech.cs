@@ -60,7 +60,7 @@ public class TextToSpeech : MonoBehaviour
             _audio.clip = DownloadHandlerAudioClip.GetContent(www);
             _audio.Play();
         }
-        yield return new WaitForSeconds(.45f);
+        yield return new WaitForSeconds(.5f);
         gameObject.SetActive(false);
     }
 }
