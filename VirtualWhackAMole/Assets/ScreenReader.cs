@@ -15,6 +15,7 @@ public class ScreenReader : MonoBehaviour
     public Button playButton;
     public Button exitButton;
 
+
     private AudioSource[] srMenu;
     private AudioSource participantInputAudio;
     private AudioSource declarativeBoxAudio;
@@ -25,6 +26,7 @@ public class ScreenReader : MonoBehaviour
     private AudioSource exitButtonAudio;
     [SerializeField]
     private int counter;
+
 
     // Start is called before the first frame update
     void Start()
@@ -80,7 +82,6 @@ public class ScreenReader : MonoBehaviour
         }
         
     }
-
     void SelectMenu(int idx)
     {
         // Allows us to cycle through the menu

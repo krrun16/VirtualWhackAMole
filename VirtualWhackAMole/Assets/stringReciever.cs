@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class stringReciever : MonoBehaviour
 {
+
+    // Input field reading
+    public GameObject textToSpeech;
     private static string partNumber;
-    private static string oldString;
     private static char typedChar;
+    private int backspaceCheck;
     public void readString (string s)
     {
         partNumber = s;
@@ -14,17 +17,15 @@ public class stringReciever : MonoBehaviour
 
     public void readChar(string s)
     {
-        // first character of the string
-        if (oldString == null)
+        // check if we deleted something
+        if (s.Length < backspaceCheck)
         {
-            oldString = s;
-            typedChar = s[0];
             return;
         }
-        //can find the character at the end of the new string
-        int index = oldString.Length - s.Length;
-        typedChar = s[index - 1];
-        oldString = s;
+        typedChar = s[s.Length - 1];
+        textToSpeech.SetActive(true);
+  
+        backspaceCheck = s.Length;
     }
 
     public static string getPartNumber()
