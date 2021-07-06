@@ -21,7 +21,6 @@ public class OptionsMenu : MonoBehaviour
     {
         PlayerPrefs.SetString("HintType", hintGroup.ActiveToggles().First().name);
         Debug.Log(PlayerPrefs.GetString("HintType"));
-
     }
 
     public void HandChange()
