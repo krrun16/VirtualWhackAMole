@@ -15,6 +15,7 @@ public class ScreenReader : MonoBehaviour
     public Button playButton;
     public Button exitButton;
 
+
     private AudioSource[] srMenu;
     private AudioSource participantInputAudio;
     private AudioSource declarativeBoxAudio;
@@ -23,8 +24,11 @@ public class ScreenReader : MonoBehaviour
     private AudioSource rightHandBoxAudio;
     private AudioSource playButtonAudio;
     private AudioSource exitButtonAudio;
+    private AudioSource isChecked;
+    private AudioSource isUnchecked;
     [SerializeField]
     private int counter;
+
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +44,8 @@ public class ScreenReader : MonoBehaviour
         rightHandBoxAudio = srMenu[4];
         playButtonAudio = srMenu[5];
         exitButtonAudio = srMenu[6];
-
+        isChecked = srMenu[7];
+        isUnchecked = srMenu[8];
         participantInput.Select();
         participantInputAudio.PlayDelayed(6);
     }
@@ -80,41 +85,139 @@ public class ScreenReader : MonoBehaviour
         }
         
     }
-
     void SelectMenu(int idx)
     {
-
+        // Allows us to cycle through the menu
         if (counter < 0 || counter > 6)
         {
             counter = 0;
         }
+
         switch (idx)
         {
             case 0:
+                if (exitButtonAudio.isPlaying)
+                {
+                    exitButtonAudio.Stop();
+                }
+                if (declarativeBoxAudio.isPlaying)
+                {
+                    declarativeBoxAudio.Stop();
+                }
+
                 participantInput.Select();
                 participantInputAudio.Play();
-                break;  
+                break;
             case 1:
+                if (participantInputAudio.isPlaying)
+                {
+                    participantInputAudio.Stop();
+                }
+                if (imperativeBoxAudio.isPlaying)
+                {
+                    imperativeBoxAudio.Stop();
+                }
+
                 declarativeBox.Select();
-                declarativeBoxAudio.Play();
+                if (declarativeBox.isOn)
+                {
+                    isChecked.Play();
+                }
+                else
+                {
+                    isUnchecked.Play();
+                }
+                declarativeBoxAudio.PlayDelayed(1f);
                 break;
             case 2:
+                if (declarativeBoxAudio.isPlaying)
+                {
+                    declarativeBoxAudio.Stop();
+                }
+                if (leftHandBoxAudio.isPlaying)
+                {
+                    leftHandBoxAudio.Stop();
+                }
+
+                if (imperativeBox.isOn)
+                {
+                    isChecked.Play();
+                }
+                else
+                {
+                    isUnchecked.Play();
+                }
+
                 imperativeBox.Select();
-                imperativeBoxAudio.Play();
+                imperativeBoxAudio.PlayDelayed(1);
                 break;
             case 3:
+                if (imperativeBoxAudio.isPlaying)
+                {
+                    imperativeBoxAudio.Stop();
+                }
+                if (rightHandBoxAudio.isPlaying)
+                {
+                    rightHandBoxAudio.Stop();
+                }
+
+                if (leftHandBox.isOn)
+                {
+                    isChecked.Play();
+                }
+                else
+                {
+                    isUnchecked.Play();
+                }
+
                 leftHandBox.Select();
-                leftHandBoxAudio.Play();
+                leftHandBoxAudio.PlayDelayed(1);
                 break;
             case 4:
+                if (leftHandBoxAudio.isPlaying)
+                {
+                    leftHandBoxAudio.Stop();
+                }
+                if (playButtonAudio.isPlaying)
+                {
+                    playButtonAudio.Stop();
+                }
+
+                if (rightHandBox.isOn)
+                {
+                    isChecked.Play();
+                }
+                else
+                {
+                    isUnchecked.Play();
+                }
+
                 rightHandBox.Select();
-                rightHandBoxAudio.Play();
+                rightHandBoxAudio.PlayDelayed(1);
                 break;
             case 5:
+                if (rightHandBoxAudio.isPlaying)
+                {
+                    rightHandBoxAudio.Stop();
+                }
+                if (exitButtonAudio.isPlaying)
+                {
+                    exitButtonAudio.Stop();
+                }
+
                 playButton.Select();
                 playButtonAudio.Play();
                 break;
             case 6:
+                if (participantInputAudio.isPlaying)
+                {
+                    participantInputAudio.Stop();
+                }
+                else
+                {
+                    playButtonAudio.Stop();
+                }
+
                 exitButton.Select();
                 exitButtonAudio.Play();
                 break;
