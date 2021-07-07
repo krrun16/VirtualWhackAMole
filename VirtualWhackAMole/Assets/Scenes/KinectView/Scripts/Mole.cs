@@ -260,7 +260,7 @@ public class Mole : MonoBehaviour
        
 
         //Determine the hand to give instructions for
-        if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) //while equal to or greater than -.5 and less than .5 (-.5<=z<5)
+        if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) 
         {
             if (PlayerPrefs.GetString("DominantHand") == "Left") //if dominant hand is left:
             {
@@ -310,7 +310,7 @@ public class Mole : MonoBehaviour
         }
 
 
-        if (Math.Abs(squaresAwayVertical) > 6)  //if hand farther than 3 feet away from mole, let user know. This is mainly for testing.
+        if (Math.Abs(squaresAwayVertical) > 6)  //if hand farther than 3 feet away from mole, lets user know.
         {
             imperativeHint.Add(moleSounds[16]);
             return imperativeHint;
@@ -356,7 +356,7 @@ public class Mole : MonoBehaviour
         }
         else if (Math.Abs(squaresAwayVertical) == 1)
         {
-            // 6inches audio clip
+            // 6 inches audio clip
             imperativeHint.Add(moleSounds[7]);
         }
 

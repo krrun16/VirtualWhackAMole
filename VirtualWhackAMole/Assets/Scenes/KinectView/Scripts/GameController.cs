@@ -50,48 +50,38 @@ public class GameController : MonoBehaviour
 
     private IEnumerator GameLogic()
     {
-        double counter = 0;        //ADDED 29JUN21
-        double levelCounter = 0;
-        int levelCounterI = 0;
+        int counter = 0;        
+        int levelCounter = 0;
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
-            //Below commented out for testing purposes//
-            if(counter>5.0 && levelCounter == 0)  //if over 50% of moles hit in 10-mole window. This block of code added 29JUN21
+            
+            if(counter>5.0 && levelCounter == 0)  //Advance to level 1
             {
-                nextLevel.Play();  //Lets player know next level has began.
-                counter = 0;    //counter reinitialized to 0.
+                nextLevel.Play();  
+                counter = 0;    
                 levelCounter++;
-                levelCounterI++;
-                molesLeft = 8; //CHANGE 4JUL21: moles switched from 9 to 8.
+                molesLeft = 8; 
             }
-            //**Below Commented Block of code several levels because  below line of code
-          //  else if(levelCounter !=0 && counter>((10.0-levelCounter)/2.0))  
-          //  {
-               //         nextLevel.Play();  //Lets player know next level has began.
-                //        counter = 0;    //counter reinitialized to 0.
-                //        levelCounter++;
-                 //       levelCounterI++;
-                  //      molesLeft = 10 - levelCounterI;
-          //  }
-        if(counter ==5 && levelCounter == 1)
+            
+        if(counter ==5 && levelCounter == 1)  //Advance to level 2
             {
-                nextLevel.Play();  //Lets player know next level has began.
-                counter = 0;    //counter reinitialized to 0.
+                nextLevel.Play();  
+                counter = 0;    
                 levelCounter++;
                 molesLeft = 6;
             }
-            if (counter == 4 && levelCounter == 2)
+            if (counter == 4 && levelCounter == 2)  //Advance to level 3
             {
-                nextLevel.Play();  //Lets player know next level has began.
-                counter = 0;    //counter reinitialized to 0.
+                nextLevel.Play();  
+                counter = 0;    
                 levelCounter++;
                 molesLeft = 4;
             }
-            if (counter == 3 && levelCounter == 3)
+            if (counter == 3 && levelCounter == 3)  //Advance to level 4
             {
-                nextLevel.Play();  //Lets player know next level has began.
-                counter = 0;    //counter reinitialized to 0.
+                nextLevel.Play();  
+                counter = 0;    
                 levelCounter++;
                 molesLeft = 2;
             }
@@ -108,21 +98,20 @@ public class GameController : MonoBehaviour
             // otherwise, continue providing moles as usual
             else
             {
-                // if (levelCounter == 0) ADDED 29JUN21:INCREASE DIFFICULTY: Following commented if-statement leaves less wait time for mole pop up after level 1.
-                // {
+                
                 yield return new WaitForSeconds(1.0f);
-               // }
-                if (hintType == "Declarative")      //if player wants declarative hints, declarative hint played.
+              
+                if (hintType == "Declarative")      
                 {
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      //CHANGE 28JUN21: Added these 2 lines. May delete later.
+                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
                     moleName = targetMole.name;
                     targetMole.GiveDeclarativeHint();   
                     targetMole.playingHint = true;
                    
                 }
-                else if (hintType == "Imperative")  //if player wants imperative hints, imperative hint played.
+                else if (hintType == "Imperative")  
                 {
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      //CHANGE 28JUN21: Added these 2 lines. May delete later.
+                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
                     moleName = targetMole.name;
                     targetMole.GiveImperativeHint();
                     targetMole.playingHint = true;
