@@ -9,7 +9,7 @@ public class OptionsMenu : MonoBehaviour
 
     private ToggleGroup hintGroup;
     private ToggleGroup handGroup;
-
+    public AudioSource check;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +20,14 @@ public class OptionsMenu : MonoBehaviour
     public void HintChange()
     {
         PlayerPrefs.SetString("HintType", hintGroup.ActiveToggles().First().name);
+        check.Play();
         Debug.Log(PlayerPrefs.GetString("HintType"));
     }
 
     public void HandChange()
     {
         PlayerPrefs.SetString("DominantHand", handGroup.ActiveToggles().First().name);
+        check.Play();
         Debug.Log(PlayerPrefs.GetString("DominantHand"));
     }
 }

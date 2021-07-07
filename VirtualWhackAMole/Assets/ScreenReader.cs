@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ScreenReader : MonoBehaviour
 {
     // Eventually want to find a way to put these in an easily indexable array, but because they're different
-    // types itd be hard (I think everything in unity is a game object so maybe I can do something with that
+    // types itd be hard (I think everything in unity is a game object so maybe I can do something with that)
     public InputField participantInput;
     public Toggle declarativeBox;
     public Toggle imperativeBox;
@@ -40,8 +40,8 @@ public class ScreenReader : MonoBehaviour
         participantInputAudio = srMenu[0];
         declarativeBoxAudio = srMenu[1];
         imperativeBoxAudio = srMenu[2];
-        leftHandBoxAudio = srMenu[3];
-        rightHandBoxAudio = srMenu[4];
+        rightHandBoxAudio = srMenu[3];
+        leftHandBoxAudio = srMenu[4];
         playButtonAudio = srMenu[5];
         exitButtonAudio = srMenu[6];
         isChecked = srMenu[7];
@@ -81,7 +81,6 @@ public class ScreenReader : MonoBehaviour
                 counter++;
                 SelectMenu(counter);
             }
-            
         }
         
     }
@@ -161,6 +160,29 @@ public class ScreenReader : MonoBehaviour
                     rightHandBoxAudio.Stop();
                 }
 
+                if (rightHandBox.isOn)
+                {
+                    isChecked.Play();
+                }
+                else
+                {
+                    isUnchecked.Play();
+                }
+
+                rightHandBox.Select();
+                rightHandBoxAudio.PlayDelayed(1);
+
+                break;
+            case 4:
+                if (rightHandBoxAudio.isPlaying)
+                {
+                    rightHandBoxAudio.Stop();
+                }
+                if (exitButtonAudio.isPlaying)
+                {
+                    exitButtonAudio.Stop();
+                }
+
                 if (leftHandBox.isOn)
                 {
                     isChecked.Play();
@@ -173,7 +195,7 @@ public class ScreenReader : MonoBehaviour
                 leftHandBox.Select();
                 leftHandBoxAudio.PlayDelayed(1);
                 break;
-            case 4:
+            case 5:
                 if (leftHandBoxAudio.isPlaying)
                 {
                     leftHandBoxAudio.Stop();
@@ -182,29 +204,7 @@ public class ScreenReader : MonoBehaviour
                 {
                     playButtonAudio.Stop();
                 }
-
-                if (rightHandBox.isOn)
-                {
-                    isChecked.Play();
-                }
-                else
-                {
-                    isUnchecked.Play();
-                }
-
-                rightHandBox.Select();
-                rightHandBoxAudio.PlayDelayed(1);
-                break;
-            case 5:
-                if (rightHandBoxAudio.isPlaying)
-                {
-                    rightHandBoxAudio.Stop();
-                }
-                if (exitButtonAudio.isPlaying)
-                {
-                    exitButtonAudio.Stop();
-                }
-
+                
                 playButton.Select();
                 playButtonAudio.Play();
                 break;

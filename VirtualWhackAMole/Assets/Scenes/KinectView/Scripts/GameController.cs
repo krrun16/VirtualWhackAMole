@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour
         while (molesLeft > -1)
         {
             
-            if(counter>5.0 && levelCounter == 0)  //Advance to level 1
+            if(counter > 5.0 && levelCounter == 0)  //Advance to level 1
             {
                 nextLevel.Play();  
                 counter = 0;    
@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
                 molesLeft = 8; 
             }
             
-        if(counter ==5 && levelCounter == 1)  //Advance to level 2
+        if(counter == 5 && levelCounter == 1)  //Advance to level 2
             {
                 nextLevel.Play();  
                 counter = 0;    
