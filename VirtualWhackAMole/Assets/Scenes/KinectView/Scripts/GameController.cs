@@ -56,36 +56,62 @@ public class GameController : MonoBehaviour
         while (molesLeft > -1)
         {
             
-            if(counter > 5.0 && levelCounter == 0)  //Advance to level 1
+            if(counter > 4 && levelCounter == 0)  //Advance to level 1  9Jul21: >4 instead of 5 for counter.
             {
                 nextLevel.Play();  
                 counter = 0;    
                 levelCounter++;
-                molesLeft = 8; 
+                molesLeft = 10; //9Jul21: molesLeft increased back to 10.
             }
-            
+
+        
         if(counter == 5 && levelCounter == 1)  //Advance to level 2
             {
                 nextLevel.Play();  
                 counter = 0;    
                 levelCounter++;
-                molesLeft = 6;
-            }
-            if (counter == 4 && levelCounter == 2)  //Advance to level 3
-            {
-                nextLevel.Play();  
-                counter = 0;    
-                levelCounter++;
-                molesLeft = 4;
-            }
-            if (counter == 3 && levelCounter == 3)  //Advance to level 4
-            {
-                nextLevel.Play();  
-                counter = 0;    
-                levelCounter++;
-                molesLeft = 2;
+                molesLeft = 10;
             }
 
+            if (counter == 5 && levelCounter == 2)  //Advance to level 3
+            {
+                nextLevel.Play();
+                counter = 0;
+                levelCounter++;
+                molesLeft = 10;
+            }
+
+            if (counter == 5 && levelCounter == 3)  //Advance to level 4
+            {
+                nextLevel.Play();
+                counter = 0;
+                levelCounter++;
+                molesLeft = 10;
+            }
+
+            if (counter == 5 && levelCounter == 4)  //Advance to level 5
+            {
+                nextLevel.Play();
+                counter = 0;
+                levelCounter++;
+                molesLeft = 10;
+            }
+
+            if (counter == 5 && levelCounter == 5)  //Advance to level 6
+            {
+                nextLevel.Play();
+                counter = 0;
+                levelCounter++;
+                molesLeft = 10;
+            }
+
+            if (counter == 5 && levelCounter == 6)  //Advance to level 7
+            {
+                nextLevel.Play();
+                counter = 0;
+                levelCounter++;
+                molesLeft = 5; //last set of moles 5 so total number of moles player can hit is 40.
+            }
 
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0) 
