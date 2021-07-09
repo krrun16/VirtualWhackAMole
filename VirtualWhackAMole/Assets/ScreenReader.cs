@@ -14,7 +14,11 @@ public class ScreenReader : MonoBehaviour
     public Toggle rightHandBox;
     public Button playButton;
     public Button exitButton;
-
+    // Reading what is in the inputfield
+    public GameObject textToSpeech;
+    public static string inputFieldText;
+    public static int state = 0;
+    
 
     private AudioSource[] srMenu;
     private AudioSource participantInputAudio;
@@ -82,7 +86,6 @@ public class ScreenReader : MonoBehaviour
                 SelectMenu(counter);
             }
         }
-        
     }
     void SelectMenu(int idx)
     {
@@ -103,9 +106,25 @@ public class ScreenReader : MonoBehaviour
                 {
                     declarativeBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 participantInput.Select();
                 participantInputAudio.Play();
+                inputFieldText = stringReciever.getPartNumber();
+                if (!string.IsNullOrEmpty(inputFieldText))
+                {
+                    Debug.Log(inputFieldText);
+                    state = 1;
+                    textToSpeech.SetActive(true);
+                }
+
                 break;
             case 1:
                 if (participantInputAudio.isPlaying)
@@ -265,5 +284,9 @@ public class ScreenReader : MonoBehaviour
                 exitButtonAudio.Play();
                 break;
         }
+    }
+    public static int getState()
+    {
+        return state;
     }
 }
