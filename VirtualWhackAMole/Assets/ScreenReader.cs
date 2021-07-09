@@ -116,17 +116,26 @@ public class ScreenReader : MonoBehaviour
                 {
                     imperativeBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
-                declarativeBox.Select();
+                
                 if (declarativeBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
-                declarativeBoxAudio.PlayDelayed(1f);
+                declarativeBox.Select();
+                declarativeBoxAudio.Play();
                 break;
             case 2:
                 if (declarativeBoxAudio.isPlaying)
@@ -137,20 +146,29 @@ public class ScreenReader : MonoBehaviour
                 {
                     leftHandBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 if (imperativeBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
 
                 imperativeBox.Select();
-                imperativeBoxAudio.PlayDelayed(1);
+                imperativeBoxAudio.Play();
                 break;
             case 3:
+                // Check for audio stopping
                 if (imperativeBoxAudio.isPlaying)
                 {
                     imperativeBoxAudio.Stop();
@@ -159,21 +177,30 @@ public class ScreenReader : MonoBehaviour
                 {
                     rightHandBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 if (rightHandBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
 
                 rightHandBox.Select();
-                rightHandBoxAudio.PlayDelayed(1);
+                rightHandBoxAudio.Play();
 
                 break;
             case 4:
+                // Check for audio stopping
                 if (rightHandBoxAudio.isPlaying)
                 {
                     rightHandBoxAudio.Stop();
@@ -182,18 +209,26 @@ public class ScreenReader : MonoBehaviour
                 {
                     exitButtonAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 if (leftHandBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
 
                 leftHandBox.Select();
-                leftHandBoxAudio.PlayDelayed(1);
+                leftHandBoxAudio.Play();
                 break;
             case 5:
                 if (leftHandBoxAudio.isPlaying)
@@ -203,6 +238,14 @@ public class ScreenReader : MonoBehaviour
                 if (playButtonAudio.isPlaying)
                 {
                     playButtonAudio.Stop();
+                }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
                 }
                 
                 playButton.Select();
