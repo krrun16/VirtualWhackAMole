@@ -31,9 +31,15 @@ public class Mole : MonoBehaviour
     private AudioSource chestHintSound;
     private AudioSource stomachHintSound;
     private AudioSource hipsHintSound;
-    private AudioSource missMoleSound; 
+    private AudioSource missMoleSound;
+    private AudioSource hipNote;
+    private AudioSource stomachNote;
+    private AudioSource chestNote;
+    private AudioSource neckNote;
+    private AudioSource headNote;
     private AudioSource[] moleSounds;
     
+
     public bool isHit;
     public bool playingHint;
     public double timeHit;
@@ -43,8 +49,8 @@ public class Mole : MonoBehaviour
     public AudioSource fantastic;
     public AudioSource great;
     public AudioSource success;
+    
 
-   
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +71,12 @@ public class Mole : MonoBehaviour
         neckHintSound = moleSounds[4];
         stomachHintSound = moleSounds[5];
         hipsHintSound = moleSounds[6];
-        missMoleSound = moleSounds[19];        
+        missMoleSound = moleSounds[19];
+        hipNote = moleSounds[28];
+        stomachNote = moleSounds[29];
+        chestNote = moleSounds[30];
+        neckNote = moleSounds[31];
+        headNote = moleSounds[32];
         isHit = false;
         playingHint = false;
         timeHit = 0;
@@ -230,22 +241,27 @@ public class Mole : MonoBehaviour
     {
         if (transform.parent.localPosition.y < -1.5)
         {
-            return hipsHintSound;
+            hipNote.Play();
+           return hipsHintSound;  
         }
         else if (transform.parent.localPosition.y >= -1.5 && transform.parent.localPosition.y < -.5)
         {
+            stomachNote.Play();
             return stomachHintSound;
         }
         else if (transform.parent.localPosition.y >= -.5 && transform.parent.localPosition.y < .5)
         {
+            chestNote.Play();
             return chestHintSound;
         }
         else if (transform.parent.localPosition.y >= .5 && transform.parent.localPosition.y < 1.5)
         {
+            neckNote.Play();
             return neckHintSound;
         }
         else
         {
+            headNote.Play();
             return headHintSound;
         }
     }
