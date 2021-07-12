@@ -90,6 +90,10 @@ public class JoyconManager: MonoBehaviour
 		for (int i = 0; i < j.Count; ++i)
 		{
 			j[i].Update();
+			if (j[i].isLeft == true)
+            {
+				j[i].SetRumble(160, 320, 0.6f, 200);
+			}
 		}
     }
 
