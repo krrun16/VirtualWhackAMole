@@ -44,18 +44,11 @@ public class Mole : MonoBehaviour
     public bool playingHint;
     public double timeHit;
 
-    public AudioSource awesome;
+    public AudioSource awesome; 
     public AudioSource congrats;
     public AudioSource fantastic;
     public AudioSource great;
     public AudioSource success;
-
-    public AudioSource awesome2;
-    public AudioSource congrats2;
-    public AudioSource fantastic2;
-    public AudioSource great2;
-    public AudioSource success2;
-
 
     // Start is called before the first frame update
     void Start()
@@ -178,24 +171,19 @@ public class Mole : MonoBehaviour
                 switch (UnityEngine.Random.Range(0, 4))
                 {
                     case 0:
-                        //awesome.Play();
-                        awesome2.Play();
+                        awesome.Play();
                         break;
                     case 1:
-                         //fantastic.Play();
-                        fantastic2.Play();
+                        fantastic.Play();
                         break;
                     case 2:
-                        //congrats.Play();
-                        congrats2.Play();
+                        congrats.Play();
                         break;
                     case 3:
-                       // great.Play();
-                        great2.Play();
+                        great.Play();
                         break;
                     case 4:
-                        //success.Play();
-                        success2.Play();
+                        success.Play();
                         break;
                 }
             }
