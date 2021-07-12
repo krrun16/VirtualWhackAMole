@@ -1,1 +1,6 @@
 *.csv
+VirtualWhackAMole/Assets/CSV.meta
+VirtualWhackAMole/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+VirtualWhackAMole/Packages/packages-lock.json
+VirtualWhackAMole/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+VirtualWhackAMole/Packages/packages-lock.json

@@ -24,7 +24,6 @@ public class stringReciever : MonoBehaviour
         }
         typedChar = s[s.Length - 1];
         textToSpeech.SetActive(true);
-  
         backspaceCheck = s.Length;
     }
 
