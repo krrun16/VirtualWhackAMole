@@ -14,7 +14,11 @@ public class ScreenReader : MonoBehaviour
     public Toggle rightHandBox;
     public Button playButton;
     public Button exitButton;
-
+    // Reading what is in the inputfield
+    public GameObject textToSpeech;
+    public static string inputFieldText;
+    public static int state = 0;
+    
 
     private AudioSource[] srMenu;
     private AudioSource participantInputAudio;
@@ -82,7 +86,6 @@ public class ScreenReader : MonoBehaviour
                 SelectMenu(counter);
             }
         }
-        
     }
     void SelectMenu(int idx)
     {
@@ -103,9 +106,25 @@ public class ScreenReader : MonoBehaviour
                 {
                     declarativeBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 participantInput.Select();
                 participantInputAudio.Play();
+                inputFieldText = stringReciever.getPartNumber();
+                if (!string.IsNullOrEmpty(inputFieldText))
+                {
+                    Debug.Log(inputFieldText);
+                    state = 1;
+                    textToSpeech.SetActive(true);
+                }
+
                 break;
             case 1:
                 if (participantInputAudio.isPlaying)
@@ -116,17 +135,26 @@ public class ScreenReader : MonoBehaviour
                 {
                     imperativeBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
-                declarativeBox.Select();
+                
                 if (declarativeBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
-                declarativeBoxAudio.PlayDelayed(1f);
+                declarativeBox.Select();
+                declarativeBoxAudio.Play();
                 break;
             case 2:
                 if (declarativeBoxAudio.isPlaying)
@@ -137,20 +165,29 @@ public class ScreenReader : MonoBehaviour
                 {
                     leftHandBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 if (imperativeBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
 
                 imperativeBox.Select();
-                imperativeBoxAudio.PlayDelayed(1);
+                imperativeBoxAudio.Play();
                 break;
             case 3:
+                // Check for audio stopping
                 if (imperativeBoxAudio.isPlaying)
                 {
                     imperativeBoxAudio.Stop();
@@ -159,21 +196,30 @@ public class ScreenReader : MonoBehaviour
                 {
                     rightHandBoxAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 if (rightHandBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
 
                 rightHandBox.Select();
-                rightHandBoxAudio.PlayDelayed(1);
+                rightHandBoxAudio.Play();
 
                 break;
             case 4:
+                // Check for audio stopping
                 if (rightHandBoxAudio.isPlaying)
                 {
                     rightHandBoxAudio.Stop();
@@ -182,18 +228,26 @@ public class ScreenReader : MonoBehaviour
                 {
                     exitButtonAudio.Stop();
                 }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
+                }
 
                 if (leftHandBox.isOn)
                 {
-                    isChecked.Play();
+                    isChecked.PlayDelayed(2f);
                 }
                 else
                 {
-                    isUnchecked.Play();
+                    isUnchecked.PlayDelayed(2f);
                 }
 
                 leftHandBox.Select();
-                leftHandBoxAudio.PlayDelayed(1);
+                leftHandBoxAudio.Play();
                 break;
             case 5:
                 if (leftHandBoxAudio.isPlaying)
@@ -203,6 +257,14 @@ public class ScreenReader : MonoBehaviour
                 if (playButtonAudio.isPlaying)
                 {
                     playButtonAudio.Stop();
+                }
+                if (isChecked.isPlaying)
+                {
+                    isChecked.Stop();
+                }
+                if (isUnchecked.isPlaying)
+                {
+                    isUnchecked.Stop();
                 }
                 
                 playButton.Select();
@@ -222,5 +284,9 @@ public class ScreenReader : MonoBehaviour
                 exitButtonAudio.Play();
                 break;
         }
+    }
+    public static int getState()
+    {
+        return state;
     }
 }

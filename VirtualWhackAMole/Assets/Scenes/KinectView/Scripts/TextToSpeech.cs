@@ -17,7 +17,7 @@ public class TextToSpeech : MonoBehaviour
         }
         else if (gameObject.scene.name == "MenuScene")
         {
-            StartCoroutine(DownloadTheInputAudio());
+            StartCoroutine(DownloadTheInputAudio(ScreenReader.getState()));
         }
     }
 
@@ -46,21 +46,38 @@ public class TextToSpeech : MonoBehaviour
             _audio.Play();
         }   
     }
-    IEnumerator DownloadTheInputAudio()
+    IEnumerator DownloadTheInputAudio(int state)
     {
-        
-        char inputFieldTyped = stringReciever.getCharNumber();
-        Debug.Log(inputFieldTyped);
-        string url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldTyped;
-
-        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
+        string inputFieldString;
+        char inputFieldChar;
+        string url;
+        if (state == 1)
         {
-            yield return www.SendWebRequest();
+            inputFieldString  = stringReciever.getPartNumber();
+            url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldString;
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
+            {
+                yield return www.SendWebRequest();
 
-            _audio.clip = DownloadHandlerAudioClip.GetContent(www);
-            _audio.Play();
+                _audio.clip = DownloadHandlerAudioClip.GetContent(www);
+                _audio.PlayDelayed(1.25f);
+                yield return new WaitForSeconds(2f);
+            }
         }
-        yield return new WaitForSeconds(.5f);
+        else
+        {
+            inputFieldChar = stringReciever.getCharNumber();
+            url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldChar;
+
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
+            {
+                yield return www.SendWebRequest();
+
+                _audio.clip = DownloadHandlerAudioClip.GetContent(www);
+                _audio.Play();
+            }
+        }
+        yield return new WaitForSeconds(.7f);
         gameObject.SetActive(false);
     }
 }

@@ -22,7 +22,6 @@ public class MainMenu : MonoBehaviour
     private void Update()
     {
         inputFieldText = stringReciever.getPartNumber();
-        Debug.Log(PlayerPrefs.GetString("DominantHand"));
     }
     public void PlayGame() 
     {
