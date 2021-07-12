@@ -6,7 +6,7 @@ using System.Linq;
 public class JoyconHammer : MonoBehaviour
 {
 
-	private List<Joycon> joycons;
+	private static List<Joycon> joycons;
 
 	// Values made available via Unity
 	public float[] stick;
@@ -51,7 +51,7 @@ public class JoyconHammer : MonoBehaviour
 		}
 	}
 
-	void rightVibrate()
+	public static void rightVibrate()
     {
 		if (joycons.Count > 0)
         {
@@ -70,7 +70,7 @@ public class JoyconHammer : MonoBehaviour
         }
     }
 
-	void leftVibrate()
+	public static void leftVibrate()
     {
 		if (joycons.Count > 0)
 		{
