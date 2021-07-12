@@ -33,7 +33,7 @@ public class JoyconHammer : MonoBehaviour
 		if (joycons.Count > 0)
 		{
 			Joycon j = joycons[jc_ind];
-
+				
 			if (j.GetButtonDown(Joycon.Button.DPAD_DOWN))
 			{
 				Debug.Log("Rumble");
