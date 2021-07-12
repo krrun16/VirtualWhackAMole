@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class JoyconHammer : MonoBehaviour
 {
@@ -49,4 +50,44 @@ public class JoyconHammer : MonoBehaviour
 			}
 		}
 	}
+
+	void rightVibrate()
+    {
+		if (joycons.Count > 0)
+        {
+			for (int i = 0; i < joycons.Count; i++)
+            {
+				if (joycons.ElementAt(i).isLeft)
+                {
+					continue;
+                }
+
+				if (!joycons.ElementAt(i).isLeft)
+                {
+					joycons.ElementAt(i).SetRumble(160, 320, 0.6f, 200);
+				}
+            }
+        }
+    }
+
+	void leftVibrate()
+    {
+		if (joycons.Count > 0)
+		{
+			for (int i = 0; i < joycons.Count; i++)
+			{
+				if (joycons.ElementAt(i).isLeft)
+				{
+					joycons.ElementAt(i).SetRumble(160, 320, 0.6f, 200);
+				}
+
+				if (!joycons.ElementAt(i).isLeft)
+				{
+					continue;
+				}
+			}
+		}
+	}
+
 }
+
