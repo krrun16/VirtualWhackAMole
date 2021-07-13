@@ -64,6 +64,7 @@ public class JoyconHammer : MonoBehaviour
 
 				if (!joycons.ElementAt(i).isLeft)
                 {
+					Debug.Log("This ran.");
 					joycons.ElementAt(i).SetRumble(160, 320, 0.6f, 200);
 				}
             }
@@ -78,6 +79,7 @@ public class JoyconHammer : MonoBehaviour
 			{
 				if (joycons.ElementAt(i).isLeft)
 				{
+					Debug.Log("This ran.");
 					joycons.ElementAt(i).SetRumble(160, 320, 0.6f, 200);
 				}
 

@@ -54,19 +54,19 @@ public class HammerController : MonoBehaviour
                 if (mole.name == col.gameObject.name)
                 {
                     mole.HitMole();
-
-                    // Hit vibration using tag of 
-                    if (gameObject.CompareTag("rightHammer"))
-                    {
-                        JoyconHammer.rightVibrate();
-                    }
-                    else
-                    {
-                        JoyconHammer.leftVibrate();
-                    }
                 }
             }
+        }
 
+
+        // Hit vibration using tag of 
+        if (gameObject.CompareTag("rightHammer"))
+        {
+            JoyconHammer.rightVibrate();
+        }
+        else
+        {
+            JoyconHammer.leftVibrate();
         }
     }
 
