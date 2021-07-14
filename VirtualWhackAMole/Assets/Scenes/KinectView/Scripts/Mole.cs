@@ -118,6 +118,7 @@ public class Mole : MonoBehaviour
     public void GiveImperativeHint()
     {
         List<AudioSource> imperativeHint = new List<AudioSource>();
+        imperativeHint.Add(GetDeclarativeHint());  //adds piano tone to imperative hints.
         imperativeHint = GetImperativeHint();
         StartCoroutine(playAudioSequentially(imperativeHint));
     }
