@@ -97,8 +97,16 @@ public class GameController : MonoBehaviour
                 {
                     targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
                     moleName = targetMole.name;
-                    targetMole.GiveImperativeHint();
-                    targetMole.playingHint = true;
+                    if (levelCounter < 2)
+                    {
+                        targetMole.GiveImperativeHint();
+                        targetMole.playingHint = true;
+                    }
+                    else
+                    {
+                        targetMole.GiveNonVerbalHint();
+                        targetMole.playingHint = true;
+                    }
                 }
                 yield return new WaitUntil(() => targetMole.playingHint == false);  //when hint done playing, show mole.
                 targetMole.ShowMole();
