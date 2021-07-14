@@ -114,7 +114,12 @@ public class Mole : MonoBehaviour
         declarativeHint.Add(GetDeclarativeHint());
         StartCoroutine(playAudioSequentially(declarativeHint));
     }
-
+    public void GiveNonVerbalHint()  //used to return only piano notes
+    {
+        List<AudioSource> declarativeHint = new List<AudioSource>();
+        declarativeHint.Add(GetNonVerbalHint());
+        StartCoroutine(playAudioSequentially(declarativeHint));
+    }
     public void GiveImperativeHint()
     {
         List<AudioSource> imperativeHint = new List<AudioSource>();
@@ -267,6 +272,39 @@ public class Mole : MonoBehaviour
             return headHintSound;
         }
     }
+
+
+    private AudioSource GetNonVerbalHint() //used to return only piano notes 
+    {
+        if (transform.parent.localPosition.y < -1.5)
+        {
+           
+            return hipNote;
+        }
+        else if (transform.parent.localPosition.y >= -1.5 && transform.parent.localPosition.y < -.5)
+        {
+           
+            return stomachNote;
+        }
+        else if (transform.parent.localPosition.y >= -.5 && transform.parent.localPosition.y < .5)
+        {
+          
+            return chestNote;
+        }
+        else if (transform.parent.localPosition.y >= .5 && transform.parent.localPosition.y < 1.5)
+        {
+            
+            return neckNote;
+        }
+        else
+        {
+
+            return headNote;
+        }
+    }
+
+
+
 
     // Returns a list of audio source instructions needed for imperative hint
     private List<AudioSource> GetImperativeHint()

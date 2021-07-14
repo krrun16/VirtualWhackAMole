@@ -82,9 +82,16 @@ public class GameController : MonoBehaviour
                 {
                     targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
                     moleName = targetMole.name;
-                    targetMole.GiveDeclarativeHint();   
-                    targetMole.playingHint = true;
-                   
+                    if (levelCounter < 2)
+                    {
+                        targetMole.GiveDeclarativeHint();
+                        targetMole.playingHint = true;
+                    }
+                    else
+                    {
+                        targetMole.GiveNonVerbalHint();
+                        targetMole.playingHint = true;
+                    }
                 }
                 else if (hintType == "Imperative")  
                 {
