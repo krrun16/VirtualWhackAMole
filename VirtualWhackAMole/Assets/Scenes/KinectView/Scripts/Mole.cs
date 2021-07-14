@@ -166,7 +166,11 @@ public class Mole : MonoBehaviour
             hitMoleSound.Play();
             StopShowSound();
 
+            // Vibration On Hit
+
+
             // 50% chance that we get a complimentary audio after a hit
+
             if (UnityEngine.Random.Range(1, 4) > 2)
             {
                 switch (UnityEngine.Random.Range(0, 4))
@@ -188,8 +192,8 @@ public class Mole : MonoBehaviour
                         break;
                 }
             }
-
-
+            
+        
 
             // Increment score twice because mole was hit
             GameController.incrementScore();
