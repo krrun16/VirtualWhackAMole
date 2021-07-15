@@ -115,14 +115,19 @@ public class GameController : MonoBehaviour
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
 
                 timer = 0f;
-              //  if (levelCounter < 4)
-              //  {
-                    yield return new WaitUntil(() => timer > 1.25 || targetMole.isHit == true);
-               // }
-               // else
-                //{
-                 //   yield return new WaitUntil(() => timer > 1 || targetMole.isHit == true); //if level greater than 4, mole up for 50% less time.
-               // }
+               // if-statements to handle mole time
+                if (levelCounter > 4 && levelCounter < 6)
+                {
+                   yield return new WaitUntil(() => timer > 1.25 || targetMole.isHit == true);
+                }
+                else if(levelCounter >=6)
+                {
+                    yield return new WaitUntil(() => timer > 1 || targetMole.isHit == true); //probably too fast
+                }
+                else
+                {
+                   yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true); 
+                }
                 if (targetMole.isHit != true)
                 {
                     moleHit = "no";
