@@ -54,6 +54,9 @@ public class hipPlane : MonoBehaviour
         Vector3 normalVector = Vector3.Cross(side1, side2);
 
         //Calculate the position of the board using centroid of leftthip, right hip, and centerFeet
+        Debug.Log(leftHip.X);
+        Debug.Log(leftHip.Y);
+        Debug.Log(leftHip.Z);
         float xPos = (leftHip.X + rightHip.X + centerFeetX)/3;
         float yPos = (leftHip.Y + rightHip.Y + centerFeetY)/3;
         float zPos = (leftHip.Z + rightHip.Z + centerFeetZ)/3;
