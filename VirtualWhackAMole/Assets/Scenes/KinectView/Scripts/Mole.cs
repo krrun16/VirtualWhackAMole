@@ -111,6 +111,7 @@ public class Mole : MonoBehaviour
     public void GiveDeclarativeHint()
     {
         List<AudioSource> declarativeHint = new List<AudioSource>();
+        declarativeHint.Add(GetPianoNotes());
         declarativeHint.Add(GetDeclarativeHint());
         StartCoroutine(playAudioSequentially(declarativeHint));
     }
@@ -118,8 +119,9 @@ public class Mole : MonoBehaviour
     public void GiveImperativeHint()
     {
         List<AudioSource> imperativeHint = new List<AudioSource>();
-        imperativeHint.Add(GetDeclarativeHint());  //adds piano tone to imperative hints.
+      
         imperativeHint = GetImperativeHint();
+        imperativeHint.Add(GetPianoNotes());  //adds piano tone to imperative hints.
         StartCoroutine(playAudioSequentially(imperativeHint));
     }
 
@@ -240,39 +242,68 @@ public class Mole : MonoBehaviour
     }
 
     // Returns the declarative hint
-    private AudioSource GetDeclarativeHint() 
+    private AudioSource GetDeclarativeHint()
     {
         if (transform.parent.localPosition.y < -1.5)
         {
-            BucketSoundHorizontal(hipNote);
-            hipNote.Play();
-           return hipsHintSound;  
+            return hipsHintSound;
         }
         else if (transform.parent.localPosition.y >= -1.5 && transform.parent.localPosition.y < -.5)
         {
-            BucketSoundHorizontal(stomachNote);
-            stomachNote.Play();
             return stomachHintSound;
         }
         else if (transform.parent.localPosition.y >= -.5 && transform.parent.localPosition.y < .5)
         {
-            BucketSoundHorizontal(chestNote);
-            chestNote.Play();
             return chestHintSound;
         }
         else if (transform.parent.localPosition.y >= .5 && transform.parent.localPosition.y < 1.5)
         {
-            BucketSoundHorizontal(neckNote);
-            neckNote.Play();
             return neckHintSound;
         }
         else
         {
-            BucketSoundHorizontal(headNote);
-            headNote.Play();
-            return headHintSound;
+           return headHintSound;
         }
     }
+
+    private AudioSource GetPianoNotes()
+    {
+        if (transform.parent.localPosition.y < -1.5)
+        {
+            BucketSoundHorizontal(hipNote);
+            return hipNote;
+        }
+        else if (transform.parent.localPosition.y >= -1.5 && transform.parent.localPosition.y < -.5)
+        {
+            BucketSoundHorizontal(stomachNote);
+            return stomachNote;
+        }
+        else if (transform.parent.localPosition.y >= -.5 && transform.parent.localPosition.y < .5)
+        {
+            BucketSoundHorizontal(chestNote);
+            return chestNote;
+        }
+        else if (transform.parent.localPosition.y >= .5 && transform.parent.localPosition.y < 1.5)
+        {
+            BucketSoundHorizontal(neckNote);
+            return neckNote;
+        }
+        else
+        {
+            BucketSoundHorizontal(headNote);
+            return headNote;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
     // Returns a list of audio source instructions needed for imperative hint
     private List<AudioSource> GetImperativeHint()
