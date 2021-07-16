@@ -249,26 +249,31 @@ public class Mole : MonoBehaviour
     {
         if (transform.parent.localPosition.y < -1.5)
         {
+            BucketSoundHorizontal(hipNote);
             hipNote.Play();
            return hipsHintSound;  
         }
         else if (transform.parent.localPosition.y >= -1.5 && transform.parent.localPosition.y < -.5)
         {
+            BucketSoundHorizontal(stomachNote);
             stomachNote.Play();
             return stomachHintSound;
         }
         else if (transform.parent.localPosition.y >= -.5 && transform.parent.localPosition.y < .5)
         {
+            BucketSoundHorizontal(chestNote);
             chestNote.Play();
             return chestHintSound;
         }
         else if (transform.parent.localPosition.y >= .5 && transform.parent.localPosition.y < 1.5)
         {
+            BucketSoundHorizontal(neckNote);
             neckNote.Play();
             return neckHintSound;
         }
         else
         {
+            BucketSoundHorizontal(headNote);
             headNote.Play();
             return headHintSound;
         }
