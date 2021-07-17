@@ -112,7 +112,7 @@ public class GameController : MonoBehaviour
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
                 timer = 0f;
              
-                    yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+                yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
                 
                 if (targetMole.isHit != true)
                 {
