@@ -317,6 +317,7 @@ public class Mole : MonoBehaviour
         //Determine the hand to give instructions for
         if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) 
         {
+            
             if (PlayerPrefs.GetString("DominantHand") == "Left") //if dominant hand is left:
             {
                 if (UnityEngine.Random.Range(1, 4) > 2)     //if num in range greater than 2

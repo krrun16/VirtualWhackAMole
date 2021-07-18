@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
-        molesLeft = int.MaxValue;     //molesLeft set to infinity
+        molesLeft = 40;   
         hintType = PlayerPrefs.GetString("HintType");
         StartCoroutine(GameLogic());
     }
@@ -51,29 +51,24 @@ public class GameController : MonoBehaviour
     private IEnumerator GameLogic()
     {
         int counter = 0;
-        int totalCounter = 0;
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
-
-           if(counter ==5 && totalCounter <40) //Added 15Jul21
+            //if player hits 5 moles, they advance to another window.
+           if(counter ==5 && molesLeft != 0) 
            {
                nextLevel.Play();
                counter = 0;   
            }
 
-           
             // if no moles left, we can write our data to an excel file
-            if (totalCounter == 40)         // changed from:  if (molesLeft == 0)
+            if (molesLeft == 0)         
                 {
                 CsvReadWrite.writeData();
                 endMusic.Play();
                 yield return new WaitForSeconds(3.0f);
                 textToSpeech.SetActive(true);
-                molesLeft = 0;
-               
-               
-            }
+                }
             // otherwise, continue providing moles as usual
             else
             {
@@ -134,7 +129,6 @@ public class GameController : MonoBehaviour
                         moleHit = "yes";
                         totalHit++;
                         counter++;
-                        totalCounter++;
                         yield return new WaitUntil(() => (targetMole.timeHit != 0));
                         timeTaken = (targetMole.timeHit - timeSent) * .001f;
                         CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
