@@ -72,15 +72,14 @@ public class GameController : MonoBehaviour
                 {
                     outOfBounds.Play();
                     audioTimer -= 3.5f;
-                }
-
+                
                 yield return null;
             }
 
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(1.5f);
 
             //if player hits 5 moles, they advance to another window.
-           if(counter ==5 && molesLeft != 0) 
+           if(counter == 5 && molesLeft != 0) 
            {
                nextLevel.Play();
                counter = 0;   
@@ -167,7 +166,7 @@ public class GameController : MonoBehaviour
 
                     }
                     // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);  
+                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score);  
 
                 } 
                 else 
@@ -178,7 +177,7 @@ public class GameController : MonoBehaviour
                         counter++;
                         yield return new WaitUntil(() => (targetMole.timeHit != 0));
                         timeTaken = (targetMole.timeHit - timeSent) * .001f;
-                        CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
+                        CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, score);
 
                         targetMole.isHit = false;
                     

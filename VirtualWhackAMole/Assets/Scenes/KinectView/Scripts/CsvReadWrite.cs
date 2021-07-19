@@ -9,8 +9,7 @@ using System;
 
 public class CsvReadWrite : MonoBehaviour
 {
-
-
+    
     public static List<string[]> rowData = new List<string[]>();
     public static int currentRow = 0;
 
@@ -28,21 +27,23 @@ public class CsvReadWrite : MonoBehaviour
 
     public static void headerFields()
     {
-        string[] rowDataTemp = new string[5];
+        string[] rowDataTemp = new string[6];
         //Logging to excel document: 
         //1) where the mole emerges, 
         //2) whether the mole is hit 
         //3) if 2 is yes, then time from the mole emerging to the time it is hit
         //4) total moles hit
+        //5) hand that hit the mole
         rowDataTemp[0] = "Location Of Mole";
         rowDataTemp[1] = "Mole Hit?";
         rowDataTemp[2] = "Time Taken (emerge - hit)";
         rowDataTemp[3] = "Total Moles Hit";
         rowDataTemp[4] = "Score";
+        rowDataTemp[5] = "Hand Hit With";
         rowData.Add(rowDataTemp);
     }
 
-    public static void addRow(string location, string wasHit, double time, int total, int Score)
+    public static void addRow(string location, string wasHit, string handHit, double time, int total, int Score)
     {
         
        
@@ -50,16 +51,18 @@ public class CsvReadWrite : MonoBehaviour
         {
             headerFields();
         }
-        string[] rowDataTemp = new string[5];
+        string[] rowDataTemp = new string[6];
         rowDataTemp[0] = location;
         rowDataTemp[1] = wasHit;
         if (wasHit == "no")
         {
             rowDataTemp[2] = "X";
+            rowDataTemp[5] = "X";
         }
         else
         {
-            rowDataTemp[2] = time.ToString(); 
+            rowDataTemp[2] = time.ToString();
+            rowDataTemp[5] = handHit;
         }
         rowDataTemp[3] = total.ToString();
         rowDataTemp[4] = Score.ToString();

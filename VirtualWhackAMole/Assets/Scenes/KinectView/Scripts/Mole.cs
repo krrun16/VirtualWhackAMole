@@ -43,6 +43,7 @@ public class Mole : MonoBehaviour
     public bool isHit;
     public bool playingHint;
     public double timeHit;
+    public static string handHit;
 
     public AudioSource awesome; 
     public AudioSource congrats;
@@ -156,6 +157,7 @@ public class Mole : MonoBehaviour
             {
                 return;
             }
+
             //Retract Mole
             endPosition = inPosition;
             transform.localPosition = endPosition;
@@ -167,9 +169,6 @@ public class Mole : MonoBehaviour
             //Play hit sound, stop mole sound
             hitMoleSound.Play();
             StopShowSound();
-
-            // Vibration On Hit
-
 
             // 50% chance that we get a complimentary audio after a hit
 
@@ -194,8 +193,6 @@ public class Mole : MonoBehaviour
                         break;
                 }
             }
-            
-        
 
             // Increment score twice because mole was hit
             GameController.incrementScore();
@@ -454,4 +451,10 @@ public class Mole : MonoBehaviour
 
         return squareDistance;
     }
+
+    public string getHandHit()
+    {
+        return handHit;
+    }
+
 }
