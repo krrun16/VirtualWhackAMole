@@ -120,7 +120,6 @@ public class BodySourceView : MonoBehaviour
         
     }
 
-
     private GameObject CreateBodyObject(ulong id)
     {
         GameObject body = new GameObject("Body:" + id);
