@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
     private int molesLeft;
     private float timer = 0f;
 
+    private float oldLeftHipX = 0;
+    private float oldRightHipX = 0;
+
     string moleName;
     private static string moleHit;
     private static double timeTaken;
@@ -23,6 +26,7 @@ public class GameController : MonoBehaviour
     public GameObject textToSpeech;
     public AudioSource endMusic;
     public AudioSource nextLevel;
+    public AudioSource outOfBounds;
 
     
 
@@ -43,23 +47,45 @@ public class GameController : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
+        
     }
 
     private IEnumerator GameLogic()
     {
-        int counter = 0;        
+        int counter = 0;
         int levelCounter = 0;
+
+        // Testing timer 
+        float audioTimer = 0f;
+
         yield return new WaitForSeconds(5.0f);
 
+       
         while (molesLeft > -1)
         {
-            while (BodySourceView.leftHipPosition.X == 0 || BodySourceView.rightHipPosition.X == 0)
+            // Record the old hip positions, if they are the same after an iteration the hips have moved off camera and are no longer tracked
+            // If the hips never began to track they will be 0 from the start (Might be able to get away with removing the zero part
+            oldLeftHipX = BodySourceView.leftHipPosition.X;
+            oldRightHipX = BodySourceView.rightHipPosition.X;
+            
+            while ((BodySourceView.leftHipPosition.X == 0 && BodySourceView.rightHipPosition.X == 0) || (BodySourceView.leftHipPosition.X == oldLeftHipX && BodySourceView.rightHipPosition.X == oldRightHipX))
             {
-                Debug.Log("Please step into camera view.");
+
+                Debug.Log("Out of bounds");
+
+                audioTimer += Time.deltaTime;
+                if (audioTimer >= 3.5f)
+                {
+                    outOfBounds.Play();
+                    audioTimer -= 3.5f;
+                }
+
                 yield return null;
             }
 
-            if(counter == 5 && levelCounter < 6) //ADDED 9JUL21: Sets total moles player can hit to 40, hit amount per window to 5
+            yield return new WaitForSeconds(3.0f);
+
+            if (counter == 5 && levelCounter < 6) //ADDED 9JUL21: Sets total moles player can hit to 40, hit amount per window to 5
             {
 
                 nextLevel.Play();
