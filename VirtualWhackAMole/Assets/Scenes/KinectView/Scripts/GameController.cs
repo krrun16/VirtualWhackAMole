@@ -55,14 +55,14 @@ public class GameController : MonoBehaviour
         int counter = 0;
         int levelCounter = 0;
         float audioTimer = 0f;
-       
+
         while (molesLeft > -1)
         {
             // Record the old hip positions, if they are the same after an iteration the hips have moved off camera and are no longer tracked
             // If the hips never began to track they will be 0 from the start (Might be able to get away with removing the zero part
             oldLeftHipX = BodySourceView.leftHipPosition.X;
             oldRightHipX = BodySourceView.rightHipPosition.X;
-            
+
             while ((BodySourceView.leftHipPosition.X == 0 && BodySourceView.rightHipPosition.X == 0) || (BodySourceView.leftHipPosition.X == oldLeftHipX && BodySourceView.rightHipPosition.X == oldRightHipX))
             {
                 Debug.Log("Out of bounds");
@@ -72,106 +72,106 @@ public class GameController : MonoBehaviour
                 {
                     outOfBounds.Play();
                     audioTimer -= 3.5f;
-                
-                yield return null;
-            }
 
-            yield return new WaitForSeconds(1.5f);
-
-            //if player hits 5 moles, they advance to another window.
-           if(counter == 5 && molesLeft != 0) 
-           {
-               nextLevel.Play();
-               counter = 0;   
-           }
-
-            if (counter == 5 && levelCounter < 6) //ADDED 9JUL21: Sets total moles player can hit to 40, hit amount per window to 5
-            {
-                nextLevel.Play();
-                counter = 0;
-                levelCounter++;
-                molesLeft = 10; 
-            }
-        
-            // if no moles left, we can write our data to an excel file
-            if (molesLeft == 0) 
-            {
-                CsvReadWrite.writeData();
-                endMusic.Play();
-                yield return new WaitForSeconds(3.0f);
-                textToSpeech.SetActive(true);
-            }
-
-            // otherwise, continue providing moles as usual
-            else
-            {
-                yield return new WaitForSeconds(1.0f);
-              
-                if (hintType == "Declarative")      
-                {
-
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
-                    moleName = targetMole.name;
-                    targetMole.GiveDeclarativeHint();   
-                    targetMole.playingHint = true;
-                   
-                }
-                else if (hintType == "Imperative")  
-                {
-
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
-                    moleName = targetMole.name;
-                    targetMole.GiveImperativeHint();
-                    targetMole.playingHint = true;
-
+                    yield return null;
                 }
 
-                yield return new WaitUntil(() => targetMole.playingHint == false);  //when hint done playing, show mole.
-                targetMole.ShowMole();
+                yield return new WaitForSeconds(1.5f);
 
-                //get time that the mole was shown
-                DateTime dateTime = DateTime.Now;
-                timeSent = dateTime.TimeOfDay.TotalMilliseconds;
-                timer = 0f;
-             
-                yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
-                
-                if (targetMole.isHit != true)
+                //if player hits 5 moles, they advance to another window.
+                if (counter == 5 && molesLeft != 0)
                 {
+                    nextLevel.Play();
+                    counter = 0;
+                }
 
-                    moleHit = "no";
+                if (counter == 5 && levelCounter < 6) //ADDED 9JUL21: Sets total moles player can hit to 40, hit amount per window to 5
+                {
+                    nextLevel.Play();
+                    counter = 0;
+                    levelCounter++;
+                    molesLeft = 10;
+                }
 
-                    //if mole wasn't hit, set timeTaken to -1 
-                    timeTaken = -1;
-                    targetMole.MissMole();
-                    targetMole.HideMole();
+                // if no moles left, we can write our data to an excel file
+                if (molesLeft == 0)
+                {
+                    CsvReadWrite.writeData();
+                    endMusic.Play();
+                    yield return new WaitForSeconds(3.0f);
+                    textToSpeech.SetActive(true);
+                }
 
-                    // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
-                    Vector3 leftPos = leftHammer[0].transform.position;
-                    Vector3 rightPos = rightHammer[0].transform.position;
-                    float dist = Vector3.Distance(targetMole.transform.position, leftPos);
-                    float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
+                // otherwise, continue providing moles as usual
+                else
+                {
+                    yield return new WaitForSeconds(1.0f);
 
-                    //check if hammer was in neighboring square
-                    if ((dist <= dist2) & dist < .4572f)
+                    if (hintType == "Declarative")
                     {
 
-                        incrementScore();
+                        targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        moleName = targetMole.name;
+                        targetMole.GiveDeclarativeHint();
+                        targetMole.playingHint = true;
 
                     }
-                    else if (dist2 <= .4572f) 
+                    else if (hintType == "Imperative")
                     {
 
-                        incrementScore();
+                        targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        moleName = targetMole.name;
+                        targetMole.GiveImperativeHint();
+                        targetMole.playingHint = true;
 
                     }
-                    // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score);  
 
-                } 
-                else 
-                {
-                  
+                    yield return new WaitUntil(() => targetMole.playingHint == false);  //when hint done playing, show mole.
+                    targetMole.ShowMole();
+
+                    //get time that the mole was shown
+                    DateTime dateTime = DateTime.Now;
+                    timeSent = dateTime.TimeOfDay.TotalMilliseconds;
+                    timer = 0f;
+
+                    yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+
+                    if (targetMole.isHit != true)
+                    {
+
+                        moleHit = "no";
+
+                        //if mole wasn't hit, set timeTaken to -1 
+                        timeTaken = -1;
+                        targetMole.MissMole();
+                        targetMole.HideMole();
+
+                        // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
+                        Vector3 leftPos = leftHammer[0].transform.position;
+                        Vector3 rightPos = rightHammer[0].transform.position;
+                        float dist = Vector3.Distance(targetMole.transform.position, leftPos);
+                        float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
+
+                        //check if hammer was in neighboring square
+                        if ((dist <= dist2) & dist < .4572f)
+                        {
+
+                            incrementScore();
+
+                        }
+                        else if (dist2 <= .4572f)
+                        {
+
+                            incrementScore();
+
+                        }
+                        // add data to row
+                        CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score);
+
+                    }
+                    else
+                    {
+
                         moleHit = "yes";
                         totalHit++;
                         counter++;
@@ -180,23 +180,24 @@ public class GameController : MonoBehaviour
                         CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, score);
 
                         targetMole.isHit = false;
-                    
+
+                    }
                 }
+                if (UnityEngine.Random.Range(1, 4) == 1 && molesLeft > 1)
+                {
+
+                    yield return new WaitForSeconds(1.0f);
+                    textToSpeech.SetActive(true);
+                    yield return new WaitForSeconds(3.0f);
+                    textToSpeech.SetActive(false);
+
+                }
+
+                targetMole.timeHit = 0;
+                molesLeft -= 1;
             }
-            if (UnityEngine.Random.Range(1, 4) == 1 && molesLeft > 1)
-            {
 
-                yield return new WaitForSeconds(1.0f);
-                textToSpeech.SetActive(true);
-                yield return new WaitForSeconds(3.0f);
-                textToSpeech.SetActive(false);
-
-            }
-
-            targetMole.timeHit = 0;
-            molesLeft -= 1;
         }
-
     }
 
 
