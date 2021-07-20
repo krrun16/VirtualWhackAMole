@@ -52,6 +52,7 @@ public class GameController : MonoBehaviour
     {
         int counter = 0;
         int totalCounter = 0;
+        int levelCounter = 0;
         yield return new WaitForSeconds(5.0f);
         while (molesLeft > -1)
         {
