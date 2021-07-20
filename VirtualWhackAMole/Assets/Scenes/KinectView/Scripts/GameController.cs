@@ -14,8 +14,8 @@ public class GameController : MonoBehaviour
     private int molesLeft;
     private float timer = 0f;
 
-    private float oldLeftHipX = 0;
-    private float oldRightHipX = 0;
+    private float oldLeftHipX ;
+    private float oldRightHipX;
 
     string moleName;
     private static string moleHit;
@@ -62,7 +62,6 @@ public class GameController : MonoBehaviour
             // If the hips never began to track they will be 0 from the start (Might be able to get away with removing the zero part
             oldLeftHipX = BodySourceView.leftHipPosition.X;
             oldRightHipX = BodySourceView.rightHipPosition.X;
-
             while ((BodySourceView.leftHipPosition.X == 0 && BodySourceView.rightHipPosition.X == 0) || (BodySourceView.leftHipPosition.X == oldLeftHipX && BodySourceView.rightHipPosition.X == oldRightHipX))
             {
                 Debug.Log("Out of bounds");
@@ -72,9 +71,10 @@ public class GameController : MonoBehaviour
                 {
                     outOfBounds.Play();
                     audioTimer -= 3.5f;
-
-                    yield return null;
                 }
+
+                yield return null;
+            }
 
                 yield return new WaitForSeconds(1.5f);
 
@@ -116,6 +116,7 @@ public class GameController : MonoBehaviour
                         targetMole.playingHint = true;
 
                     }
+
                     else if (hintType == "Imperative")
                     {
 
@@ -183,6 +184,7 @@ public class GameController : MonoBehaviour
 
                     }
                 }
+                }
                 if (UnityEngine.Random.Range(1, 4) == 1 && molesLeft > 1)
                 {
 
@@ -195,9 +197,6 @@ public class GameController : MonoBehaviour
 
                 targetMole.timeHit = 0;
                 molesLeft -= 1;
-            }
-
-        }
     }
 
 
