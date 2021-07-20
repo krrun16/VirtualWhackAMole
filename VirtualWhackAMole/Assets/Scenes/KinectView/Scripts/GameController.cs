@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
     public AudioSource endMusic;
     public AudioSource nextLevel;
     public AudioSource outOfBounds;
+    public AudioSource soClose;
 
     
 
@@ -53,7 +54,6 @@ public class GameController : MonoBehaviour
     private IEnumerator GameLogic()
     {
         int counter = 0;
-        int levelCounter = 0;
         float audioTimer = 0f;
 
         while (molesLeft > -1)
@@ -83,14 +83,6 @@ public class GameController : MonoBehaviour
                 {
                     nextLevel.Play();
                     counter = 0;
-                }
-
-                if (counter == 5 && levelCounter < 6) //ADDED 9JUL21: Sets total moles player can hit to 40, hit amount per window to 5
-                {
-                    nextLevel.Play();
-                    counter = 0;
-                    levelCounter++;
-                    molesLeft = 10;
                 }
 
                 // if no moles left, we can write our data to an excel file
@@ -157,12 +149,14 @@ public class GameController : MonoBehaviour
                         {
 
                             incrementScore();
+                            soClose.Play();
 
                         }
                         else if (dist2 <= .4572f)
                         {
 
                             incrementScore();
+                            soClose.Play();
 
                         }
                         // add data to row
