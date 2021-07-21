@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Random = System.Random;
+using System.Threading;
 
 
 //using System.Speech.Synthesis;
@@ -120,12 +121,11 @@ public class Mole : MonoBehaviour
     public void GiveImperativeHint()
     {
         List<AudioSource> imperativeHint = new List<AudioSource>();
-      
         imperativeHint = GetImperativeHint();
-        imperativeHint.Add(GetPianoNotes());  //adds piano tone to imperative hints.
         StartCoroutine(playAudioSequentially(imperativeHint));
     }
 
+   
     // Plays audio sources in order and without overlap
     IEnumerator playAudioSequentially(List<AudioSource> hints)
     {
@@ -295,21 +295,15 @@ public class Mole : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
     // Returns a list of audio source instructions needed for imperative hint
-    private List<AudioSource> GetImperativeHint()
+    private List <AudioSource> GetImperativeHint() 
     {
         int[] squaresAway = SquareDistance();
         int squaresAwayVertical = squaresAway[0];
         int squaresAwayHorizontal = squaresAway[1];
         List<AudioSource> imperativeHint = new List<AudioSource>();
-       
+        imperativeHint.Add(GetPianoNotes());
+
 
         //Determine the hand to give instructions for
         if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) 
@@ -319,11 +313,13 @@ public class Mole : MonoBehaviour
             {
                 if (UnityEngine.Random.Range(1, 4) > 2)     //if num in range greater than 2
                 {
-                    imperativeHint.Add(moleSounds[18]); // play "left hand"                             
+                    imperativeHint.Add(moleSounds[18]); // play "left hand"  
+                   
                 }
                 else //if num in range less than 2: play "right hand"
                 {
                     imperativeHint.Add(moleSounds[17]);
+                    
                 }
             }
             else
@@ -331,26 +327,31 @@ public class Mole : MonoBehaviour
                 if (UnityEngine.Random.Range(1, 4) > 2)
                 {
                     imperativeHint.Add(moleSounds[17]); // play "right hand"
+                   
                 }
                 else
                 {
                     imperativeHint.Add(moleSounds[18]); //play "left hand"
+                    
                 }
             }
         }
         else if (transform.parent.localPosition.z < -.5)
         {
             imperativeHint.Add(moleSounds[18]); //"left hand"
+            
         }
         else
         {
             imperativeHint.Add(moleSounds[17]); //"right hand"
+            
         }
 
         if (squaresAwayVertical == 0 && squaresAwayHorizontal == 0)
         {
             imperativeHint.Add(moleSounds[15]);
             return imperativeHint;
+            
             // return You're in the right spot
         }
         
@@ -360,6 +361,7 @@ public class Mole : MonoBehaviour
         {
             imperativeHint.Add(moleSounds[20]);
             return imperativeHint;
+            
         }
 
 
@@ -374,7 +376,7 @@ public class Mole : MonoBehaviour
         if (squaresAwayVertical < 0)
         {
             imperativeHint.Add(moleSounds[12]);
-            // Add Audio clip down
+           // Add Audio clip down
         }
         else if(squaresAwayVertical > 0 )
         {
@@ -413,11 +415,15 @@ public class Mole : MonoBehaviour
             imperativeHint.Add(moleSounds[7]);
         }
 
-       
-       
+        
         return imperativeHint;
     }
+
     
+
+
+
+
     private int[] SquareDistance()
     {
         //What hammer to determine distance from
