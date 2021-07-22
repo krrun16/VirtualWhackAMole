@@ -14,8 +14,8 @@ public class GameController : MonoBehaviour
     private int molesLeft;
     private float timer = 0f;
 
-    private float oldLeftHipX = 0;
-    private float oldRightHipX = 0;
+    private float oldLeftHipX ;
+    private float oldRightHipX;
 
     string moleName;
     private static string moleHit;
@@ -64,7 +64,6 @@ public class GameController : MonoBehaviour
             // If the hips never began to track they will be 0 from the start (Might be able to get away with removing the zero part
             oldLeftHipX = BodySourceView.leftHipPosition.X;
             oldRightHipX = BodySourceView.rightHipPosition.X;
-
             while ((BodySourceView.leftHipPosition.X == 0 && BodySourceView.rightHipPosition.X == 0) || (BodySourceView.leftHipPosition.X == oldLeftHipX && BodySourceView.rightHipPosition.X == oldRightHipX))
             {
                 //each time mole
@@ -77,12 +76,16 @@ public class GameController : MonoBehaviour
                 {
                     outOfBounds.Play();
                     audioTimer -= 3.5f;
-
-                    yield return null;
                 }
                
 
+
                     yield return new WaitForSeconds(1.5f);
+
+                yield return null;
+            }
+
+               
 
                     // if no moles left, we can write our data to an excel file
                     if (molesLeft == 0)
@@ -115,7 +118,9 @@ public class GameController : MonoBehaviour
                             targetMole.GiveImperativeHint();
                             targetMole.playingHint = true;
 
+
                         }
+
 
                         yield return new WaitUntil(() => targetMole.playingHint == false);  //when hint done playing, show mole.
                         targetMole.ShowMole();
@@ -188,6 +193,7 @@ public class GameController : MonoBehaviour
 
                     }
 
+
                     targetMole.timeHit = 0;
                     molesLeft -= 1;
 
@@ -196,6 +202,7 @@ public class GameController : MonoBehaviour
                 {
                     firstWindowMoleHit = 1;
                 }
+
 
                 if(counter ==3 && totalMoles <= moleCap && molesLeft !=0)
                 {
@@ -215,6 +222,8 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        
+
     }
 
 
@@ -227,4 +236,4 @@ public class GameController : MonoBehaviour
     {
         return score;
     }
-}
+
