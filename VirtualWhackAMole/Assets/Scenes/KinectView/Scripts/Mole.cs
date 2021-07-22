@@ -117,12 +117,7 @@ public class Mole : MonoBehaviour
         declarativeHint.Add(GetDeclarativeHint());
         StartCoroutine(playAudioSequentially(declarativeHint));
     }
-    public void GiveNonVerbalHint()  //used to return only piano notes
-    {
-        List<AudioSource> declarativeHint = new List<AudioSource>();
-        declarativeHint.Add(GetNonVerbalHint());
-        StartCoroutine(playAudioSequentially(declarativeHint));
-    }
+    
     public void GiveImperativeHint()
     {
         List<AudioSource> imperativeHint = new List<AudioSource>();

@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
         int totalMoles = 0;
         int moleCap = 5;
         int firstWindowMoleHit = 0;
-
+        int levelCounter = 1;
 
         while (molesLeft > -1)
         {
@@ -104,12 +104,19 @@ public class GameController : MonoBehaviour
 
                 if (hintType == "Declarative")
                 {
-
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
-                    moleName = targetMole.name;
-                    targetMole.GiveDeclarativeHint();
-                    targetMole.playingHint = true;
-
+                    //if level is 2 or 4, mole pops up without any hints.
+                    if (levelCounter == 2 || levelCounter ==4)
+                    {
+                        targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        moleName = targetMole.name;
+                    }
+                    else
+                    {
+                        targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        moleName = targetMole.name;
+                        targetMole.GiveDeclarativeHint();
+                        targetMole.playingHint = true;
+                    }
                 }
                 else if (hintType == "Imperative")
                 {
@@ -128,9 +135,15 @@ public class GameController : MonoBehaviour
                 DateTime dateTime = DateTime.Now;
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
                 timer = 0f;
-
-                yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
-
+                //Makes mole pop up/go down faster at levels 3 and 4
+                if (levelCounter == 3 || levelCounter == 4)
+                {
+                    yield return new WaitUntil(() => timer > 1.50 || targetMole.isHit == true);
+                }
+                else
+                {
+                    yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+                }
 
                 if (targetMole.isHit != true)
                 {
@@ -209,6 +222,7 @@ public class GameController : MonoBehaviour
                 nextLevel.Play();
                 counter = 0;
                 totalMoles = 0;
+                levelCounter++;
             }
 
             else if (counter < 3 && totalMoles >= moleCap && molesLeft != 0)
