@@ -97,10 +97,12 @@ public class GameController : MonoBehaviour
                 if (hintType == "Declarative")
                 {
                     //if level is 2 or 4, mole pops up without any hints.
-                    if (levelCounter == 2 || levelCounter ==4)
+                    if (levelCounter == 2 || levelCounter >=4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
                         moleName = targetMole.name;
+                        targetMole.GiveDeclarativeNoHint();
+                        targetMole.playingHint = true;
                     }
                     else
                     {
@@ -114,10 +116,12 @@ public class GameController : MonoBehaviour
                 else if (hintType == "Imperative")
                 {
                     //if level is 2 or 4, mole pops up without any hints.
-                    if (levelCounter == 2 || levelCounter == 4)
+                    if ( levelCounter ==2 || levelCounter >= 4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
                         moleName = targetMole.name;
+                        targetMole.GiveDeclarativeNoHint();
+                        targetMole.playingHint = true;
                     }
                     else
                     {
@@ -135,8 +139,8 @@ public class GameController : MonoBehaviour
                 DateTime dateTime = DateTime.Now;
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
                 timer = 0f;
-                //Makes mole pop up/go down faster at levels 3 and 4
-                if (levelCounter == 3 || levelCounter == 4)
+                //Makes mole pop up/go down faster at levels 3 and up
+                if (levelCounter >=3)
                 {
                     yield return new WaitUntil(() => timer > 1.50 || targetMole.isHit == true);
                 }

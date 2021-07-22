@@ -114,7 +114,15 @@ public class Mole : MonoBehaviour
         declarativeHint.Add(GetDeclarativeHint());
         StartCoroutine(playAudioSequentially(declarativeHint));
     }
-    
+
+    public void GiveDeclarativeNoHint()
+    {
+        List<AudioSource> declarativeHint = new List<AudioSource>();
+        declarativeHint.Add(GetPianoNotes());
+        StartCoroutine(playAudioSequentially(declarativeHint));
+    }
+
+
     public void GiveImperativeHint()
     {
         List<AudioSource> imperativeHint = new List<AudioSource>();
@@ -395,8 +403,6 @@ public class Mole : MonoBehaviour
 
         return imperativeHint;
     }
-
-  
 
     private int[] SquareDistance()
     {
