@@ -15,14 +15,12 @@ using System.Threading;
 
 public class Mole : MonoBehaviour
 {
-    
     public int timeMoleShowed;
     public int timeMoleHit;
 
     private float speed; 
     private Vector3 endPosition; 
     private Vector3 inPosition;
-
 
 
     private AudioSource hitMoleSound;
@@ -99,7 +97,6 @@ public class Mole : MonoBehaviour
     //BUG: Mole can not show in game but plays sound. Yet to recreeate consistently.
     public void ShowMole()
     {
-
         //Show mole
         endPosition.x += 1.5f;
 
@@ -125,7 +122,6 @@ public class Mole : MonoBehaviour
         StartCoroutine(playAudioSequentially(imperativeHint));
     }
 
-   
     // Plays audio sources in order and without overlap
     IEnumerator playAudioSequentially(List<AudioSource> hints)
     {
@@ -165,7 +161,6 @@ public class Mole : MonoBehaviour
             DateTime dateTime = DateTime.Now;
             timeHit = dateTime.TimeOfDay.TotalMilliseconds;
 
-
             //Play hit sound, stop mole sound
             hitMoleSound.Play();
             StopShowSound();
@@ -202,9 +197,7 @@ public class Mole : MonoBehaviour
 
     public void MissMole()      
     {
-        
         missMoleSound.Play();
-       
     }
 
     public void StopShowSound()
@@ -292,8 +285,6 @@ public class Mole : MonoBehaviour
         }
     }
 
-
-
     // Returns a list of audio source instructions needed for imperative hint
     private List <AudioSource> GetImperativeHint() 
     {
@@ -303,22 +294,18 @@ public class Mole : MonoBehaviour
         List<AudioSource> imperativeHint = new List<AudioSource>();
         imperativeHint.Add(GetPianoNotes());
 
-
         //Determine the hand to give instructions for
         if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) 
         {
-            
             if (PlayerPrefs.GetString("DominantHand") == "Left") //if dominant hand is left:
             {
                 if (UnityEngine.Random.Range(1, 4) > 2)     //if num in range greater than 2
                 {
                     imperativeHint.Add(moleSounds[18]); // play "left hand"  
-                   
                 }
                 else //if num in range less than 2: play "right hand"
                 {
                     imperativeHint.Add(moleSounds[17]);
-                    
                 }
             }
             else
@@ -326,45 +313,38 @@ public class Mole : MonoBehaviour
                 if (UnityEngine.Random.Range(1, 4) > 2)
                 {
                     imperativeHint.Add(moleSounds[17]); // play "right hand"
-                   
                 }
                 else
                 {
                     imperativeHint.Add(moleSounds[18]); //play "left hand"
-                    
                 }
             }
         }
         else if (transform.parent.localPosition.z < -.5)
         {
             imperativeHint.Add(moleSounds[18]); //"left hand"
-            
         }
         else
         {
             imperativeHint.Add(moleSounds[17]); //"right hand"
-            
         }
 
         if (squaresAwayVertical == 0 && squaresAwayHorizontal == 0)
         {
             imperativeHint.Add(moleSounds[15]);
             return imperativeHint;
-            
             // return You're in the right spot
         }
         
-        //Add something here to account for correct elevation, 
-
-        if(squaresAwayVertical ==0)         //25JUN21: CHANGE ADDED.
+        // Accounts for when player hand is already at the correct elevation.
+        if(squaresAwayVertical ==0)         
         {
             imperativeHint.Add(moleSounds[20]);
             return imperativeHint;
-            
         }
 
-
-        if (Math.Abs(squaresAwayVertical) > 6)  //if hand farther than 3 feet away from mole, lets user know.
+        //if hand farther than 3 feet away from mole, lets user know.
+        if (Math.Abs(squaresAwayVertical) > 6)  
         {
             imperativeHint.Add(moleSounds[16]);
             return imperativeHint;
@@ -392,7 +372,6 @@ public class Mole : MonoBehaviour
             // 2.5 feet audio clip
             imperativeHint.Add(moleSounds[26]);
         }
-
         if (Math.Abs(squaresAwayVertical) == 4)
         {
             // 2 feet audio clip
@@ -414,7 +393,6 @@ public class Mole : MonoBehaviour
             imperativeHint.Add(moleSounds[7]);
         }
 
-        
         return imperativeHint;
     }
 
