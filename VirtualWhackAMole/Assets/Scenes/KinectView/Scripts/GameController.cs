@@ -48,7 +48,6 @@ public class GameController : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        
     }
 
     private IEnumerator GameLogic()
@@ -57,9 +56,7 @@ public class GameController : MonoBehaviour
         float audioTimer = 0f;
         int totalMoles = 0;
         int moleCap = 5;
-        int[] moleArray = new int[40]; // outer array used to determine which mole is hit.
-        int[] moleArrayOutput = new int[40]; //array to determine to put mole info into.
-      //  int firstMoleHit = 0;
+       int firstWindowMoleHit = 0;
 
         while (molesLeft > -1)
         {
@@ -83,34 +80,9 @@ public class GameController : MonoBehaviour
 
                     yield return null;
                 }
-                for (int i = 0; i < moleArray.Length; i++)
-                {
+               
 
                     yield return new WaitForSeconds(1.5f);
-              
-
-                    // if(counter ==1 && totalMoles ==1)
-                    // {
-                    //    firstMoleHit = 1;
-                    // }
-
-                    //if (player hits 3 moles within a window of 5 moles, increase level.
-                    //   if (counter == 3 && totalMoles <= moleCap && molesLeft !=0)
-                    //  {
-                    //nextLevel.Play();
-                    // counter = 0;
-                    // }
-
-                    //  else if(counter <3 && totalMoles>moleCap && molesLeft !=0 )
-                    // {
-                    //   if(firstMoleHit !=0)
-                    // {
-                    //     counter = counter - 1;
-                    // }
-                    //moleCap++;
-                    // }
-
-
 
                     // if no moles left, we can write our data to an excel file
                     if (molesLeft == 0)
@@ -219,37 +191,27 @@ public class GameController : MonoBehaviour
                     targetMole.timeHit = 0;
                     molesLeft -= 1;
 
-                    if(targetMole.isHit)
+                //check if first mole in window 1 was hit
+                if(counter ==1 && totalMoles ==1)
+                {
+                    firstWindowMoleHit = 1;
+                }
+
+                if(counter ==3 && totalMoles <= moleCap && molesLeft !=0)
+                {
+                    nextLevel.Play();
+                    counter = 0; 
+                    totalMoles = 0;
+                }
+       
+                else if(counter <3 && totalMoles>=moleCap && molesLeft !=0)
+                {
+                    soClose.Play();
+                    if(firstWindowMoleHit == 1)
                     {
-                        moleArrayOutput[i] = 1;
+                        counter = counter - 1;
                     }
-                    else
-                    {
-                        moleArrayOutput[i] = 0;
-                    }
-
-                    //if player hits 3 moles in 5 mole window, next level
-                    if(counter ==3 && totalMoles <= moleCap && molesLeft !=0)
-                    {
-                        nextLevel.Play();
-                        counter = 0;
-                    }
-                    else if(counter < 3 && totalMoles >= moleCap && molesLeft !=0)
-                    {
-                        soClose.Play();
-                        if(moleArrayOutput[i-4]==0) // this is actually checking the index, not value at index
-                        {
-                            counter = counter - 1;
-                        }
-
-                        moleCap= moleCap+ 2;
-                    }
-
-
-
-
-
-
+                    totalMoles = 0;
                 }
             }
         }
