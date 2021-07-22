@@ -5,10 +5,6 @@ using System;
 
 public class GameController : MonoBehaviour
 {
-    /*Game lasts 15 moles, first mole shows after 5 seconds.
-    * Mole is shown for 2 seconds, there is a 1 second break, and another
-    * mole appears. 
-    */
     private Mole[] moles;
     private Mole targetMole;
     private static int score = 0;
@@ -17,6 +13,9 @@ public class GameController : MonoBehaviour
     private GameObject[] rightHammer;
     private int molesLeft;
     private float timer = 0f;
+
+    private float oldLeftHipX;
+    private float oldRightHipX;
 
     string moleName;
     private static string moleHit;
@@ -27,8 +26,10 @@ public class GameController : MonoBehaviour
     public GameObject textToSpeech;
     public AudioSource endMusic;
     public AudioSource nextLevel;
+    public AudioSource outOfBounds;
+    public AudioSource soClose;
 
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +38,9 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
-        molesLeft = int.MaxValue;     //molesLeft set to infinity
+        molesLeft = 40;
         hintType = PlayerPrefs.GetString("HintType");
+
         StartCoroutine(GameLogic());
     }
 
@@ -51,141 +53,185 @@ public class GameController : MonoBehaviour
     private IEnumerator GameLogic()
     {
         int counter = 0;
-        int totalCounter = 0;
-        int levelCounter = 0;
-        yield return new WaitForSeconds(5.0f);
+        float audioTimer = 0f;
+        int totalMoles = 0;
+        int moleCap = 5;
+        int firstWindowMoleHit = 0;
+
+
         while (molesLeft > -1)
         {
+            // Record the old hip positions, if they are the same after an iteration the hips have moved off camera and are no longer tracked
+            // If the hips never began to track they will be 0 from the start (Might be able to get away with removing the zero part
+            oldLeftHipX = BodySourceView.leftHipPosition.X;
+            oldRightHipX = BodySourceView.rightHipPosition.X;
+            while ((BodySourceView.leftHipPosition.X == 0 && BodySourceView.rightHipPosition.X == 0) || (BodySourceView.leftHipPosition.X == oldLeftHipX && BodySourceView.rightHipPosition.X == oldRightHipX))
+            {
+                //each time mole
 
-           if(counter ==5 && totalCounter <40) //Added 15Jul21
-           {
-               nextLevel.Play();
-               counter = 0;   
-           }
 
-           
-            // if no moles left, we can write our data to an excel file
-            if (totalCounter == 40)         // changed from:  if (molesLeft == 0)
+                Debug.Log("Out of bounds");
+
+                audioTimer += Time.deltaTime;
+                if (audioTimer >= 3.5f)
                 {
+                    outOfBounds.Play();
+                    audioTimer -= 3.5f;
+                }
+
+
+
+                yield return new WaitForSeconds(1.5f);
+
+                yield return null;
+            }
+
+
+
+            // if no moles left, we can write our data to an excel file
+            if (molesLeft == 0)
+            {
                 CsvReadWrite.writeData();
                 endMusic.Play();
                 yield return new WaitForSeconds(3.0f);
                 textToSpeech.SetActive(true);
-                molesLeft = 0;
-               
-               
             }
+
             // otherwise, continue providing moles as usual
             else
             {
-                
                 yield return new WaitForSeconds(1.0f);
-              
-                if (hintType == "Declarative")      
+
+                if (hintType == "Declarative")
                 {
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
+
+                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
                     moleName = targetMole.name;
-                    if (levelCounter < 2)
-                    {
-                        targetMole.GiveDeclarativeHint();
-                        targetMole.playingHint = true;
-                    }
-                    else
-                    {
-                        targetMole.GiveNonVerbalHint();
-                        targetMole.playingHint = true;
-                    }
+                    targetMole.GiveDeclarativeHint();
+                    targetMole.playingHint = true;
+
                 }
-                else if (hintType == "Imperative")  
+                else if (hintType == "Imperative")
                 {
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];      
+
+                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
                     moleName = targetMole.name;
-                    if (levelCounter < 2)
-                    {
-                        targetMole.GiveImperativeHint();
-                        targetMole.playingHint = true;
-                    }
-                    else
-                    {
-                        targetMole.GiveNonVerbalHint();
-                        targetMole.playingHint = true;
-                    }
+                    targetMole.GiveImperativeHint();
+                    targetMole.playingHint = true;
                 }
+
+
                 yield return new WaitUntil(() => targetMole.playingHint == false);  //when hint done playing, show mole.
                 targetMole.ShowMole();
+
                 //get time that the mole was shown
                 DateTime dateTime = DateTime.Now;
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
-
                 timer = 0f;
-               // if-statements to handle mole time
-                if (levelCounter > 4 && levelCounter < 6)
-                {
-                   yield return new WaitUntil(() => timer > 1.25 || targetMole.isHit == true);
-                }
-                else if(levelCounter >=6)
-                {
-                    yield return new WaitUntil(() => timer > 1 || targetMole.isHit == true); //probably too fast
-                }
-                else
-                {
-                   yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true); 
-                }
+
+                yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
+
+
                 if (targetMole.isHit != true)
                 {
+
                     moleHit = "no";
+
                     //if mole wasn't hit, set timeTaken to -1 
                     timeTaken = -1;
                     targetMole.MissMole();
                     targetMole.HideMole();
+                    totalMoles++; //inc totalMoles
+
                     // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
                     Vector3 leftPos = leftHammer[0].transform.position;
                     Vector3 rightPos = rightHammer[0].transform.position;
                     float dist = Vector3.Distance(targetMole.transform.position, leftPos);
                     float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
+
                     //check if hammer was in neighboring square
                     if ((dist <= dist2) & dist < .4572f)
                     {
+
                         incrementScore();
+                        soClose.Play();
+
                     }
-                    else if (dist2 <= .4572f) 
+                    else if (dist2 <= .4572f)
                     {
+
                         incrementScore();
+                        soClose.Play();
+
                     }
                     // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);  
-                } else 
-                {
-                  
-                        moleHit = "yes";
-                        totalHit++;
-                        counter++;
-                        totalCounter++;
-                        yield return new WaitUntil(() => (targetMole.timeHit != 0));
-                        timeTaken = (targetMole.timeHit - timeSent) * .001f;
-                        CsvReadWrite.addRow(moleName, moleHit, timeTaken, totalHit, score);
+                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score);
 
-                        targetMole.isHit = false;
-                    
+                }
+                else
+                {
+
+                    moleHit = "yes";
+                    totalHit++;
+                    counter++;
+                    totalMoles++; // inc total moles
+                    yield return new WaitUntil(() => (targetMole.timeHit != 0));
+                    timeTaken = (targetMole.timeHit - timeSent) * .001f;
+                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, score);
+
+                    targetMole.isHit = false;
+
                 }
             }
             if (UnityEngine.Random.Range(1, 4) == 1 && molesLeft > 1)
             {
+
                 yield return new WaitForSeconds(1.0f);
                 textToSpeech.SetActive(true);
                 yield return new WaitForSeconds(3.0f);
                 textToSpeech.SetActive(false);
+
             }
+
+
             targetMole.timeHit = 0;
             molesLeft -= 1;
+
+            //check if first mole in window 1 was hit
+            if (counter == 1 && totalMoles == 1)
+            {
+                firstWindowMoleHit = 1;
+            }
+
+
+            if (counter == 3 && totalMoles <= moleCap && molesLeft != 0)
+            {
+                nextLevel.Play();
+                counter = 0;
+                totalMoles = 0;
+            }
+
+            else if (counter < 3 && totalMoles >= moleCap && molesLeft != 0)
+            {
+                soClose.Play();
+                if (firstWindowMoleHit == 1)
+                {
+                    counter = counter - 1;
+                }
+                totalMoles = 0;
+            }
         }
     }
+
+
+
+
 
     public static void incrementScore()
     {
         score += 1;
     }
-      
+
     public static int getScore()
     {
         return score;

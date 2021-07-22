@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Random = System.Random;
+using System.Threading;
 
 
 //using System.Speech.Synthesis;
@@ -43,6 +44,7 @@ public class Mole : MonoBehaviour
     public bool isHit;
     public bool playingHint;
     public double timeHit;
+    public static string handHit;
 
     public AudioSource awesome; 
     public AudioSource congrats;
@@ -111,6 +113,7 @@ public class Mole : MonoBehaviour
     public void GiveDeclarativeHint()
     {
         List<AudioSource> declarativeHint = new List<AudioSource>();
+        declarativeHint.Add(GetPianoNotes());
         declarativeHint.Add(GetDeclarativeHint());
         StartCoroutine(playAudioSequentially(declarativeHint));
     }
@@ -123,11 +126,11 @@ public class Mole : MonoBehaviour
     public void GiveImperativeHint()
     {
         List<AudioSource> imperativeHint = new List<AudioSource>();
-        imperativeHint.Add(GetDeclarativeHint());  //adds piano tone to imperative hints.
         imperativeHint = GetImperativeHint();
         StartCoroutine(playAudioSequentially(imperativeHint));
     }
 
+   
     // Plays audio sources in order and without overlap
     IEnumerator playAudioSequentially(List<AudioSource> hints)
     {
@@ -159,6 +162,7 @@ public class Mole : MonoBehaviour
             {
                 return;
             }
+
             //Retract Mole
             endPosition = inPosition;
             transform.localPosition = endPosition;
@@ -170,9 +174,6 @@ public class Mole : MonoBehaviour
             //Play hit sound, stop mole sound
             hitMoleSound.Play();
             StopShowSound();
-
-            // Vibration On Hit
-
 
             // 50% chance that we get a complimentary audio after a hit
 
@@ -197,8 +198,6 @@ public class Mole : MonoBehaviour
                         break;
                 }
             }
-            
-        
 
             // Increment score twice because mole was hit
             GameController.incrementScore();
@@ -245,94 +244,86 @@ public class Mole : MonoBehaviour
     }
 
     // Returns the declarative hint
-    private AudioSource GetDeclarativeHint() 
+    private AudioSource GetDeclarativeHint()
     {
         if (transform.parent.localPosition.y < -1.5)
         {
-            BucketSoundHorizontal(hipNote);
-            hipNote.Play();
-           return hipsHintSound;  
+            return hipsHintSound;
         }
         else if (transform.parent.localPosition.y >= -1.5 && transform.parent.localPosition.y < -.5)
         {
-            BucketSoundHorizontal(stomachNote);
-            stomachNote.Play();
             return stomachHintSound;
         }
         else if (transform.parent.localPosition.y >= -.5 && transform.parent.localPosition.y < .5)
         {
-            BucketSoundHorizontal(chestNote);
-            chestNote.Play();
             return chestHintSound;
         }
         else if (transform.parent.localPosition.y >= .5 && transform.parent.localPosition.y < 1.5)
         {
-            BucketSoundHorizontal(neckNote);
-            neckNote.Play();
             return neckHintSound;
         }
         else
         {
-            BucketSoundHorizontal(headNote);
-            headNote.Play();
-            return headHintSound;
+           return headHintSound;
         }
     }
 
-
-    private AudioSource GetNonVerbalHint() //used to return only piano notes 
+    private AudioSource GetPianoNotes()
     {
         if (transform.parent.localPosition.y < -1.5)
         {
-           
+            BucketSoundHorizontal(hipNote);
             return hipNote;
         }
         else if (transform.parent.localPosition.y >= -1.5 && transform.parent.localPosition.y < -.5)
         {
-           
+            BucketSoundHorizontal(stomachNote);
             return stomachNote;
         }
         else if (transform.parent.localPosition.y >= -.5 && transform.parent.localPosition.y < .5)
         {
-          
+            BucketSoundHorizontal(chestNote);
             return chestNote;
         }
         else if (transform.parent.localPosition.y >= .5 && transform.parent.localPosition.y < 1.5)
         {
-            
+            BucketSoundHorizontal(neckNote);
             return neckNote;
         }
         else
         {
-
+            BucketSoundHorizontal(headNote);
             return headNote;
         }
     }
 
 
 
-
     // Returns a list of audio source instructions needed for imperative hint
-    private List<AudioSource> GetImperativeHint()
+    private List <AudioSource> GetImperativeHint() 
     {
         int[] squaresAway = SquareDistance();
         int squaresAwayVertical = squaresAway[0];
         int squaresAwayHorizontal = squaresAway[1];
         List<AudioSource> imperativeHint = new List<AudioSource>();
-       
+        imperativeHint.Add(GetPianoNotes());
+
 
         //Determine the hand to give instructions for
         if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5) 
         {
+            
             if (PlayerPrefs.GetString("DominantHand") == "Left") //if dominant hand is left:
             {
                 if (UnityEngine.Random.Range(1, 4) > 2)     //if num in range greater than 2
                 {
-                    imperativeHint.Add(moleSounds[18]); // play "left hand"                             
+                    imperativeHint.Add(moleSounds[18]); // play "left hand"  
+                   
                 }
                 else //if num in range less than 2: play "right hand"
                 {
                     imperativeHint.Add(moleSounds[17]);
+                    
                 }
             }
             else
@@ -340,26 +331,31 @@ public class Mole : MonoBehaviour
                 if (UnityEngine.Random.Range(1, 4) > 2)
                 {
                     imperativeHint.Add(moleSounds[17]); // play "right hand"
+                   
                 }
                 else
                 {
                     imperativeHint.Add(moleSounds[18]); //play "left hand"
+                    
                 }
             }
         }
         else if (transform.parent.localPosition.z < -.5)
         {
             imperativeHint.Add(moleSounds[18]); //"left hand"
+            
         }
         else
         {
             imperativeHint.Add(moleSounds[17]); //"right hand"
+            
         }
 
         if (squaresAwayVertical == 0 && squaresAwayHorizontal == 0)
         {
             imperativeHint.Add(moleSounds[15]);
             return imperativeHint;
+            
             // return You're in the right spot
         }
         
@@ -369,6 +365,7 @@ public class Mole : MonoBehaviour
         {
             imperativeHint.Add(moleSounds[20]);
             return imperativeHint;
+            
         }
 
 
@@ -383,7 +380,7 @@ public class Mole : MonoBehaviour
         if (squaresAwayVertical < 0)
         {
             imperativeHint.Add(moleSounds[12]);
-            // Add Audio clip down
+           // Add Audio clip down
         }
         else if(squaresAwayVertical > 0 )
         {
@@ -422,11 +419,12 @@ public class Mole : MonoBehaviour
             imperativeHint.Add(moleSounds[7]);
         }
 
-       
-       
+        
         return imperativeHint;
     }
-    
+
+  
+
     private int[] SquareDistance()
     {
         //What hammer to determine distance from
@@ -460,4 +458,10 @@ public class Mole : MonoBehaviour
 
         return squareDistance;
     }
+
+    public string getHandHit()
+    {
+        return handHit;
+    }
+
 }
