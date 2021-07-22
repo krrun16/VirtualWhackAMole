@@ -112,6 +112,7 @@ public class GameController : MonoBehaviour
                     }
                     else
                     {
+
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
                         moleName = targetMole.name;
                         targetMole.GiveDeclarativeHint();
@@ -120,11 +121,19 @@ public class GameController : MonoBehaviour
                 }
                 else if (hintType == "Imperative")
                 {
-
-                    targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
-                    moleName = targetMole.name;
-                    targetMole.GiveImperativeHint();
-                    targetMole.playingHint = true;
+                    //if level is 2 or 4, mole pops up without any hints.
+                    if (levelCounter == 2 || levelCounter == 4)
+                    {
+                        targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        moleName = targetMole.name;
+                    }
+                    else
+                    {
+                        targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        moleName = targetMole.name;
+                        targetMole.GiveImperativeHint();
+                        targetMole.playingHint = true;
+                    }
                 }
 
 
