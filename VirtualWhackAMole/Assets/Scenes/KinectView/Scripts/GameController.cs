@@ -142,7 +142,7 @@ public class GameController : MonoBehaviour
                 //Makes mole pop up/go down faster at levels 3 and up
                 if (levelCounter >=3)
                 {
-                    yield return new WaitUntil(() => timer > 1.50 || targetMole.isHit == true);
+                    yield return new WaitUntil(() => timer > 1.25 || targetMole.isHit == true);
                 }
                 else
                 {
@@ -210,8 +210,7 @@ public class GameController : MonoBehaviour
             //if player hit 3 moles in a window, they are within the 5 mole window, and the molesleft are not 0.
             if (counter == 3 && totalMoles <= moleCap && molesLeft != 0)
             {
-                //let player know they advanced to next level.
-                nextLevel.Play();
+               
                 //reset number of moles hit to 0.
                 counter = 0;
                 //reset total number of moles out of 5 that have appeared to 0.
