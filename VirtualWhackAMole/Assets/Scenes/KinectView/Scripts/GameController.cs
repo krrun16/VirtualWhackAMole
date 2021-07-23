@@ -210,6 +210,11 @@ public class GameController : MonoBehaviour
             //if player hit 3 moles in a window, they are within the 5 mole window, and the molesleft are not 0.
             if (counter == 3 && totalMoles <= moleCap && molesLeft != 0)
             {
+                //lets player know level of difficulty is increasing
+                if(levelCounter <= 3)
+                {
+                    nextLevel.Play();
+                }
                
                 //reset number of moles hit to 0.
                 counter = 0;
