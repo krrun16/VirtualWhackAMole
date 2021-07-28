@@ -58,7 +58,7 @@ public class HammerController : MonoBehaviour
             }
         }
 
-        // Hit vibration using tag of 
+        // Detect which hammer hit by comparing it with the tag used on trigger enter
         if (gameObject.CompareTag("rightHammer"))
         {
             JoyconHammer.rightVibrate();

@@ -46,6 +46,7 @@ public class TextToSpeech : MonoBehaviour
             _audio.Play();
         }   
     }
+    // Uses a integer (probably should be a bool) to check if we are reading the box or if we are typing in the box
     IEnumerator DownloadTheInputAudio(int state)
     {
         string inputFieldString;

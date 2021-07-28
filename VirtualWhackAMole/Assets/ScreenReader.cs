@@ -57,7 +57,7 @@ public class ScreenReader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // check if someone has left shift down and is trying to tab backwards
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Tab))
         {
             if (counter == 0)
@@ -72,7 +72,7 @@ public class ScreenReader : MonoBehaviour
             }
          
         }
-
+        // if someone is just pressing tab then they are going forward
         if (Input.GetKeyDown(KeyCode.Tab) && !Input.GetKey(KeyCode.LeftShift))
         { 
             if (counter == 6)
