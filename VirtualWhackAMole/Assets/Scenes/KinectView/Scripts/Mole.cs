@@ -94,7 +94,6 @@ public class Mole : MonoBehaviour
     }
 
     // Start mole movement towards new endPosition of showing
-    //BUG: Mole can not show in game but plays sound. Yet to recreeate consistently.
     public void ShowMole()
     {
         //Show mole
@@ -264,6 +263,7 @@ public class Mole : MonoBehaviour
         }
     }
 
+    //Returns spatialized piano notes for the correct elevation.
     private AudioSource GetPianoNotes()
     {
         if (transform.parent.localPosition.y < -1.5)

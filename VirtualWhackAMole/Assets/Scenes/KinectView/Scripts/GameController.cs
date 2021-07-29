@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour
         int counter = 0;
         float audioTimer = 0f;
         int totalMoles = 0;
+        //MoleCap used to determine if player is within a given 5-mole window.
         int moleCap = 5;
         int firstWindowMoleHit = 0;
         int levelCounter = 1;
@@ -93,10 +94,10 @@ public class GameController : MonoBehaviour
             else
             {
                 yield return new WaitForSeconds(1.0f);
-
+                // if player chose declarative hints
                 if (hintType == "Declarative")
                 {
-                    //if level is 2 or 4, mole pops up without any hints.
+                    //if level is 2 or is >=4, mole pops up without any verbal hints.
                     if (levelCounter == 2 || levelCounter >=4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
@@ -104,6 +105,7 @@ public class GameController : MonoBehaviour
                         targetMole.GiveDeclarativeNoHint();
                         targetMole.playingHint = true;
                     }
+                    //else if level is not 2 and < 4, mole pops up with verbal hints.
                     else
                     {
 
@@ -113,9 +115,10 @@ public class GameController : MonoBehaviour
                         targetMole.playingHint = true;
                     }
                 }
+                //if player chose imperative hints
                 else if (hintType == "Imperative")
                 {
-                    //if level is 2 or 4, mole pops up without any hints.
+                    //if level is 2 or >=4, mole pops up without any verbal hints.
                     if ( levelCounter ==2 || levelCounter >= 4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
@@ -123,6 +126,7 @@ public class GameController : MonoBehaviour
                         targetMole.GiveDeclarativeNoHint();
                         targetMole.playingHint = true;
                     }
+                    //else if level is not 2 and < 4, mole pops up with verbal hints.
                     else
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
@@ -131,15 +135,15 @@ public class GameController : MonoBehaviour
                         targetMole.playingHint = true;
                     }
                 }
-
-                yield return new WaitUntil(() => targetMole.playingHint == false);  //when hint done playing, show mole.
+                //when hint done playing, show mole.
+                yield return new WaitUntil(() => targetMole.playingHint == false); 
                 targetMole.ShowMole();
 
                 //get time that the mole was shown
                 DateTime dateTime = DateTime.Now;
                 timeSent = dateTime.TimeOfDay.TotalMilliseconds;
                 timer = 0f;
-                //Makes mole pop up/go down faster at levels 3 and up
+                //Makes mole pop up/go down faster at levels 3 and up.
                 if (levelCounter >=3)
                 {
                     yield return new WaitUntil(() => timer > 1.25 || targetMole.isHit == true);
@@ -148,7 +152,7 @@ public class GameController : MonoBehaviour
                 {
                     yield return new WaitUntil(() => timer > 2 || targetMole.isHit == true);
                 }
-
+                //if mole wasn't hit.
                 if (targetMole.isHit != true)
                 {
                     moleHit = "no";
@@ -164,7 +168,7 @@ public class GameController : MonoBehaviour
                     float dist = Vector3.Distance(targetMole.transform.position, leftPos);
                     float dist2 = Vector3.Distance(targetMole.transform.position, rightPos);
 
-                    //check if hammer was in neighboring square
+                    //check if hammer was in neighboring square. 
                     if ((dist <= dist2) & dist < .4572f)
                     {
                         incrementScore();
@@ -178,6 +182,7 @@ public class GameController : MonoBehaviour
                     // add data to row
                     CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score);
                 }
+                //else mole was hit
                 else
                 {
                     moleHit = "yes";
@@ -207,10 +212,10 @@ public class GameController : MonoBehaviour
                 firstWindowMoleHit = 1;
             }
 
-            //if player hit 3 moles in a window, they are within the 5 mole window, and the molesleft are not 0.
+            //if player hit 3 moles in a window, they are within the 5 mole window, and the moles left are not 0.
             if (counter == 3 && totalMoles <= moleCap && molesLeft != 0)
             {
-                //lets player know level of difficulty is increasing
+                //lets player know level of difficulty is increasings
                 if(levelCounter <= 3)
                 {
                     nextLevel.Play();
