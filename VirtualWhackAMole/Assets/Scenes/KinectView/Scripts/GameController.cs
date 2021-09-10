@@ -47,6 +47,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
+        CsvReadWrite.writeData();
     }
 
     private IEnumerator GameLogic()
@@ -83,7 +84,6 @@ public class GameController : MonoBehaviour
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0)
             {
-                CsvReadWrite.writeData();
                 endMusic.Play();
                 yield return new WaitForSeconds(3.0f);
                 textToSpeech.SetActive(true);
