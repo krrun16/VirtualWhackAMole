@@ -40,6 +40,7 @@ public class Mole : MonoBehaviour
     
 
     public bool isHit;
+    public bool isShown;
     public bool playingHint;
     public double timeHit;
     public static string handHit;
@@ -76,6 +77,7 @@ public class Mole : MonoBehaviour
         neckNote = moleSounds[31];
         headNote = moleSounds[32];
         isHit = false;
+        isShown = false;
         playingHint = false;
         timeHit = 0;
     }
@@ -91,11 +93,13 @@ public class Mole : MonoBehaviour
     public void HideMole()
     {
         endPosition = inPosition;
+        isShown = false;
     }
 
     // Start mole movement towards new endPosition of showing
     public void ShowMole()
     {
+        isShown = true;
         //Show mole
         endPosition.x += 1.5f;
 
@@ -150,7 +154,7 @@ public class Mole : MonoBehaviour
     }
 
     // Instantly retract mole and play hit mole sound
-    public void HitMole()                                               
+    public void HitMole(GameObject gameObject)                                               
     {
         if (endPosition != inPosition)
         {
@@ -160,10 +164,26 @@ public class Mole : MonoBehaviour
             {
                 return;
             }
-
+            
+            // We only want to vibrate controller if mole that is hit is shown
+            if (isShown)
+                // Detect which hammer hit by comparing name of gameObject
+                if (gameObject.name == "RightHammer")
+                {
+                    Debug.Log("gameObject right hammer conditional entered");
+                    JoyconHammer.rightVibrate();
+                    handHit = "right";
+                }
+                else
+                {
+                    JoyconHammer.leftVibrate();
+                    handHit = "left";
+                }
+           
             //Retract Mole
             endPosition = inPosition;
             transform.localPosition = endPosition;
+            isShown = false;
 
             DateTime dateTime = DateTime.Now;
             timeHit = dateTime.TimeOfDay.TotalMilliseconds;

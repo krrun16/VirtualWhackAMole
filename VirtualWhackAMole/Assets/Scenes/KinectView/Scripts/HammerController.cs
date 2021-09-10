@@ -53,22 +53,11 @@ public class HammerController : MonoBehaviour
             {
                 if (mole.name == col.gameObject.name)
                 {
-                    mole.HitMole();
+                    mole.HitMole(gameObject);
                 }
             }
         }
 
-        // Detect which hammer hit by comparing it with the tag used on trigger enter
-        if (gameObject.CompareTag("rightHammer"))
-        {
-            JoyconHammer.rightVibrate();
-            Mole.handHit = "right";
-        }
-        else
-        {
-            JoyconHammer.leftVibrate();
-            Mole.handHit = "left";
-        }
     }
 
 
