@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     private string hintType;
     private GameObject[] leftHammer;
     private GameObject[] rightHammer;
+    private int molesGiven;
     private int molesLeft;
     private float timer = 0f;
 
@@ -180,7 +181,7 @@ public class GameController : MonoBehaviour
                         soClose.Play();
                     }
                     // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score);
+                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, totalMoles, score);
                 }
                 //else mole was hit
                 else
@@ -191,7 +192,7 @@ public class GameController : MonoBehaviour
                     totalMoles++; // inc total moles
                     yield return new WaitUntil(() => (targetMole.timeHit != 0));
                     timeTaken = (targetMole.timeHit - timeSent) * .001f;
-                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, score);
+                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, totalMoles, score);
                     targetMole.isHit = false;
                 }
             }
