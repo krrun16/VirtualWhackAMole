@@ -56,6 +56,7 @@ public class GameController : MonoBehaviour
         int counter = 0;
         float audioTimer = 0f;
         int totalMoles = 0;
+        int molesGiven = 0;
         //MoleCap used to determine if player is within a given 5-mole window.
         int moleCap = 5;
         int firstWindowMoleHit = 0;
@@ -161,7 +162,8 @@ public class GameController : MonoBehaviour
                     timeTaken = -1;
                     targetMole.MissMole();
                     targetMole.HideMole();
-                    totalMoles++; 
+                    totalMoles++;
+                    molesGiven++;
 
                     // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
                     Vector3 leftPos = leftHammer[0].transform.position;
@@ -181,7 +183,7 @@ public class GameController : MonoBehaviour
                         soClose.Play();
                     }
                     // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, totalMoles, score);
+                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, molesGiven, score);
                 }
                 //else mole was hit
                 else
@@ -190,9 +192,10 @@ public class GameController : MonoBehaviour
                     totalHit++;
                     counter++;
                     totalMoles++; // inc total moles
+                    molesGiven++;
                     yield return new WaitUntil(() => (targetMole.timeHit != 0));
                     timeTaken = (targetMole.timeHit - timeSent) * .001f;
-                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, totalMoles, score);
+                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, molesGiven, score);
                     targetMole.isHit = false;
                 }
             }
