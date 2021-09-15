@@ -27,24 +27,25 @@ public class CsvReadWrite : MonoBehaviour
 
     public static void headerFields()
     {
-        string[] rowDataTemp = new string[7];
+        string[] rowDataTemp = new string[8];
         //Logging to excel document: 
         //1) where the mole emerges, 
         //2) whether the mole is hit 
         //3) if 2 is yes, then time from the mole emerging to the time it is hit
         //4) total moles hit
         //5) hand that hit the mole
-        rowDataTemp[0] = "Location Of Mole";
+        rowDataTemp[0] = "Level";
         rowDataTemp[1] = "Mole Hit?";
         rowDataTemp[2] = "Time Taken (emerge - hit)";
         rowDataTemp[3] = "Total Moles Hit";
         rowDataTemp[4] = "Percentage Hit";
         rowDataTemp[5] = "Score";
         rowDataTemp[6] = "Hand Hit With";
+        rowDataTemp[7] = "Location of Mole";
         rowData.Add(rowDataTemp);
     }
 
-    public static void addRow(string location, string wasHit, string handHit, double time, int total, int numGiven, int Score)
+    public static void addRow(string location, string wasHit, string handHit, double time, int total, int numGiven, int Score, int level)
     {
         double percentage = (total / (double)numGiven) * 100;
         percentage = Math.Round(percentage, 2);
@@ -53,8 +54,8 @@ public class CsvReadWrite : MonoBehaviour
         {
             headerFields();
         }
-        string[] rowDataTemp = new string[7];
-        rowDataTemp[0] = location;
+        string[] rowDataTemp = new string[8];
+        rowDataTemp[0] = level.ToString();
         rowDataTemp[1] = wasHit;
         if (wasHit == "no")
         {
@@ -69,6 +70,7 @@ public class CsvReadWrite : MonoBehaviour
         rowDataTemp[3] = total.ToString();
         rowDataTemp[4] = (percentage).ToString() + " % ";
         rowDataTemp[5] = Score.ToString();
+        rowDataTemp[7] = location;
         rowData.Add(rowDataTemp);
         currentRow++;
     }

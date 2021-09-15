@@ -27,6 +27,10 @@ public class GameController : MonoBehaviour
     public GameObject textToSpeech;
     public AudioSource endMusic;
     public AudioSource nextLevel;
+    public AudioSource level_notinclude_imperative;
+    public AudioSource level_notinclude_declarative;
+    public AudioSource level_include_imperative;
+    public AudioSource level_include_declarative;
     public AudioSource outOfBounds;
     public AudioSource soClose;
    
@@ -103,6 +107,11 @@ public class GameController : MonoBehaviour
                     if (levelCounter == 2 || levelCounter >=4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        if (totalMoles == 0)
+                        {
+                            level_notinclude_declarative.Play();
+                            yield return new WaitForSeconds(3.75f);
+                        }
                         moleName = targetMole.name;
                         targetMole.GiveDeclarativeNoHint();
                         targetMole.playingHint = true;
@@ -110,8 +119,12 @@ public class GameController : MonoBehaviour
                     //else if level is not 2 and < 4, mole pops up with verbal hints.
                     else
                     {
-
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        if (totalMoles == 0)
+                        {
+                            level_include_declarative.Play();
+                            yield return new WaitForSeconds(3.5f);
+                        }
                         moleName = targetMole.name;
                         targetMole.GiveDeclarativeHint();
                         targetMole.playingHint = true;
@@ -124,6 +137,11 @@ public class GameController : MonoBehaviour
                     if ( levelCounter ==2 || levelCounter >= 4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        if (totalMoles == 0)
+                        {
+                            level_notinclude_imperative.Play();
+                            yield return new WaitForSeconds(3.75f);
+                        }
                         moleName = targetMole.name;
                         targetMole.GiveDeclarativeNoHint();
                         targetMole.playingHint = true;
@@ -132,6 +150,11 @@ public class GameController : MonoBehaviour
                     else
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
+                        if (totalMoles == 0)
+                        {
+                            level_include_imperative.Play();
+                            yield return new WaitForSeconds(3.5f);
+                        }
                         moleName = targetMole.name;
                         targetMole.GiveImperativeHint();
                         targetMole.playingHint = true;
@@ -183,7 +206,7 @@ public class GameController : MonoBehaviour
                         soClose.Play();
                     }
                     // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, molesGiven, score);
+                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, molesGiven, score, levelCounter);
                 }
                 //else mole was hit
                 else
@@ -195,7 +218,7 @@ public class GameController : MonoBehaviour
                     molesGiven++;
                     yield return new WaitUntil(() => (targetMole.timeHit != 0));
                     timeTaken = (targetMole.timeHit - timeSent) * .001f;
-                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, molesGiven, score);
+                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, molesGiven, score, levelCounter);
                     targetMole.isHit = false;
                 }
             }
