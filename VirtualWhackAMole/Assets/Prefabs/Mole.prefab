@@ -550,6 +550,7 @@ MonoBehaviour:
   timeMoleShowed: 0
   timeMoleHit: 0
   isHit: 0
+  isShown: 0
   playingHint: 0
   timeHit: 0
   awesome: {fileID: -6709852673843811700}
@@ -557,6 +558,10 @@ MonoBehaviour:
   fantastic: {fileID: -3410026269579194246}
   great: {fileID: -8048346018360950042}
   success: {fileID: -8832201329635137439}
+  level_notinclude_imperative: {fileID: 0}
+  level_notinclude_declarative: {fileID: 0}
+  level_include_imperative: {fileID: 0}
+  level_include_declarative: {fileID: 0}
 --- !u!82 &5608604410702363309
 AudioSource:
   m_ObjectHideFlags: 0

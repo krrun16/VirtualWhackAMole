@@ -11,7 +11,6 @@ public class GameController : MonoBehaviour
     private string hintType;
     private GameObject[] leftHammer;
     private GameObject[] rightHammer;
-    private int molesGiven;
     private int molesLeft;
     private float timer = 0f;
 
@@ -60,7 +59,6 @@ public class GameController : MonoBehaviour
         int counter = 0;
         float audioTimer = 0f;
         int totalMoles = 0;
-        int molesGiven = 0;
         //MoleCap used to determine if player is within a given 5-mole window.
         int moleCap = 5;
         int firstWindowMoleHit = 0;
@@ -113,7 +111,7 @@ public class GameController : MonoBehaviour
                             yield return new WaitForSeconds(3.75f);
                         }
                         moleName = targetMole.name;
-                        targetMole.GiveDeclarativeNoHint();
+                        targetMole.GiveNoHint();
                         targetMole.playingHint = true;
                     }
                     //else if level is not 2 and < 4, mole pops up with verbal hints.
@@ -143,7 +141,7 @@ public class GameController : MonoBehaviour
                             yield return new WaitForSeconds(3.75f);
                         }
                         moleName = targetMole.name;
-                        targetMole.GiveDeclarativeNoHint();
+                        targetMole.GiveNoHint();
                         targetMole.playingHint = true;
                     }
                     //else if level is not 2 and < 4, mole pops up with verbal hints.
@@ -186,7 +184,6 @@ public class GameController : MonoBehaviour
                     targetMole.MissMole();
                     targetMole.HideMole();
                     totalMoles++;
-                    molesGiven++;
 
                     // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
                     Vector3 leftPos = leftHammer[0].transform.position;
@@ -206,7 +203,7 @@ public class GameController : MonoBehaviour
                         soClose.Play();
                     }
                     // add data to row
-                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, molesGiven, score, levelCounter);
+                    CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score, levelCounter);
                 }
                 //else mole was hit
                 else
@@ -215,10 +212,9 @@ public class GameController : MonoBehaviour
                     totalHit++;
                     counter++;
                     totalMoles++; // inc total moles
-                    molesGiven++;
                     yield return new WaitUntil(() => (targetMole.timeHit != 0));
                     timeTaken = (targetMole.timeHit - timeSent) * .001f;
-                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, molesGiven, score, levelCounter);
+                    CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, score, levelCounter);
                     targetMole.isHit = false;
                 }
             }

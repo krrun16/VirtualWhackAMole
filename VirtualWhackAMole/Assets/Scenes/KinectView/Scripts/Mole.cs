@@ -118,11 +118,11 @@ public class Mole : MonoBehaviour
         StartCoroutine(playAudioSequentially(declarativeHint));
     }
 
-    public void GiveDeclarativeNoHint()
+    public void GiveNoHint()
     {
-        List<AudioSource> declarativeHint = new List<AudioSource>();
-        declarativeHint.Add(GetPianoNotes());
-        StartCoroutine(playAudioSequentially(declarativeHint));
+        List<AudioSource> noHint = new List<AudioSource>();
+        noHint.Add(GetPianoNotes());
+        StartCoroutine(playAudioSequentially(noHint));
     }
 
 
