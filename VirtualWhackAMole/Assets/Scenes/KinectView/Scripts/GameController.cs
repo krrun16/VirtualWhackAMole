@@ -59,8 +59,8 @@ public class GameController : MonoBehaviour
         int counter = 0;
         float audioTimer = 0f;
         int totalMoles = 0;
-        //MoleCap used to determine if player is within a given 5-mole window.
-        int moleCap = 5;
+        //MoleCap used to determine if player is within a given 10-mole window.
+        int moleCap = 10;
         int firstWindowMoleHit = 0;
         int levelCounter = 1;
 
@@ -212,6 +212,7 @@ public class GameController : MonoBehaviour
                     totalHit++;
                     counter++;
                     totalMoles++; // inc total moles
+
                     yield return new WaitUntil(() => (targetMole.timeHit != 0));
                     timeTaken = (targetMole.timeHit - timeSent) * .001f;
                     CsvReadWrite.addRow(moleName, moleHit, targetMole.getHandHit(), timeTaken, totalHit, score, levelCounter);
@@ -229,14 +230,14 @@ public class GameController : MonoBehaviour
             targetMole.timeHit = 0;
             molesLeft -= 1;
 
-            //check if first mole in each 5-mole window was hit.
+            //check if first mole in each 10-mole window was hit.
             if (counter == 1 && totalMoles == 1)
             {
                 firstWindowMoleHit = 1;
             }
 
-            //if player hit 3 moles in a window, they are within the 5 mole window, and the moles left are not 0.
-            if (counter == 3 && totalMoles <= moleCap && molesLeft != 0)
+            //if player hit 7 moles in a window, they are within the 10 mole window, and the moles left are not 0.
+            if (counter == 7 && totalMoles <= moleCap && molesLeft != 0)
             {
                 //lets player know level of difficulty is increasings
                 if(levelCounter <= 3)
@@ -251,8 +252,8 @@ public class GameController : MonoBehaviour
                 levelCounter++;
             }
 
-            //if player has not hit 3 moles in a window, and all the moles in a window have appeared, and molesLeft are not 0.
-            else if (counter < 3 && totalMoles >= moleCap && molesLeft != 0)
+            //if player has not hit 7 moles in a window, and all the moles in a window have appeared, and molesLeft are not 0.
+            else if (counter < 7 && totalMoles >= moleCap && molesLeft != 0)
             {
                 //if player had hit the first mole in the window, we subtract 1 hit mole from the counter
                 if (firstWindowMoleHit == 1)
