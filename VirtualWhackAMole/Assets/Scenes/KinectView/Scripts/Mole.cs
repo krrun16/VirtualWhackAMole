@@ -45,12 +45,6 @@ public class Mole : MonoBehaviour
     public double timeHit;
     public static string handHit;
 
-    public AudioSource awesome; 
-    public AudioSource congrats;
-    public AudioSource fantastic;
-    public AudioSource great;
-    public AudioSource success;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -191,30 +185,6 @@ public class Mole : MonoBehaviour
             //Play hit sound, stop mole sound
             hitMoleSound.Play();
             StopShowSound();
-
-            // 50% chance that we get a complimentary audio after a hit
-
-            if (UnityEngine.Random.Range(1, 4) > 2)
-            {
-                switch (UnityEngine.Random.Range(0, 4))
-                {
-                    case 0:
-                        awesome.Play();
-                        break;
-                    case 1:
-                        fantastic.Play();
-                        break;
-                    case 2:
-                        congrats.Play();
-                        break;
-                    case 3:
-                        great.Play();
-                        break;
-                    case 4:
-                        success.Play();
-                        break;
-                }
-            }
 
             // Increment score twice because mole was hit
             GameController.incrementScore();

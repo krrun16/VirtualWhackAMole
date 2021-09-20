@@ -26,13 +26,16 @@ public class GameController : MonoBehaviour
     public GameObject textToSpeech;
     public AudioSource endMusic;
     public AudioSource nextLevel;
-    public AudioSource level_notinclude_imperative;
-    public AudioSource level_notinclude_declarative;
-    public AudioSource level_include_imperative;
-    public AudioSource level_include_declarative;
+    public AudioSource hints_and_quicker;
+    public AudioSource hints_removed;
     public AudioSource outOfBounds;
     public AudioSource soClose;
-   
+    public AudioSource awesome;
+    public AudioSource congrats;
+    public AudioSource fantastic;
+    public AudioSource great;
+    public AudioSource success;
+
 
     // Start is called before the first frame update
     void Start()
@@ -105,11 +108,6 @@ public class GameController : MonoBehaviour
                     if (levelCounter == 2 || levelCounter >=4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
-                        if (totalMoles == 0)
-                        {
-                            level_notinclude_declarative.Play();
-                            yield return new WaitForSeconds(3.75f);
-                        }
                         moleName = targetMole.name;
                         targetMole.GiveNoHint();
                         targetMole.playingHint = true;
@@ -118,11 +116,6 @@ public class GameController : MonoBehaviour
                     else
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
-                        if (totalMoles == 0)
-                        {
-                            level_include_declarative.Play();
-                            yield return new WaitForSeconds(3.5f);
-                        }
                         moleName = targetMole.name;
                         targetMole.GiveDeclarativeHint();
                         targetMole.playingHint = true;
@@ -135,11 +128,6 @@ public class GameController : MonoBehaviour
                     if ( levelCounter ==2 || levelCounter >= 4)
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
-                        if (totalMoles == 0)
-                        {
-                            level_notinclude_imperative.Play();
-                            yield return new WaitForSeconds(3.75f);
-                        }
                         moleName = targetMole.name;
                         targetMole.GiveNoHint();
                         targetMole.playingHint = true;
@@ -148,11 +136,6 @@ public class GameController : MonoBehaviour
                     else
                     {
                         targetMole = moles[UnityEngine.Random.Range(0, moles.Length)];
-                        if (totalMoles == 0)
-                        {
-                            level_include_imperative.Play();
-                            yield return new WaitForSeconds(3.5f);
-                        }
                         moleName = targetMole.name;
                         targetMole.GiveImperativeHint();
                         targetMole.playingHint = true;
@@ -208,6 +191,25 @@ public class GameController : MonoBehaviour
                 //else mole was hit
                 else
                 {
+                    switch (UnityEngine.Random.Range(0, 4))
+                    {
+                        case 0:
+                            awesome.Play();
+                            break;
+                        case 1:
+                            fantastic.Play();
+                            break;
+                        case 2:
+                            congrats.Play();
+                            break;
+                        case 3:
+                            great.Play();
+                            break;
+                        case 4:
+                            success.Play();
+                            break;
+                    }
+                    yield return new WaitForSeconds(.5f);
                     moleHit = "yes";
                     totalHit++;
                     counter++;
@@ -240,9 +242,18 @@ public class GameController : MonoBehaviour
             if (counter == 7 && totalMoles <= moleCap && molesLeft != 0)
             {
                 //lets player know level of difficulty is increasings
-                if(levelCounter <= 3)
+                nextLevel.Play();
+                yield return new WaitForSeconds(1f);
+                if (levelCounter == 1)
                 {
-                    nextLevel.Play();
+                    hints_removed.Play();
+                }
+                else if (levelCounter == 2) {
+                    hints_and_quicker.Play();
+                    yield return new WaitForSeconds(.5f);
+                } else if (levelCounter == 3)
+                {
+                    hints_removed.Play();
                 }
                
                 //reset number of moles hit to 0.
