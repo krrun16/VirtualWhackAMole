@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     private static double timeTaken;
     private static int totalHit;
     private double timeSent;
+    private static int numMissedInRow;
 
     public GameObject textToSpeech;
     public AudioSource endMusic;
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour
     public AudioSource fantastic;
     public AudioSource great;
     public AudioSource success;
+    public AudioSource keepgoing;
 
 
     // Start is called before the first frame update
@@ -66,6 +68,7 @@ public class GameController : MonoBehaviour
         int moleCap = 10;
         int firstWindowMoleHit = 0;
         int levelCounter = 1;
+        numMissedInRow = 0;
 
         while (molesLeft > -1)
         {
@@ -161,11 +164,13 @@ public class GameController : MonoBehaviour
                 //if mole wasn't hit.
                 if (targetMole.isHit != true)
                 {
+                    numMissedInRow++;
                     moleHit = "no";
                     //if mole wasn't hit, set timeTaken to -1 
                     timeTaken = -1;
                     targetMole.MissMole();
                     targetMole.HideMole();
+                    yield return new WaitForSeconds(.5f);
                     totalMoles++;
 
                     // when hideMole happens, the mole wasn't hit, so should look at location of closest hammer
@@ -185,12 +190,17 @@ public class GameController : MonoBehaviour
                         incrementScore();
                         soClose.Play();
                     }
+                    if (numMissedInRow == 5 || numMissedInRow == 10 || numMissedInRow == 15)
+                    {
+                        keepgoing.Play();
+                    }
                     // add data to row
                     CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score, levelCounter);
                 }
                 //else mole was hit
                 else
                 {
+                    numMissedInRow = 0;
                     switch (UnityEngine.Random.Range(0, 4))
                     {
                         case 0:
@@ -209,7 +219,7 @@ public class GameController : MonoBehaviour
                             success.Play();
                             break;
                     }
-                    yield return new WaitForSeconds(.5f);
+                    yield return new WaitForSeconds(1f);
                     moleHit = "yes";
                     totalHit++;
                     counter++;
@@ -242,18 +252,23 @@ public class GameController : MonoBehaviour
             if (counter == 7 && totalMoles <= moleCap && molesLeft != 0)
             {
                 //lets player know level of difficulty is increasings
-                nextLevel.Play();
-                yield return new WaitForSeconds(1f);
-                if (levelCounter == 1)
+                if (levelCounter <= 3)
                 {
-                    hints_removed.Play();
-                }
-                else if (levelCounter == 2) {
-                    hints_and_quicker.Play();
-                    yield return new WaitForSeconds(.5f);
-                } else if (levelCounter == 3)
-                {
-                    hints_removed.Play();
+                    nextLevel.Play();
+                    yield return new WaitForSeconds(1f);
+                    if (levelCounter == 1)
+                    {
+                        hints_removed.Play();
+                    }
+                    else if (levelCounter == 2)
+                    {
+                        hints_and_quicker.Play();
+                        yield return new WaitForSeconds(.5f);
+                    }
+                    else if (levelCounter == 3)
+                    {
+                        hints_removed.Play();
+                    }
                 }
                
                 //reset number of moles hit to 0.

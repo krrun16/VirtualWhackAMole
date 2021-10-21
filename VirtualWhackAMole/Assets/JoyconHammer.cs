@@ -31,6 +31,7 @@ public class JoyconHammer : MonoBehaviour
 	void Update()
 	{
 		// make sure the Joycon only gets checked if attached
+
 		if (joycons.Count > 0)
 		{
 			Joycon j = joycons[jc_ind];
@@ -67,7 +68,7 @@ public class JoyconHammer : MonoBehaviour
 					Debug.Log("This ran.");
 					joycons.ElementAt(i).SetRumble(160, 320, 0.6f, 200);
 				}
-            }
+			}
         }
     }
 

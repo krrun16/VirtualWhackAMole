@@ -23,7 +23,8 @@ public class TextToSpeech : MonoBehaviour
 
     IEnumerator DownloadTheAudio()
     {
-        string result = "Your score is: ";
+        //string result = "Your score is: ";
+        string result = "";
         int score = GameController.getScore();
         // avoid speech synthesis interperting zero as the letter 'o'
         if (score == 0)
