@@ -212,7 +212,7 @@ public class Mole : MonoBehaviour
         }
         else if (transform.parent.localPosition.z >= -1.5 && transform.parent.localPosition.z < -.5)
         {
-            usedSound.panStereo = -0.5f;
+            usedSound.panStereo = -.5f;
         }
         else if (transform.parent.localPosition.z >= -.5 && transform.parent.localPosition.z < .5)
         {
@@ -220,7 +220,7 @@ public class Mole : MonoBehaviour
         }
         else if (transform.parent.localPosition.z >= .5 && transform.parent.localPosition.z < 1.5)
         {
-            usedSound.panStereo = 0.5f;
+            usedSound.panStereo = .5f;
         }
         else if (transform.parent.localPosition.z >= 1.5)
         {

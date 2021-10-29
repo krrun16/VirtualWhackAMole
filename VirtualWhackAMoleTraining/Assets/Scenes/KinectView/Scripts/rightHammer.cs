@@ -44,6 +44,7 @@ public class rightHammer : MonoBehaviour
 
         moles = GameObject.FindObjectsOfType<Mole>();
         rb = GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
@@ -54,15 +55,15 @@ public class rightHammer : MonoBehaviour
 
         newRightHammerPosition = new Vector3(-BodySourceView.rightHandPosition.X, BodySourceView.rightHandPosition.Y, BodySourceView.rightHandPosition.Z);
 
+       //if (MainMenu.handedness == "Right")
+        //{
+          //  GivePianoSound();
+        //}
+
         if (rb.CompareTag("rightHammer"))
         {
             transform.localPosition = Vector3.Lerp(transform.localPosition, newRightHammerPosition, Time.fixedDeltaTime * 13);
             RotateHammer(BodySourceView.rightHandPosition, BodySourceView.rightWristPosition, BodySourceView.rightElbowPosition);
-        }
-
-        if (MainMenu.handedness == "Right")
-        {
-            GivePianoSound();
         }
     }
     private void OnTriggerEnter(Collider col)
@@ -276,12 +277,13 @@ public class rightHammer : MonoBehaviour
     }
 
 
-    public void GivePianoSound()
+    public IEnumerator GivePianoSound()
     {
-        //GetPianoNotes();
-        List<AudioSource> thePianoSound = new List<AudioSource>();
-        AudioSource currentSound = GetPianoNotes();
-       // thePianoSound.Add(GetPianoNotes());
-        StartCoroutine(playAudioSequentially(currentSound));
+       AudioSource currentSound = GetPianoNotes();
+       currentSound.Play();
+       while (currentSound.isPlaying)
+       {
+            yield return null;
+       }
     }
 }

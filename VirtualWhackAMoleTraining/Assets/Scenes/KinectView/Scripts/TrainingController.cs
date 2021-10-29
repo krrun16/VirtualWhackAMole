@@ -14,7 +14,7 @@ public class TrainingController : MonoBehaviour
     private static int score = 0;
     private string hintType;
     private GameObject[] leftHammer;
-    private GameObject[] rightHammer;
+   // private GameObject[] rightHammer;
     private int molesLeft = 40;
     private float timer = 0f;
 
@@ -41,13 +41,20 @@ public class TrainingController : MonoBehaviour
         {
             leftHammerForSound = hammer;
         }
-        // GameLogic();
+       // GameLogic();
        // StartCoroutine(GameLogic());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (MainMenu.handedness == "Right")
+        {
+            rightHammerForSound.GivePianoSound();
+        } else
+        {
+            leftHammerForSound.GivePianoSound();
+        }
         timer += Time.deltaTime;
         //print("hello sarah " + timer);
         CsvReadWrite.writeData();

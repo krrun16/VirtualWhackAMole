@@ -34,9 +34,11 @@ public class MainMenu : MonoBehaviour
         else
         {
             handedness = PlayerPrefs.GetString("DominantHand");
+            print("SARAH " + handedness);
             print("SARAH " + PlayerPrefs.GetString("Training"));
+            print("SARAH " + PlayerPrefs.GetString("HintType"));
             //SceneManager.LoadScene("SoundTraining");
-            
+
             if (PlayerPrefs.GetString("Training") == "Sound")
             {
                 SceneManager.LoadScene("SoundTraining");

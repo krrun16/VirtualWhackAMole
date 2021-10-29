@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
-        molesLeft = 40;
+        molesLeft = 10;
         hintType = PlayerPrefs.GetString("HintType");
 
         StartCoroutine(GameLogic());
@@ -86,7 +86,7 @@ public class GameController : MonoBehaviour
                     outOfBounds.Play();
                     audioTimer -= 3.5f;
                 }
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(.5f);
                 yield return null;
             }
 
@@ -103,7 +103,7 @@ public class GameController : MonoBehaviour
             // otherwise, continue providing moles as usual
             else
             {
-                yield return new WaitForSeconds(1.0f);
+               // yield return new WaitForSeconds(1.0f);
                 // if player chose declarative hints
                 if (hintType == "Declarative")
                 {
@@ -255,7 +255,7 @@ public class GameController : MonoBehaviour
                 if (levelCounter <= 3)
                 {
                     nextLevel.Play();
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(.5f);
                     if (levelCounter == 1)
                     {
                         hints_removed.Play();
