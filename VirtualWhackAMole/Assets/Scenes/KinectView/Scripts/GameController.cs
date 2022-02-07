@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     private static int totalHit;
     private double timeSent;
     private static int numMissedInRow;
+    public static bool orient = false;
 
     public GameObject textToSpeech;
     public AudioSource endMusic;
@@ -31,12 +32,12 @@ public class GameController : MonoBehaviour
     public AudioSource hints_removed;
     public AudioSource outOfBounds;
     public AudioSource soClose;
-    public AudioSource awesome;
-    public AudioSource congrats;
-    public AudioSource fantastic;
-    public AudioSource great;
-    public AudioSource success;
-    public AudioSource keepgoing;
+    public AudioSource Awesome;
+    public AudioSource Congrats;
+    public AudioSource Fantastic;
+    public AudioSource Great;
+    public AudioSource Success;
+    public AudioSource KeepGoing;
 
 
     // Start is called before the first frame update
@@ -48,7 +49,6 @@ public class GameController : MonoBehaviour
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
         molesLeft = 10;
         hintType = PlayerPrefs.GetString("HintType");
-
         StartCoroutine(GameLogic());
     }
 
@@ -58,6 +58,89 @@ public class GameController : MonoBehaviour
         timer += Time.deltaTime;
         CsvReadWrite.writeData();
     }
+
+    private bool checkAnkles()
+    {
+        double minAnkleX = -0.75, maxAnkleX = 0.75, minAnkleZ = 7.7, maxAnkleZ = 10.7;
+        double anklesX = (BodySourceView.leftAnklePosition.X + BodySourceView.rightAnklePosition.X) / 2;
+        double anklesZ = (BodySourceView.leftAnklePosition.Z + BodySourceView.rightAnklePosition.Z) / 2;
+        double shoulderSymm = BodySourceView.rightShoulderPosition.Z - BodySourceView.leftShoulderPosition.Z;
+        int distance = 0;
+
+        if (shoulderSymm > .1)
+        {
+            soClose.Play();
+            // playSoundResourceSync("twist_left");
+            orient = true;
+            return false;
+
+        }
+        else if (shoulderSymm < -.1)
+        {
+            soClose.Play();
+            //playSoundResourceSync("twist_right");
+            orient = true;
+            return false;
+        }
+        else if (anklesX * 3.28084 < minAnkleX)
+        {
+            distance = (int)Math.Floor(minAnkleX - (anklesX * 3.28084));
+            if (distance < 1) soClose.Play(); // playSoundResourceSync("take_step_right");
+            else if (distance == 1) soClose.Play();  //playSoundResourceSync("move_one_right");
+            else if (distance == 2) KeepGoing.Play(); // playSoundResourceSync("move_two_right");
+            else if (distance == 3) Great.Play(); //playSoundResourceSync("move_three_right");
+            else Great.Play();  //playSoundResourceSync("move_more_than_three_right");
+            orient = true;
+            return false;
+        }
+        else if (anklesX * 3.28084 > maxAnkleX)
+        {
+            distance = (int)Math.Floor((anklesX * 3.28084) - maxAnkleX);
+            if (distance < 1) soClose.Play(); //playSoundResourceSync("take_step_left");
+            else if (distance == 1) soClose.Play(); //playSoundResourceSync("move_one_left");
+            else if (distance == 2) KeepGoing.Play();  //playSoundResourceSync("move_two_left");
+            else if (distance == 3) Great.Play();  //playSoundResourceSync("move_three_left");
+            else Great.Play();  //playSoundResourceSync("move_more_than_three_left");
+            orient = true;
+            return false;
+        }
+        else if (anklesZ * 3.28084 < minAnkleZ)
+        {
+            distance = (int)Math.Floor(minAnkleZ - (anklesZ * 3.28084));
+            if (distance < 1) soClose.Play(); //playSoundResourceSync("take_step_backward");
+            else if (distance == 1) soClose.Play(); //playSoundResourceSync("move_one_backward");
+            else if (distance == 2) KeepGoing.Play();  //playSoundResourceSync("move_two_backward");
+            else if (distance == 3) Great.Play();  // playSoundResourceSync("move_three_backward");
+            else Great.Play();  //playSoundResourceSync("move_more_than_three_backward");
+            orient = true;
+            return false;
+        }
+        else if (anklesZ * 3.28084 > maxAnkleZ)
+        {
+            distance = (int)Math.Floor((anklesZ * 3.28084) - maxAnkleZ);
+            if (distance < 1) soClose.Play();  //playSoundResourceSync("take_step_forward");
+            else if (distance == 1) soClose.Play(); // playSoundResourceSync("move_one_forward");
+            else if (distance == 2) KeepGoing.Play();  //playSoundResourceSync("move_two_forward");
+            else if (distance == 3) Great.Play();  //playSoundResourceSync("move_three_forward");
+            else Great.Play();  //playSoundResourceSync("move_more_than_three_forward");
+            orient = true;
+            return false;
+        }
+        else
+        {
+            orient = false;
+            Fantastic.Play();
+            return true;
+            
+            //playSoundResourceSync("good_position");
+                               // othread = new Thread(startGame);
+                               // othread.Start();
+           // StartCoroutine(GameLogic());
+        }
+    }
+
+
+
 
     private IEnumerator GameLogic()
     {
@@ -69,6 +152,12 @@ public class GameController : MonoBehaviour
         int firstWindowMoleHit = 0;
         int levelCounter = 1;
         numMissedInRow = 0;
+        bool anklesChecked = false;
+
+      //  while (anklesChecked == false)
+        //{
+          //  anklesChecked = checkAnkles();
+        //}
 
         while (molesLeft > -1)
         {
@@ -192,7 +281,7 @@ public class GameController : MonoBehaviour
                     }
                     if (numMissedInRow == 5 || numMissedInRow == 10 || numMissedInRow == 15)
                     {
-                        keepgoing.Play();
+                        KeepGoing.Play();
                     }
                     // add data to row
                     CsvReadWrite.addRow(moleName, moleHit, "Wasn't hit", timeTaken, totalHit, score, levelCounter);
@@ -204,19 +293,19 @@ public class GameController : MonoBehaviour
                     switch (UnityEngine.Random.Range(0, 4))
                     {
                         case 0:
-                            awesome.Play();
+                            Awesome.Play();
                             break;
                         case 1:
-                            fantastic.Play();
+                            Fantastic.Play();
                             break;
                         case 2:
-                            congrats.Play();
+                            Congrats.Play();
                             break;
                         case 3:
-                            great.Play();
+                            Great.Play();
                             break;
                         case 4:
-                            success.Play();
+                            Success.Play();
                             break;
                     }
                     yield return new WaitForSeconds(1f);

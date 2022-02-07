@@ -26,6 +26,12 @@ public class BodySourceView : MonoBehaviour
     public static CameraSpacePoint leftShoulderPosition;
     public static CameraSpacePoint rightShoulderPosition;
 
+    // storing these values to make sure ankles are positioned correctly on player
+    // check is carried out in GameController
+    public static CameraSpacePoint leftAnklePosition;
+    public static CameraSpacePoint rightAnklePosition;
+
+
 
     public static CameraSpacePoint leftHipPosition;
     public static CameraSpacePoint rightHipPosition;
@@ -146,6 +152,10 @@ public class BodySourceView : MonoBehaviour
         rightElbowPosition = body.Joints[JointType.ElbowRight].Position;
         leftShoulderPosition = body.Joints[JointType.ShoulderLeft].Position;
         rightShoulderPosition = body.Joints[JointType.ShoulderRight].Position;
+
+
+        leftAnklePosition = body.Joints[JointType.AnkleLeft].Position;
+        rightAnklePosition = body.Joints[JointType.AnkleRight].Position;
 
 
         MaxZDistance =
