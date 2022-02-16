@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
-        molesLeft = 10;
+        molesLeft = 20;
         hintType = PlayerPrefs.GetString("HintType");
         StartCoroutine(GameLogic());
     }
@@ -152,12 +152,6 @@ public class GameController : MonoBehaviour
         int firstWindowMoleHit = 0;
         int levelCounter = 1;
         numMissedInRow = 0;
-        bool anklesChecked = false;
-
-      //  while (anklesChecked == false)
-        //{
-          //  anklesChecked = checkAnkles();
-        //}
 
         while (molesLeft > -1)
         {
@@ -344,21 +338,26 @@ public class GameController : MonoBehaviour
                 if (levelCounter <= 3)
                 {
                     nextLevel.Play();
-                    yield return new WaitForSeconds(.5f);
+                    yield return new WaitForSeconds(1f);
                     if (levelCounter == 1)
                     {
                         hints_removed.Play();
+                        yield return new WaitForSeconds(2f);
                     }
                     else if (levelCounter == 2)
                     {
                         hints_and_quicker.Play();
-                        yield return new WaitForSeconds(.5f);
+                        yield return new WaitForSeconds(2.5f);
                     }
                     else if (levelCounter == 3)
                     {
                         hints_removed.Play();
+                        yield return new WaitForSeconds(2f);
                     }
                 }
+
+
+
                
                 //reset number of moles hit to 0.
                 counter = 0;
