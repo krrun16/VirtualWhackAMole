@@ -249,7 +249,7 @@ public class Mole : MonoBehaviour
         }
         else
         {
-           return headHintSound;
+            return headHintSound;
         }
     }
 

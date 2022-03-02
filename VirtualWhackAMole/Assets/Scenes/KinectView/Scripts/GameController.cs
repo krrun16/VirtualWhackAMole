@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Threading;
 
 public class GameController : MonoBehaviour
 {
@@ -47,9 +48,10 @@ public class GameController : MonoBehaviour
         moles = GameObject.FindObjectsOfType<Mole>();
         leftHammer = GameObject.FindGameObjectsWithTag("leftHammer");
         rightHammer = GameObject.FindGameObjectsWithTag("rightHammer");
-        molesLeft = 20;
+        molesLeft = 40;
         hintType = PlayerPrefs.GetString("HintType");
         StartCoroutine(GameLogic());
+        orient = true;
     }
 
     // Update is called once per frame
@@ -59,7 +61,7 @@ public class GameController : MonoBehaviour
         CsvReadWrite.writeData();
     }
 
-    private bool checkAnkles()
+    private void checkAnkles()
     {
         double minAnkleX = -0.75, maxAnkleX = 0.75, minAnkleZ = 7.7, maxAnkleZ = 10.7;
         double anklesX = (BodySourceView.leftAnklePosition.X + BodySourceView.rightAnklePosition.X) / 2;
@@ -70,9 +72,9 @@ public class GameController : MonoBehaviour
         if (shoulderSymm > .1)
         {
             soClose.Play();
+            Console.WriteLine("Twist Left");
             // playSoundResourceSync("twist_left");
             orient = true;
-            return false;
 
         }
         else if (shoulderSymm < -.1)
@@ -80,57 +82,51 @@ public class GameController : MonoBehaviour
             soClose.Play();
             //playSoundResourceSync("twist_right");
             orient = true;
-            return false;
         }
         else if (anklesX * 3.28084 < minAnkleX)
         {
             distance = (int)Math.Floor(minAnkleX - (anklesX * 3.28084));
-            if (distance < 1) soClose.Play(); // playSoundResourceSync("take_step_right");
-            else if (distance == 1) soClose.Play();  //playSoundResourceSync("move_one_right");
-            else if (distance == 2) KeepGoing.Play(); // playSoundResourceSync("move_two_right");
-            else if (distance == 3) Great.Play(); //playSoundResourceSync("move_three_right");
-            else Great.Play();  //playSoundResourceSync("move_more_than_three_right");
+            if (distance < 1) Console.WriteLine("dist less than 1"); //soClose.Play(); // playSoundResourceSync("take_step_right");
+            else if (distance == 1) Console.WriteLine("dist = 1"); //soClose.Play();  //playSoundResourceSync("move_one_right");
+            else if (distance == 2) Console.WriteLine("dist = 2"); //KeepGoing.Play(); // playSoundResourceSync("move_two_right");
+            else if (distance == 3) Console.WriteLine("dist = 3"); // Great.Play(); //playSoundResourceSync("move_three_right");
+            else Console.WriteLine("dist = more than 3"); //Great.Play();  //playSoundResourceSync("move_more_than_three_right");
             orient = true;
-            return false;
         }
         else if (anklesX * 3.28084 > maxAnkleX)
         {
             distance = (int)Math.Floor((anklesX * 3.28084) - maxAnkleX);
-            if (distance < 1) soClose.Play(); //playSoundResourceSync("take_step_left");
-            else if (distance == 1) soClose.Play(); //playSoundResourceSync("move_one_left");
-            else if (distance == 2) KeepGoing.Play();  //playSoundResourceSync("move_two_left");
-            else if (distance == 3) Great.Play();  //playSoundResourceSync("move_three_left");
-            else Great.Play();  //playSoundResourceSync("move_more_than_three_left");
+            if (distance < 1) Console.WriteLine("dist less than 1");// soClose.Play(); //playSoundResourceSync("take_step_left");
+            else if (distance == 1) Console.WriteLine("dist = 1"); //soClose.Play(); //playSoundResourceSync("move_one_left");
+            else if (distance == 2) Console.WriteLine("dist = 2");// KeepGoing.Play();  //playSoundResourceSync("move_two_left");
+            else if (distance == 3) Console.WriteLine("dist = 3");  //Great.Play();  //playSoundResourceSync("move_three_left");
+            else Console.WriteLine("dist = more than 3");  //Great.Play();  //playSoundResourceSync("move_more_than_three_left");
             orient = true;
-            return false;
         }
         else if (anklesZ * 3.28084 < minAnkleZ)
         {
             distance = (int)Math.Floor(minAnkleZ - (anklesZ * 3.28084));
-            if (distance < 1) soClose.Play(); //playSoundResourceSync("take_step_backward");
-            else if (distance == 1) soClose.Play(); //playSoundResourceSync("move_one_backward");
-            else if (distance == 2) KeepGoing.Play();  //playSoundResourceSync("move_two_backward");
-            else if (distance == 3) Great.Play();  // playSoundResourceSync("move_three_backward");
-            else Great.Play();  //playSoundResourceSync("move_more_than_three_backward");
+            if (distance < 1) Console.WriteLine("dist less than 1");  //soClose.Play(); //playSoundResourceSync("take_step_backward");
+            else if (distance == 1) Console.WriteLine("dist = 1");  //soClose.Play(); //playSoundResourceSync("move_one_backward");
+            else if (distance == 2) Console.WriteLine("dist = 2");  //KeepGoing.Play();  //playSoundResourceSync("move_two_backward");
+            else if (distance == 3) Console.WriteLine("dist = 3");  //Great.Play();  // playSoundResourceSync("move_three_backward");
+            else Console.WriteLine("dist = more than 3");  //Great.Play();  //playSoundResourceSync("move_more_than_three_backward");
             orient = true;
-            return false;
         }
         else if (anklesZ * 3.28084 > maxAnkleZ)
         {
             distance = (int)Math.Floor((anklesZ * 3.28084) - maxAnkleZ);
-            if (distance < 1) soClose.Play();  //playSoundResourceSync("take_step_forward");
-            else if (distance == 1) soClose.Play(); // playSoundResourceSync("move_one_forward");
-            else if (distance == 2) KeepGoing.Play();  //playSoundResourceSync("move_two_forward");
-            else if (distance == 3) Great.Play();  //playSoundResourceSync("move_three_forward");
-            else Great.Play();  //playSoundResourceSync("move_more_than_three_forward");
+            if (distance < 1) Console.WriteLine("dist less than 1");  //soClose.Play();  //playSoundResourceSync("take_step_forward");
+            else if (distance == 1) Console.WriteLine("dist = 1"); //soClose.Play(); // playSoundResourceSync("move_one_forward");
+            else if (distance == 2) Console.WriteLine("dist = 2"); //KeepGoing.Play();  //playSoundResourceSync("move_two_forward");
+            else if (distance == 3) Console.WriteLine("dist = 3");// Great.Play();  //playSoundResourceSync("move_three_forward");
+            else Console.WriteLine("dist = more than 3"); //Great.Play();  //playSoundResourceSync("move_more_than_three_forward");
             orient = true;
-            return false;
         }
         else
         {
             orient = false;
             Fantastic.Play();
-            return true;
             
             //playSoundResourceSync("good_position");
                                // othread = new Thread(startGame);
@@ -138,6 +134,9 @@ public class GameController : MonoBehaviour
            // StartCoroutine(GameLogic());
         }
     }
+
+
+
 
 
 
@@ -153,14 +152,25 @@ public class GameController : MonoBehaviour
         int levelCounter = 1;
         numMissedInRow = 0;
 
+
         while (molesLeft > -1)
         {
             // Record the old hip positions, if they are the same after an iteration the hips have moved off camera and are no longer tracked
             // If the hips never began to track they will be 0 from the start (Might be able to get away with removing the zero part
             oldLeftHipX = BodySourceView.leftHipPosition.X;
             oldRightHipX = BodySourceView.rightHipPosition.X;
-            while ((BodySourceView.leftHipPosition.X == 0 && BodySourceView.rightHipPosition.X == 0) || (BodySourceView.leftHipPosition.X == oldLeftHipX && BodySourceView.rightHipPosition.X == oldRightHipX))
+
+            /*
+            while (orient)
             {
+             //   Thread checkAnkle = new Thread(() => checkAnkles());
+                checkAnkles();
+            }
+            orient = false;
+            */
+            
+            while ((BodySourceView.leftHipPosition.X == 0 && BodySourceView.rightHipPosition.X == 0) || (BodySourceView.leftHipPosition.X == oldLeftHipX && BodySourceView.rightHipPosition.X == oldRightHipX))
+            {   
                 //each time mole
                 Debug.Log("Out of bounds");
                 audioTimer += Time.deltaTime;
@@ -172,14 +182,15 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(.5f);
                 yield return null;
             }
-
+            
 
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0)
             {
                 endMusic.Play();
                 yield return new WaitForSeconds(3.0f);
-                textToSpeech.SetActive(true);
+                ScoreAudio.playScore(score);
+               // textToSpeech.SetActive(true);
             }
 
 
@@ -314,12 +325,15 @@ public class GameController : MonoBehaviour
                     targetMole.isHit = false;
                 }
             }
+
+            // announces score ~25% of the time.
             if (UnityEngine.Random.Range(1, 4) == 1 && molesLeft > 1)
             {
                 yield return new WaitForSeconds(1.0f);
-                textToSpeech.SetActive(true);
+                ScoreAudio.playScore(score);
+               // textToSpeech.SetActive(true);
                 yield return new WaitForSeconds(3.0f);
-                textToSpeech.SetActive(false);
+                //textToSpeech.SetActive(false);
             }
 
             targetMole.timeHit = 0;
