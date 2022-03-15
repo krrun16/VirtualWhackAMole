@@ -13,6 +13,12 @@ public class ScoreAudio : MonoBehaviour
         scoreSounds = GetComponents<AudioSource>();
     }
 
+
+    public static void playBegScore()
+    {
+        scoreSounds[81].Play();
+    }
+
     // NOTE: numbers are currently one off bc the first one should be 0. need to record that!!!
     public static void playScore(int score)
     {

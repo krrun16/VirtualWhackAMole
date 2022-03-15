@@ -1701,7 +1701,7 @@ MonoBehaviour:
   rightHandBox: {fileID: 1020288109}
   playButton: {fileID: 881231568}
   exitButton: {fileID: 1237294097}
-  textToSpeech: {fileID: 1301869723}
+  textToSpeech: {fileID: 0}
   counter: 0
 --- !u!82 &564929688
 AudioSource:
