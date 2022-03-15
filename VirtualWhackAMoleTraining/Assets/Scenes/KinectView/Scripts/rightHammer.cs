@@ -13,16 +13,17 @@ public class rightHammer : MonoBehaviour
     private Mole[] moles;
     private Rigidbody rb;
 
-    public AudioSource chestNote;
-    public AudioSource headNote;
-    public AudioSource neckNote;
-    public AudioSource stomachNote;
-    public AudioSource hipsNote;
-    //private AudioSource headNote;
-    //private AudioSource hipNote;
-    //private AudioSource neckNote;
-    //private AudioSource stomachNote;
-   // private AudioSource[] pianoSounds;
+    // public AudioSource chestNote;
+    //public AudioSource headNote;
+    //public AudioSource neckNote;
+    // public AudioSource stomachNote;
+    // public AudioSource hipNote;
+    private AudioSource chestNote;
+    private AudioSource headNote;
+    private AudioSource hipNote;
+    private AudioSource neckNote;
+    private AudioSource stomachNote;
+    private AudioSource[] pianoSounds;
 
     public float speed = 20f;
 
@@ -35,16 +36,15 @@ public class rightHammer : MonoBehaviour
     {
         // adding Moles into list 
 
-        //pianoSounds = GetComponents<AudioSource>();
-        //chestNote = pianoSounds[0];
-        //stomachNote = pianoSounds[1];
-        //neckNote = pianoSounds[2];
-        //hipNote = pianoSounds[3];
-        //headNote = pianoSounds[4];
+        pianoSounds = GetComponents<AudioSource>();
+        chestNote = pianoSounds[0];
+        stomachNote = pianoSounds[1];
+        neckNote = pianoSounds[2];
+        hipNote = pianoSounds[3];
+        headNote = pianoSounds[4];
 
         moles = GameObject.FindObjectsOfType<Mole>();
         rb = GetComponent<Rigidbody>();
-
     }
 
     // Update is called once per frame
@@ -54,11 +54,6 @@ public class rightHammer : MonoBehaviour
         transform.localScale = new Vector3(height, height, height);
 
         newRightHammerPosition = new Vector3(-BodySourceView.rightHandPosition.X, BodySourceView.rightHandPosition.Y, BodySourceView.rightHandPosition.Z);
-
-       //if (MainMenu.handedness == "Right")
-        //{
-          //  GivePianoSound();
-        //}
 
         if (rb.CompareTag("rightHammer"))
         {
@@ -132,97 +127,37 @@ public class rightHammer : MonoBehaviour
 
     private void BucketSoundHorizontal(AudioSource usedSound)
     {
-        if (-BodySourceView.rightHandPosition.X < -.4572)
+        print("Sarah this is the x pos " + transform.localPosition.x);
+        if (transform.localPosition.x < -.4572)
         {
             usedSound.panStereo = 1;
         }
-        else if (-BodySourceView.rightHandPosition.X >= -.4572 && -BodySourceView.rightHandPosition.X < -.1524)
+        else if (transform.localPosition.x >= -.4572 && transform.localPosition.x < -.1524)
         {
             usedSound.panStereo = 0.5f;
         }
-        else if (-BodySourceView.rightHandPosition.X >= -.1524 && -BodySourceView.rightHandPosition.X < .1524)
+        else if (transform.localPosition.x >= -.1524 && transform.localPosition.x < .1524)
         {
             usedSound.panStereo = 0;
         }
-        else if (-BodySourceView.rightHandPosition.X >= .1524 && -BodySourceView.rightHandPosition.X < .4572)
+        else if (transform.localPosition.x >= .1524 && transform.localPosition.x < .4572)
         {
             usedSound.panStereo = -0.5f;
         }
-        else if (-BodySourceView.rightHandPosition.X >= .4572)
+        else if (transform.localPosition.x >= .4572)
         {
             usedSound.panStereo = -1;
         }
     }
-    /*    
-        private void BucketSoundHorizontal(AudioSource usedSound)
-        {
-            print("Sarah this is the x pos " + transform.localPosition.x);
-            if (transform.localPosition.x < -.4572)
-            {
-                usedSound.panStereo = 1;
-            }
-            else if (transform.localPosition.x >= -.4572 && transform.localPosition.x < -.1524)
-            {
-                usedSound.panStereo = 0.5f;
-            }
-            else if (transform.localPosition.x >= -.1524 && transform.localPosition.x < .1524)
-            {
-                usedSound.panStereo = 0;
-            }
-            else if (transform.localPosition.x >= .1524 && transform.localPosition.x < .4572)
-            {
-                usedSound.panStereo = -0.5f;
-            }
-            else if (transform.localPosition.x >= .4572)
-            {
-                usedSound.panStereo = -1;
-            }
-        }
-    */
-    //Returns spatialized piano notes for the correct elevation.
-    private AudioSource GetPianoNotes()
-    {
-        if (BodySourceView.rightHandPosition.Y < -.4572)
-        {
-            BucketSoundHorizontal(hipsNote);
-            //myNote = hipNote;
-            return hipsNote;
-        }
-        else if (BodySourceView.rightHandPosition.Y >= -.4572 && BodySourceView.rightHandPosition.Y < -.1524)
-        {
-            BucketSoundHorizontal(stomachNote);
-            //myNote = stomachNote;
-            return stomachNote;
-        }
-        else if (BodySourceView.rightHandPosition.Y >= -.1524 && BodySourceView.rightHandPosition.Y < .1524)
-        {
-            BucketSoundHorizontal(chestNote);
-            return chestNote;
-            //myNote = chestNote;
-        }
-        else if (BodySourceView.rightHandPosition.Y >= .1524 && BodySourceView.rightHandPosition.Y < .4572)
-        {
-            BucketSoundHorizontal(neckNote);
-            return neckNote;
-            //myNote = neckNote;
-        }
-        else
-        {
-            BucketSoundHorizontal(headNote);
-            // myNote = headNote;
-            return headNote;
-        }
-    }
 
-    /*
     //Returns spatialized piano notes for the correct elevation.
     private AudioSource GetPianoNotes()
     {
         if (transform.localPosition.y < -.4572)
         {
-            BucketSoundHorizontal(hipsNote);
+            BucketSoundHorizontal(hipNote);
             //myNote = hipNote;
-            return hipsNote;
+            return hipNote;
         }
         else if (transform.localPosition.y >= -.4572 && transform.localPosition.y < -.1524)
         {
@@ -249,41 +184,33 @@ public class rightHammer : MonoBehaviour
             return headNote;
         }
     }
-    */
 
     // Plays audio sources in order and without overlap
-    IEnumerator playAudioSequentially(AudioSource hint)
+    IEnumerator playAudioSequentially(List<AudioSource> hints)
     {
-        hint.Play();
-        while (hint.isPlaying)
-        {
-            yield return null;
-        }
-        /*
         yield return null;
 
         //1.Loop through each AudioSource
         foreach (AudioSource currAudio in hints)
         {
+            print("SARAH " + currAudio);
             // Play Audio
             currAudio.Play();
             // Wait for it to finish playing
-            while (currAudio.isPlaying)
-            {
-                yield return null;
-            }
-        } 
-        */
+            //  while (currAudio.isPlaying)
+            // {
+            //   yield return null
+            // }
+        }
     }
 
 
-    public IEnumerator GivePianoSound()
+    public void GivePianoSound()
     {
-       AudioSource currentSound = GetPianoNotes();
-       currentSound.Play();
-       while (currentSound.isPlaying)
-       {
-            yield return null;
-       }
+        //GetPianoNotes();
+        print("SARAH, successfully called GivePianoSound");
+        List<AudioSource> thePianoSound = new List<AudioSource>();
+        thePianoSound.Add(GetPianoNotes());
+        StartCoroutine(playAudioSequentially(thePianoSound));
     }
 }

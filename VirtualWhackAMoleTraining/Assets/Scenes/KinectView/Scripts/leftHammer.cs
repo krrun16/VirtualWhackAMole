@@ -13,16 +13,17 @@ public class leftHammer : MonoBehaviour
     private Mole[] moles;
     private Rigidbody rb;
 
-    public AudioSource chestNote;
-    public AudioSource headNote;
-    public AudioSource neckNote;
-    public AudioSource stomachNote;
-    public AudioSource hipsNote;
-    //private AudioSource headNote;
-    //private AudioSource hipNote;
-    //private AudioSource neckNote;
-    //private AudioSource stomachNote;
-    // private AudioSource[] pianoSounds;
+    // public AudioSource chestNote;
+    //public AudioSource headNote;
+    //public AudioSource neckNote;
+    // public AudioSource stomachNote;
+    // public AudioSource hipNote;
+    private AudioSource chestNote;
+    private AudioSource headNote;
+    private AudioSource hipNote;
+    private AudioSource neckNote;
+    private AudioSource stomachNote;
+    private AudioSource[] pianoSounds;
 
     public float speed = 20f;
 
@@ -35,12 +36,12 @@ public class leftHammer : MonoBehaviour
     {
         // adding Moles into list 
 
-        //pianoSounds = GetComponents<AudioSource>();
-        //chestNote = pianoSounds[0];
-        //stomachNote = pianoSounds[1];
-        //neckNote = pianoSounds[2];
-        //hipNote = pianoSounds[3];
-        //headNote = pianoSounds[4];
+        pianoSounds = GetComponents<AudioSource>();
+        chestNote = pianoSounds[0];
+        stomachNote = pianoSounds[1];
+        neckNote = pianoSounds[2];
+        hipNote = pianoSounds[3];
+        headNote = pianoSounds[4];
 
         moles = GameObject.FindObjectsOfType<Mole>();
         rb = GetComponent<Rigidbody>();
@@ -154,32 +155,27 @@ public class leftHammer : MonoBehaviour
     {
         if (transform.localPosition.y < -.4572)
         {
-            BucketSoundHorizontal(hipsNote);
-            //myNote = hipNote;
-            return hipsNote;
+            BucketSoundHorizontal(hipNote);
+            return hipNote;
         }
         else if (transform.localPosition.y >= -.4572 && transform.localPosition.y < -.1524)
         {
             BucketSoundHorizontal(stomachNote);
-            //myNote = stomachNote;
             return stomachNote;
         }
         else if (transform.localPosition.y >= -.1524 && transform.localPosition.y < .1524)
         {
             BucketSoundHorizontal(chestNote);
             return chestNote;
-            //myNote = chestNote;
         }
         else if (transform.localPosition.y >= .1524 && transform.localPosition.y < .4572)
         {
             BucketSoundHorizontal(neckNote);
             return neckNote;
-            //myNote = neckNote;
         }
         else
         {
             BucketSoundHorizontal(headNote);
-            // myNote = headNote;
             return headNote;
         }
     }
@@ -192,22 +188,14 @@ public class leftHammer : MonoBehaviour
         //1.Loop through each AudioSource
         foreach (AudioSource currAudio in hints)
         {
-            print("SARAH " + currAudio);
             // Play Audio
             currAudio.Play();
-            // Wait for it to finish playing
-            while (currAudio.isPlaying)
-            {
-                yield return null;
-            }
         }
     }
 
 
     public void GivePianoSound()
     {
-        //GetPianoNotes();
-        print("SARAH, successfully called GivePianoSound");
         List<AudioSource> thePianoSound = new List<AudioSource>();
         thePianoSound.Add(GetPianoNotes());
         StartCoroutine(playAudioSequentially(thePianoSound));
