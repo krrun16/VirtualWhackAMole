@@ -2,15 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
+using System;
 
 public class TextToSpeech : MonoBehaviour
 {
     public AudioSource _audio;
-    
+    public static AudioSource[] numbers;
+
+
+    void Start()
+    {
+        numbers = GetComponents<AudioSource>();
+    }
+
 
     void OnEnable()
     {
-       // _audio = gameObject.GetComponent<AudioSource>();
+        _audio = gameObject.GetComponent<AudioSource>();
         if (gameObject.scene.name == "GameScene")
         {
             StartCoroutine(DownloadTheAudio());
@@ -43,8 +51,8 @@ public class TextToSpeech : MonoBehaviour
         {
             yield return www.SendWebRequest();
 
-         //   _audio.clip = DownloadHandlerAudioClip.GetContent(www);
-           // _audio.Play();
+            _audio.clip = DownloadHandlerAudioClip.GetContent(www);
+            _audio.Play();
         }   
     }
     // Uses a integer (probably should be a bool) to check if we are reading the box or if we are typing in the box
@@ -52,41 +60,43 @@ public class TextToSpeech : MonoBehaviour
     {
         string inputFieldString;
         char inputFieldChar;
-        int inputFieldInteger;
-        // string url;
+        string url;
         if (state == 1)
         {
             inputFieldString  = stringReciever.getPartNumber();
-            inputFieldInteger = int.Parse(inputFieldString);
-            ScoreAudio.playScore(inputFieldInteger);
-            /*
+            print(inputFieldString);
+
             url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldString;
             using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
             {
                 yield return www.SendWebRequest();
 
-                _audio.clip = DownloadHandlerAudioClip.GetContent(www);
-                _audio.PlayDelayed(1.25f);
-                yield return new WaitForSeconds(2f);
-            }*/
+               _audio.clip = DownloadHandlerAudioClip.GetContent(www);
+               _audio.PlayDelayed(1.25f);
+               yield return new WaitForSeconds(2f);
+
+
+            }
         }
         else
         {
             inputFieldChar = stringReciever.getCharNumber();
-            inputFieldString = stringReciever.getPartNumber();
-            inputFieldInteger = int.Parse(inputFieldString);
-            ScoreAudio.playScore(inputFieldInteger);
-            // url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldChar;
+            print(inputFieldChar);
+            int inputFieldInt = (int)Char.GetNumericValue(inputFieldChar);
 
-            //using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
-            // {
-            //   yield return www.SendWebRequest();
+            url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldChar;
 
-            //                _audio.clip = DownloadHandlerAudioClip.GetContent(www);
-            //              _audio.Play();
-            //        }
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
+            {
+                yield return www.SendWebRequest();
+
+                // _audio.clip = DownloadHandlerAudioClip.GetContent(www);
+                // _audio.Play();
+                // add one bc the first audio is from textToSpeech and is blank
+                numbers[inputFieldInt + 1].Play();
+            }
         }
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
     }
 }
