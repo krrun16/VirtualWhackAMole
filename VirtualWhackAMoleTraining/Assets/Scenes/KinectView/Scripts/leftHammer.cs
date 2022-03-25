@@ -25,6 +25,41 @@ public class leftHammer : MonoBehaviour
     private AudioSource stomachNote;
     private AudioSource[] pianoSounds;
 
+    private AudioSource head1;
+    private AudioSource head2;
+    private AudioSource head3;
+    private AudioSource head4;
+    private AudioSource head5;
+
+    private AudioSource neck1;
+    private AudioSource neck2;
+    private AudioSource neck3;
+    private AudioSource neck4;
+    private AudioSource neck5;
+
+    private AudioSource chest1;
+    private AudioSource chest2;
+    private AudioSource chest3;
+    private AudioSource chest4;
+    private AudioSource chest5;
+
+    private AudioSource stomach1;
+    private AudioSource stomach2;
+    private AudioSource stomach3;
+    private AudioSource stomach4;
+    private AudioSource stomach5;
+
+    private AudioSource hip1;
+    private AudioSource hip2;
+    private AudioSource hip3;
+    private AudioSource hip4;
+    private AudioSource hip5;
+
+    int xval;
+    int yval;
+
+    public AudioSource[,] spaitializedSounds;
+
     public float speed = 20f;
 
     private Vector3 newLeftHammerPosition;
@@ -37,11 +72,74 @@ public class leftHammer : MonoBehaviour
         // adding Moles into list 
 
         pianoSounds = GetComponents<AudioSource>();
-        chestNote = pianoSounds[0];
-        stomachNote = pianoSounds[1];
-        neckNote = pianoSounds[2];
-        hipNote = pianoSounds[3];
-        headNote = pianoSounds[4];
+        // chestNote = pianoSounds[0];
+        // stomachNote = pianoSounds[1];
+        // neckNote = pianoSounds[2];
+        //hipNote = pianoSounds[3];
+        // headNote = pianoSounds[4];
+
+        neck1 = pianoSounds[2];
+        neck2 = pianoSounds[2];
+        neck3 = pianoSounds[2];
+        neck4 = pianoSounds[2];
+        neck5 = pianoSounds[2];
+
+        head1 = pianoSounds[4];
+        head2 = pianoSounds[4];
+        head3 = pianoSounds[4];
+        head4 = pianoSounds[4];
+        head5 = pianoSounds[4];
+
+        chest1 = pianoSounds[0];
+        chest2 = pianoSounds[0];
+        chest3 = pianoSounds[0];
+        chest4 = pianoSounds[0];
+        chest5 = pianoSounds[0];
+
+        stomach1 = pianoSounds[1];
+        stomach2 = pianoSounds[1];
+        stomach3 = pianoSounds[1];
+        stomach4 = pianoSounds[1];
+        stomach5 = pianoSounds[1];
+
+        hip1 = pianoSounds[3];
+        hip2 = pianoSounds[3];
+        hip3 = pianoSounds[3];
+        hip4 = pianoSounds[3];
+        hip5 = pianoSounds[3];
+
+        head1.panStereo = 1;
+        head2.panStereo = .5f;
+        head3.panStereo = 0;
+        head4.panStereo = -.5f;
+        head5.panStereo = -1;
+
+        neck1.panStereo = 1;
+        neck2.panStereo = .5f;
+        neck3.panStereo = 0;
+        neck4.panStereo = -.5f;
+        neck5.panStereo = -1;
+
+        chest1.panStereo = 1;
+        chest2.panStereo = .5f;
+        chest3.panStereo = 0;
+        chest4.panStereo = -.5f;
+        chest5.panStereo = -1;
+
+        stomach1.panStereo = 1;
+        stomach2.panStereo = .5f;
+        stomach3.panStereo = 0;
+        stomach4.panStereo = -.5f;
+        stomach5.panStereo = -1;
+
+        hip1.panStereo = 1;
+        hip2.panStereo = .5f;
+        hip3.panStereo = 0;
+        hip4.panStereo = -.5f;
+        hip5.panStereo = -1;
+
+        spaitializedSounds = new AudioSource[5, 5] { {head1, head2, head3, head4, head5 }, { neck1, neck2, neck3, neck4, neck5 }, { chest1, chest2, chest3, chest4, chest5 }, { stomach1, stomach2, stomach3, stomach4, stomach5 }, { hip1, hip2, hip3, hip4, hip5 } };
+
 
         moles = GameObject.FindObjectsOfType<Mole>();
         rb = GetComponent<Rigidbody>();
@@ -124,10 +222,9 @@ public class leftHammer : MonoBehaviour
         transform.localRotation = Quaternion.Slerp(transform.rotation, endRotation, .05f);
     }
 
-
+    // prev method ---------------------------------------------------
     private void BucketSoundHorizontal(AudioSource usedSound)
     {
-        print("Sarah this is the x pos " + transform.localPosition.x);
         if (transform.localPosition.x < -.4572)
         {
             usedSound.panStereo = 1;
@@ -151,7 +248,7 @@ public class leftHammer : MonoBehaviour
     }
 
     //Returns spatialized piano notes for the correct elevation.
-    private AudioSource GetPianoNotes()
+    private AudioSource GetPianoNote()
     {
         if (transform.localPosition.y < -.4572)
         {
@@ -180,7 +277,7 @@ public class leftHammer : MonoBehaviour
         }
     }
 
-    // Plays audio sources in order and without overlap
+    /* Plays audio sources in order and without overlap
     IEnumerator playAudioSequentially(List<AudioSource> hints)
     {
         yield return null;
@@ -191,13 +288,104 @@ public class leftHammer : MonoBehaviour
             // Play Audio
             currAudio.Play();
         }
+    } */
+
+    //------------------------------------------------------------------------
+
+
+    // new attempt -----------------------------------------------------------
+
+    private int getYval()
+    {
+        if (transform.localPosition.x < -.4572)
+        {
+            return 0;
+        }
+        else if (transform.localPosition.x >= -.4572 && transform.localPosition.x < -.1524)
+        {
+            return 1;
+        }
+        else if (transform.localPosition.x >= -.1524 && transform.localPosition.x < .1524)
+        {
+            return 2;
+        }
+        else if (transform.localPosition.x >= .1524 && transform.localPosition.x < .4572)
+        {
+            return 3;
+        }
+        else //if (transform.localPosition.x >= .4572)
+        {
+            return 4;
+        }
+    }
+
+
+    private (int,int) returnPianoNote()
+    {
+        if (transform.localPosition.y < -.4572)
+        {
+            spaitializedSounds[xval, yval].loop = false;
+            xval = 4;
+            yval = getYval();
+            return (xval, yval);
+        }
+        else if (transform.localPosition.y >= -.4572 && transform.localPosition.y < -.1524)
+        {
+            spaitializedSounds[xval, yval].loop = false;
+            xval = 3;
+            yval = getYval();
+            return (xval, yval);
+        }
+        else if (transform.localPosition.y >= -.1524 && transform.localPosition.y < .1524)
+        {
+            spaitializedSounds[xval, yval].loop = false;
+            xval = 2;
+            yval = getYval();
+            return (xval, yval);
+        }
+        else if (transform.localPosition.y >= .1524 && transform.localPosition.y < .4572)
+        {
+            spaitializedSounds[xval, yval].loop = false;
+            xval = 1;
+            yval = getYval();
+            return (xval, yval);
+        }
+        else
+        {
+            spaitializedSounds[xval, yval].loop = false;
+            xval = 0;
+            yval = getYval();
+            return (xval, yval);
+        }
+    }
+
+    // Plays audio sources in order and without overlap
+    IEnumerator playAudioSequentially(int x, int y)
+    {
+        yield return null;
+        spaitializedSounds[x, y].loop = true;
+        spaitializedSounds[x, y].Play();
+
+        /*  while (xval == x && yval == y)
+          {
+              spaitializedSounds[x, y].loop = true;
+              spaitializedSounds[x, y].Play();
+          }
+          spaitializedSounds[x, y].loop = false;
+          */
+
     }
 
 
     public void GivePianoSound()
     {
-        List<AudioSource> thePianoSound = new List<AudioSource>();
-        thePianoSound.Add(GetPianoNotes());
-        StartCoroutine(playAudioSequentially(thePianoSound));
+        (int x1, int y1) = returnPianoNote();
+        print("x1 and y2 " + xval + " " + yval);
+        print("xval and yval " + xval + " " + yval);
+        StartCoroutine(playAudioSequentially(x1,y1));
     }
+
+    //------------------------------------------------------------------------/
+
+
 }

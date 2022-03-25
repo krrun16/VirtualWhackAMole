@@ -11,7 +11,7 @@ public class TrainingController : MonoBehaviour
     private rightHammer rightHammerForSound;
     private leftHammer[] leftHammers;
     private leftHammer leftHammerForSound;
-    private static int score = 0;
+   // private static int score = 0;
     private string hintType;
     private GameObject[] leftHammer;
    // private GameObject[] rightHammer;
@@ -41,13 +41,15 @@ public class TrainingController : MonoBehaviour
         {
             leftHammerForSound = hammer;
         }
-       // GameLogic();
-       // StartCoroutine(GameLogic());
+
+        // GameLogic();
+        // StartCoroutine(GameLogic());
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (MainMenu.handedness == "Right")
         {
             rightHammerForSound.GivePianoSound();
@@ -55,21 +57,24 @@ public class TrainingController : MonoBehaviour
         else
         {
             leftHammerForSound.GivePianoSound();
+         //   leftHammerForSound.getAudio();
         }
 
-        timer += Time.deltaTime;
-        CsvReadWrite.writeData();
+      //  timer += Time.deltaTime;
+       // CsvReadWrite.writeData();
     }
+
+
 
     private IEnumerator GameLogic()
     {
-        int counter = 0;
+       // int counter = 0;
         float audioTimer = 0f;
-        int totalMoles = 0;
+       // int totalMoles = 0;
         //MoleCap used to determine if player is within a given 10-mole window.
-        int moleCap = 10;
-        int firstWindowMoleHit = 0;
-        int levelCounter = 1;
+      //  int moleCap = 10;
+       // int firstWindowMoleHit = 0;
+       // int levelCounter = 1;
         
 
         while (molesLeft > -1)
@@ -107,7 +112,6 @@ public class TrainingController : MonoBehaviour
 
                 if (MainMenu.handedness == "Right")
                 {
-                    print("SARAH, entered the handedness Right conditional");
                     rightHammerForSound.GivePianoSound();
                 }
                 else
