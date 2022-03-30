@@ -3107,11 +3107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9011ea437c41dd48975b0d9802c1364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestNote: {fileID: 1607102514}
-  headNote: {fileID: 1110246873}
-  neckNote: {fileID: 139348285}
-  stomachNote: {fileID: 68009450}
-  hipsNote: {fileID: 1059413656}
   speed: 20
 --- !u!54 &895335375
 Rigidbody:
@@ -3247,7 +3242,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 0
+  Spatialize: 1
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
@@ -7571,11 +7566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d648fed59bcb33488094324c2928bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestNote: {fileID: 1607102514}
-  headNote: {fileID: 1110246873}
-  neckNote: {fileID: 139348285}
-  stomachNote: {fileID: 68009450}
-  hipsNote: {fileID: 1059413656}
   speed: 20
 --- !u!54 &2025386029
 Rigidbody:

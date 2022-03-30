@@ -49,7 +49,7 @@ public class TrainingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        /*
         if (MainMenu.handedness == "Right")
         {
             rightHammerForSound.GivePianoSound();
@@ -59,7 +59,7 @@ public class TrainingController : MonoBehaviour
             leftHammerForSound.GivePianoSound();
          //   leftHammerForSound.getAudio();
         }
-
+        */
       //  timer += Time.deltaTime;
        // CsvReadWrite.writeData();
     }

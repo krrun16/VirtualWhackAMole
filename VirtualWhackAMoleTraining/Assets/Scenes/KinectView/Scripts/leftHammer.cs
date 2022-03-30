@@ -13,16 +13,6 @@ public class leftHammer : MonoBehaviour
     private Mole[] moles;
     private Rigidbody rb;
 
-    // public AudioSource chestNote;
-    //public AudioSource headNote;
-    //public AudioSource neckNote;
-    // public AudioSource stomachNote;
-    // public AudioSource hipNote;
-    private AudioSource chestNote;
-    private AudioSource headNote;
-    private AudioSource hipNote;
-    private AudioSource neckNote;
-    private AudioSource stomachNote;
     private AudioSource[] pianoSounds;
 
     private AudioSource head1;
@@ -55,29 +45,24 @@ public class leftHammer : MonoBehaviour
     private AudioSource hip4;
     private AudioSource hip5;
 
-    int xval;
-    int yval;
+    private int xval;
+    private int yval;
+    private int oldX;
+    private int oldY;
 
-    public AudioSource[,] spaitializedSounds;
+
+    private AudioSource[,] spaitializedSounds;
 
     public float speed = 20f;
 
     private Vector3 newLeftHammerPosition;
-    private Vector3 newRightHammerPosition;
     public static Quaternion endRotation;
 
     // Start is called before the first frame update
     void Start()
     {
-        // adding Moles into list 
 
         pianoSounds = GetComponents<AudioSource>();
-        // chestNote = pianoSounds[0];
-        // stomachNote = pianoSounds[1];
-        // neckNote = pianoSounds[2];
-        //hipNote = pianoSounds[3];
-        // headNote = pianoSounds[4];
-
         neck1 = pianoSounds[2];
         neck2 = pianoSounds[2];
         neck3 = pianoSounds[2];
@@ -148,6 +133,8 @@ public class leftHammer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         float height = GameObject.Find("GridManager").transform.localScale.y;
         transform.localScale = new Vector3(height, height, height);
 
@@ -157,6 +144,11 @@ public class leftHammer : MonoBehaviour
         {
             transform.localPosition = Vector3.Lerp(transform.localPosition, newLeftHammerPosition, Time.fixedDeltaTime * 13);
             RotateHammer(BodySourceView.leftHandPosition, BodySourceView.leftWristPosition, BodySourceView.leftElbowPosition);
+        }
+
+        if (MainMenu.handedness == "Left")
+        {
+            GivePianoSound();
         }
     }
     private void OnTriggerEnter(Collider col)
@@ -222,79 +214,6 @@ public class leftHammer : MonoBehaviour
         transform.localRotation = Quaternion.Slerp(transform.rotation, endRotation, .05f);
     }
 
-    // prev method ---------------------------------------------------
-    private void BucketSoundHorizontal(AudioSource usedSound)
-    {
-        if (transform.localPosition.x < -.4572)
-        {
-            usedSound.panStereo = 1;
-        }
-        else if (transform.localPosition.x >= -.4572 && transform.localPosition.x < -.1524)
-        {
-            usedSound.panStereo = 0.5f;
-        }
-        else if (transform.localPosition.x >= -.1524 && transform.localPosition.x < .1524)
-        {
-            usedSound.panStereo = 0;
-        }
-        else if (transform.localPosition.x >= .1524 && transform.localPosition.x < .4572)
-        {
-            usedSound.panStereo = -0.5f;
-        }
-        else if (transform.localPosition.x >= .4572)
-        {
-            usedSound.panStereo = -1;
-        }
-    }
-
-    //Returns spatialized piano notes for the correct elevation.
-    private AudioSource GetPianoNote()
-    {
-        if (transform.localPosition.y < -.4572)
-        {
-            BucketSoundHorizontal(hipNote);
-            return hipNote;
-        }
-        else if (transform.localPosition.y >= -.4572 && transform.localPosition.y < -.1524)
-        {
-            BucketSoundHorizontal(stomachNote);
-            return stomachNote;
-        }
-        else if (transform.localPosition.y >= -.1524 && transform.localPosition.y < .1524)
-        {
-            BucketSoundHorizontal(chestNote);
-            return chestNote;
-        }
-        else if (transform.localPosition.y >= .1524 && transform.localPosition.y < .4572)
-        {
-            BucketSoundHorizontal(neckNote);
-            return neckNote;
-        }
-        else
-        {
-            BucketSoundHorizontal(headNote);
-            return headNote;
-        }
-    }
-
-    /* Plays audio sources in order and without overlap
-    IEnumerator playAudioSequentially(List<AudioSource> hints)
-    {
-        yield return null;
-
-        //1.Loop through each AudioSource
-        foreach (AudioSource currAudio in hints)
-        {
-            // Play Audio
-            currAudio.Play();
-        }
-    } */
-
-    //------------------------------------------------------------------------
-
-
-    // new attempt -----------------------------------------------------------
-
     private int getYval()
     {
         if (transform.localPosition.x < -.4572)
@@ -324,64 +243,57 @@ public class leftHammer : MonoBehaviour
     {
         if (transform.localPosition.y < -.4572)
         {
-            spaitializedSounds[xval, yval].loop = false;
             xval = 4;
             yval = getYval();
             return (xval, yval);
         }
         else if (transform.localPosition.y >= -.4572 && transform.localPosition.y < -.1524)
         {
-            spaitializedSounds[xval, yval].loop = false;
             xval = 3;
             yval = getYval();
             return (xval, yval);
         }
         else if (transform.localPosition.y >= -.1524 && transform.localPosition.y < .1524)
         {
-            spaitializedSounds[xval, yval].loop = false;
             xval = 2;
             yval = getYval();
             return (xval, yval);
         }
         else if (transform.localPosition.y >= .1524 && transform.localPosition.y < .4572)
         {
-            spaitializedSounds[xval, yval].loop = false;
             xval = 1;
             yval = getYval();
             return (xval, yval);
         }
         else
         {
-            spaitializedSounds[xval, yval].loop = false;
             xval = 0;
             yval = getYval();
             return (xval, yval);
         }
     }
 
-    // Plays audio sources in order and without overlap
     IEnumerator playAudioSequentially(int x, int y)
     {
-        yield return null;
-        spaitializedSounds[x, y].loop = true;
-        spaitializedSounds[x, y].Play();
+        // if new x and y are the same as the old values, then we do nothing
+        if (x == this.oldX && y == this.oldY) {
 
-        /*  while (xval == x && yval == y)
-          {
-              spaitializedSounds[x, y].loop = true;
-              spaitializedSounds[x, y].Play();
-          }
-          spaitializedSounds[x, y].loop = false;
-          */
+        } else
+        {
+            /// if not, then stop current source and play new source
+            spaitializedSounds[this.oldX, this.oldY].Stop();
+            spaitializedSounds[x, y].loop = true;
+            spaitializedSounds[x, y].Play();
+            this.oldX = x;
+            this.oldY = y;
+        }
+        yield return null;
 
     }
-
 
     public void GivePianoSound()
     {
         (int x1, int y1) = returnPianoNote();
-        print("x1 and y2 " + xval + " " + yval);
-        print("xval and yval " + xval + " " + yval);
         StartCoroutine(playAudioSequentially(x1,y1));
     }
 
