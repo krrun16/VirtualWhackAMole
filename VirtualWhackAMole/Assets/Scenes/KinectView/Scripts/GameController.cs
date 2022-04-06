@@ -40,6 +40,9 @@ public class GameController : MonoBehaviour
     public AudioSource Success;
     public AudioSource KeepGoing;
 
+    public static AudioSource[] audioSounds;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +54,7 @@ public class GameController : MonoBehaviour
         molesLeft = 40;
         hintType = PlayerPrefs.GetString("HintType");
         StartCoroutine(GameLogic());
-        orient = true;
+        audioSounds = GetComponents<AudioSource>();
     }
 
     // Update is called once per frame
@@ -182,7 +185,30 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(.5f);
                 yield return null;
             }
-            
+
+
+            // check if the center is 
+
+            float sum = BodySourceView.leftHipPosition.X + BodySourceView.rightHipPosition.X;
+            sum = sum / 2;
+            print("This is left pos " + BodySourceView.leftHipPosition.X);
+            print("This is right pos " + BodySourceView.rightHipPosition.X);
+            print("This is the center of left and right hip pos " + sum);
+
+            while (Math.Abs(sum) > 0.4572)
+            {
+                if (sum < 0) {
+                    audioSounds[4].Play();
+                    yield return new WaitForSeconds(3.0f);
+                } else
+                {
+                    audioSounds[3].Play();
+                    yield return new WaitForSeconds(3.0f);
+                }
+                sum = (BodySourceView.leftHipPosition.X + BodySourceView.rightHipPosition.X) / 2;
+                print("CENTER OF BODY IS 1.5 FEEET FROM CENTER");
+            }
+
 
             // if no moles left, we can write our data to an excel file
             if (molesLeft == 0)

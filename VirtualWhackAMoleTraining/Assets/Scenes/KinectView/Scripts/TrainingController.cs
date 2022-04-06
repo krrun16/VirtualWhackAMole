@@ -35,11 +35,17 @@ public class TrainingController : MonoBehaviour
         leftHammers = GameObject.FindObjectsOfType<leftHammer>();
         foreach (rightHammer hammer in hammers)
         {
-            rightHammerForSound = hammer; 
+            if (MainMenu.handedness == "Left")
+            {
+                Destroy(hammer);
+            }
         }
         foreach (leftHammer hammer in leftHammers)
         {
-            leftHammerForSound = hammer;
+            if (MainMenu.handedness == "Right")
+            {
+                Destroy(hammer);
+            }
         }
 
         // GameLogic();
