@@ -31,43 +31,11 @@ public class TrainingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hammers = GameObject.FindObjectsOfType<rightHammer>();
-        leftHammers = GameObject.FindObjectsOfType<leftHammer>();
-        foreach (rightHammer hammer in hammers)
-        {
-            if (MainMenu.handedness == "Left")
-            {
-                Destroy(hammer);
-            }
-        }
-        foreach (leftHammer hammer in leftHammers)
-        {
-            if (MainMenu.handedness == "Right")
-            {
-                Destroy(hammer);
-            }
-        }
-
-        // GameLogic();
-        // StartCoroutine(GameLogic());
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (MainMenu.handedness == "Right")
-        {
-            rightHammerForSound.GivePianoSound();
-        }
-        else
-        {
-            leftHammerForSound.GivePianoSound();
-         //   leftHammerForSound.getAudio();
-        }
-        */
-      //  timer += Time.deltaTime;
-       // CsvReadWrite.writeData();
     }
 
 

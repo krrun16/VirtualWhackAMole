@@ -62,6 +62,11 @@ public class rightHammer : MonoBehaviour
     {
         // adding Moles into list 
 
+        if (MainMenu.handedness == "Left")
+        {
+            Destroy(this.gameObject);
+        }
+
         pianoSounds = GetComponents<AudioSource>();
 
         neck1 = pianoSounds[2];
@@ -128,6 +133,7 @@ public class rightHammer : MonoBehaviour
 
         moles = GameObject.FindObjectsOfType<Mole>();
         rb = GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
