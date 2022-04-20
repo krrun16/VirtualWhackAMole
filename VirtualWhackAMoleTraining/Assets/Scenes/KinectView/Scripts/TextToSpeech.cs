@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
+using System;
 
 public class TextToSpeech : MonoBehaviour
 {
     public AudioSource _audio;
-    
+    public static AudioSource[] numbers;
+
+
+    void Start()
+    {
+        numbers = GetComponents<AudioSource>();
+    }
+
 
     void OnEnable()
     {
@@ -69,14 +77,17 @@ public class TextToSpeech : MonoBehaviour
         else
         {
             inputFieldChar = stringReciever.getCharNumber();
+            int inputFieldInt = (int)Char.GetNumericValue(inputFieldChar);
+
             url = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=" + inputFieldChar;
 
             using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
             {
                 yield return www.SendWebRequest();
 
-                _audio.clip = DownloadHandlerAudioClip.GetContent(www);
-                _audio.Play();
+                //_audio.clip = DownloadHandlerAudioClip.GetContent(www);
+                //_audio.Play();
+                numbers[inputFieldInt].Play();
             }
         }
         yield return new WaitForSeconds(.7f);

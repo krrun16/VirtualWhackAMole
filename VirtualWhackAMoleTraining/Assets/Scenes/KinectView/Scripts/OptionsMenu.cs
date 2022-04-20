@@ -14,7 +14,7 @@ public class OptionsMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hintGroup = GameObject.Find("ToggleHintGroup").GetComponent<ToggleGroup>();
+        // hintGroup = GameObject.Find("ToggleHintGroup").GetComponent<ToggleGroup>();
         handGroup = GameObject.Find("ToggleHandGroup").GetComponent<ToggleGroup>();
         trainingGroup = GameObject.Find("ToggleTrainingGroup").GetComponent<ToggleGroup>();
     }
