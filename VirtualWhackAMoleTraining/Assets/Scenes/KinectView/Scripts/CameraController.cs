@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
     {
         //TODO: subtract the grid position from the headPosition so the grid is always the origin
         //newHeadPosition = new Vector3(-BodySourceView.headPosition.X - .62F, BodySourceView.headPosition.Y, BodySourceView.headPosition.Z - 1.48F);
-        newHeadPosition = new Vector3(-BodySourceView.headPosition.X, BodySourceView.headPosition.Y, BodySourceView.headPosition.Z + 0.4f);
+        newHeadPosition = new Vector3(-BodySourceView.headPosition.X, BodySourceView.headPosition.Y, BodySourceView.headPosition.Z + .8f);  // + 0.4f);
         //newHeadPosition *= 10f;
         transform.position = Vector3.Lerp(transform.position, newHeadPosition, Time.deltaTime * 4f);
     }
@@ -35,7 +35,7 @@ public class CameraController : MonoBehaviour
         endRotation2.y = yRotation;
         endRotation2.z = fr.eulerAngles.z;
 
-        Quaternion endRotation = Quaternion.Euler(-endRotation2);
-        transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, speed*Time.deltaTime);
+        //sa Quaternion endRotation = Quaternion.Euler(-endRotation2);
+        // sa transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, speed*Time.deltaTime);
     }
 }
